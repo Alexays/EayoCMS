@@ -1,0 +1,5 @@
+themes: 'default'
+twig:
+    cache: false
+    autoescape: false
+    debug: false

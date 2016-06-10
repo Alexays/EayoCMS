@@ -1,0 +1,20 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-l
+    RewriteRule ^(.*)$ index.php?$1 [L,QSA]
+
+    RewriteRule ^(lib|vendor)/(.*)\.(txt|xml|md|html|yaml|php|pl|py|cgi|twig|sh|bat)$ error [F]
+    RewriteRule ^(app)/(.*)\.(txt|md|yaml|php|pl|py|cgi|twig|sh|bat)$ error [F]
+    RewriteRule \.md$ error [F]
+    RewriteRule (^|/)\.(?!well-known) - [F]
+    RewriteRule ^(LICENSE.txt|composer.lock|composer.json|\.htaccess)$ error [F]
+    
+    <IfModule mod_env.c>
+        SetEnv EAYO_URL_REWRITE 1
+    </IfModule>    
+</IfModule>
+
+Options -Indexes -MultiViews
+DirectoryIndex index.php index.html index.htm

@@ -1,0 +1,15 @@
+{
+    "name": "eayocms/eayo",
+    "description": "A modern CMS",
+    "keywords": ["cms", "eayo", "flat-file"],
+    "config": {
+        "optimize-autoloader": true
+    },
+    "require": {
+        "php": ">=5.3.2",
+        "twig/twig": ">=1.24",
+        "symfony/yaml": ">=2.8",
+        "erusev/parsedown": ">=1.6.0",
+        "erusev/parsedown-extra": ">=0.7.1"
+    }
+}
