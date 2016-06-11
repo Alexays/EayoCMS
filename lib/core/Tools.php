@@ -14,18 +14,18 @@ namespace Core;
 
 defined('EAYO_ACCESS') OR exit('No direct script access.');
 
+use Core\Eayo;
+
 class Tools
 {
-    const HOSTNAME_REGEX = '/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/';
+    private static $_instance = null;
 
-    protected static $_instance = null;
+    const HOSTNAME_REGEX = '/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/';
 
     public $url;
 
-    private $page;
-
     /** @var string Contenu de la page */
-    public static $content = 'test';
+    public $content = '';
 
     protected $requestFile;
 
@@ -135,7 +135,7 @@ class Tools
      *
      * @return string
      */
-    public function substrToString($haystack, $needle)
+    protected function substrToString($haystack, $needle)
     {
         if (static::contains($haystack, $needle)) {
             return substr($haystack, 0, strpos($haystack, $needle));
@@ -151,7 +151,7 @@ class Tools
      *
      * @return bool
      */
-    public static function contains($haystack, $needle)
+    protected static function contains($haystack, $needle)
     {
         return $needle === '' || strpos($haystack, $needle) !== false;
     }
@@ -163,6 +163,8 @@ class Tools
      */
     public static function ip()
     {
+        $_instance = self::init();
+
         if (getenv('HTTP_CLIENT_IP'))
             $ipaddress = getenv('HTTP_CLIENT_IP');
         else if(getenv('HTTP_X_FORWARDED_FOR'))
@@ -229,7 +231,7 @@ class Tools
      *
      * @return echo file content
      */
-    public function requestFile()
+    public function requestFile(Plugin $plugin)
     {
         if (empty($this->requestUrl)) {
             $this->requestFile = CONTENT_DIR;
@@ -239,7 +241,6 @@ class Tools
             $query = ltrim($this->requestUrl, '/');
             $queryUrlParts = explode('/', $query);
             $queryFileParts = array();
-
             foreach ($queryUrlParts as $q) {
                 if ($q === '' || $q === '.') {
                     continue;
@@ -249,64 +250,55 @@ class Tools
                 }
                 $queryFileParts[] = $q;
             }
-            if (empty($queryFileParts)) {
-                $this->requestFile = CONTENT_DIR . 'index' . CONTENT_EXT;
-                return;
-            }
-            if (isset($this->page) && array_key_exists($queryFileParts[0], $this->page) && is_array($this->page[$queryFileParts[0]])) {
-                $this->requestFile = reset($this->page[$queryFileParts[0]]);
+            if (isset($plugin->plugins) && array_key_exists($queryFileParts[0], $plugin->plugins) && is_array($plugin->plugins[$queryFileParts[0]])) {
+                $this->requestFile = reset($plugin->plugins[$queryFileParts[0]]);
             } else {
                 $this->requestFile = CONTENT_DIR . implode('/', $queryFileParts);
             }
-            if (is_dir($this->requestFile)) {
-                $index = $this->requestFile . '/index' . CONTENT_EXT;
-                if (file_exists($index) || !file_exists($this->requestFile . CONTENT_EXT)) {
-                    $this->requestFile = $index;
-                    return;
-                }
+        }
+        if (is_dir($this->requestFile)) {
+            $index = $this->requestFile . '/index' . CONTENT_EXT;
+            if (file_exists($index) || !file_exists($this->requestFile . CONTENT_EXT)) {
+                $this->requestFile = $index;
+                return;
+            }
+        } else {
+            if (file_exists($this->requestFile . CONTENT_EXT)) {
+                $this->requestFile .= CONTENT_EXT;
+            } elseif (pathinfo($this->requestFile, PATHINFO_EXTENSION) === 'php' && file_exists($this->requestFile)) {
+                $this->fileClass = key($plugin->plugins[$queryFileParts[0]]);
             } else {
-                if (file_exists($this->requestFile . CONTENT_EXT)) {
-                    $this->requestFile .= CONTENT_EXT;
-                } elseif (pathinfo($this->requestFile, PATHINFO_EXTENSION) === 'php' && file_exists($this->requestFile)) {
-                    $class = key($this->page[$queryFileParts[0]]);
-                } else {
-                    $this->requestFile = CONTENT_DIR . '404' . CONTENT_EXT;
-                }
+                $this->requestFile = CONTENT_DIR . '404' . CONTENT_EXT;
             }
         }
-        if (ltrim(CONTENT_EXT, '.') === pathinfo($this->requestFile, PATHINFO_EXTENSION) && file_exists($this->requestFile)) {
-            echo \ParsedownExtra::instance()->setBreaksEnabled(true)->text(file_get_contents($this->requestFile));
-        } elseif (pathinfo($this->requestFile, PATHINFO_EXTENSION) === 'php') {
-            $class = new $class;
+        return $this->requestFile;
+    }
+
+    public function getContent($file)
+    {
+        if (ltrim(CONTENT_EXT, '.') === pathinfo($file, PATHINFO_EXTENSION) && file_exists($file)) {
+            $this->content = \ParsedownExtra::instance()->setBreaksEnabled(true)->text(file_get_contents($file));
+            return;
+        } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+            $class = new $this->fileClass;
             $class->__load();
             $this->template = $class->template;
-        } else {
-            throw new \Exception("Aucun fichier n'a été trouver pas même le fichier 404 ERROR", 187);
+            return;
         }
+        throw new \Exception('Une erreur est survenue pendant le chargement de la page.', 187);
     }
 
-    public function addPage($path, $class, $url)
+    public function setContent($content)
     {
-        $tmpPage = array($url, $class);
-        $array = $this->set_element($tmpPage, $path);
-        if (isset($this->page))
-        {
-            $this->page = array_merge($this->page, $array);
-        } else {
-            $this->page = $array;
-        }
-    }
-
-    public function set_element(&$path, $data) {
-        return ($key = array_pop($path)) ? $this->set_element($path, array($key=>$data)) : $data;
+        $this->content = $content;
     }
 
     /** @return Return instance of Eayo class as singleton */
     public static function init()
     {
-        if (is_null(static::$_instance)) {
+        if (is_null(self::$_instance)) {
             self::$_instance = new Tools();
         }
-        return static::$_instance;
+        return self::$_instance;
     }
 }

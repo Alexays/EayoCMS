@@ -97,7 +97,7 @@ class ErrorHandler extends \Exception
             5
         );
         $marker = [
-        'base_url' => \Core\Tools::init()->GetRootPath(),
+        'base_url' => \Core\Tools::init()->rootpath,
         'type' => $exception ? 'Exception' : 'Error',
         'exception_message' => htmlspecialchars($message),
         'exception_code' => htmlspecialchars($code),

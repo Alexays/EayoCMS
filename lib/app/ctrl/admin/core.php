@@ -14,21 +14,19 @@ namespace App\Ctrl\Admin;
 
 defined('EAYO_ACCESS') OR exit('No direct script access.');
 
-class Core
-{
-     /** @var core An instance of the Eayo class */
-    protected static $_instance = null;
+use \Core\Plugin;
 
-    protected function __construct()
+class Core extends Plugin
+{
+    public $template = APP_DIR.'admin'.DS;
+
+    public function __construct()
     {
+        //nothing here
     }
 
-    /** @return Return instance of Eayo class as singleton */
-    public static function init()
+    public function __load()
     {
-        if (is_null(static::$_instance)) {
-            self::$_instance = new Core();
-        }
-        return static::$_instance;
+        \Core\Tools::init()->setContent("ss");
     }
 }

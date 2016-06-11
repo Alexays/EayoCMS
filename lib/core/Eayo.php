@@ -20,7 +20,7 @@ class Eayo
     protected static $_instance = null;
 
     /** Version de Eayo */
-    const VERSION = '0.0.1';
+    const VERSION = '0.0.2';
 
     /** Common environment type constants for consistency and convenience */
     const PRODUCTION  = 1;
@@ -66,17 +66,23 @@ class Eayo
 
         defined('THEMES') || define('THEMES', $this->config->get('themes'));
 
+        /* Init Plugins API*/
+        $this->plugins = Plugin::init();
+
         /* Init Tools API*/
         $this->tools = Tools::init();
 
         /* Init Backend Plugin */
-        new Admin;
+        $this->plugins->addPlugin(APP_DIR.'ctrl'.DS.'admin'.DS.'core.php', '\App\Ctrl\Admin\Core', 'admin'); //same as futur plugins api
 
         /* Sanitize URL to prevent XSS */
         $this->tools->SanitizeURL();
 
-        /* Discover Requested File */
-        $this->tools->requestFile();
+        /* Discovered Requested File */
+        $file = $this->tools->requestFile($this->plugins);
+
+        /* Set Content from Discovered Requested File */
+        $this->tools->getContent($file);
 
         /* Execute Twig */
         $this->executeTwig();
@@ -129,7 +135,7 @@ class Eayo
     {
         return array(
             'config' => $this->config->getAll(),
-            'contents' => Tools::$content
+            'contents' => $this->tools->content
         );
     }
 
