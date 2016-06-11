@@ -135,6 +135,7 @@ class Eayo
     {
         return array(
             'config' => $this->config->getAll(),
+            'theme_url' => $this->tools->rooturl,
             'contents' => $this->tools->content
         );
     }
