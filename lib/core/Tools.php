@@ -14,8 +14,6 @@ namespace Core;
 
 defined('EAYO_ACCESS') OR exit('No direct script access.');
 
-use Core\Eayo;
-
 class Tools
 {
     private static $_instance = null;
@@ -24,14 +22,7 @@ class Tools
 
     public $url;
 
-    /** @var string Contenu de la page */
-    public $content = '';
-
-    protected $requestFile;
-
-    protected $uri;
-
-    public $template;
+    public $template = [];
 
     public function __construct()
     {
@@ -39,7 +30,6 @@ class Tools
         $this->name = $this->GetHostname();
         $this->port = $this->GetPort();
         $this->uri = $this->GetUri();
-        $this->base = $this->GetBaseUrl();
         $this->rootpath = $this->GetRootPath();
         $this->rooturl = $this->GetRootUrl();
         $this->requestUrl = $this->requestUrl();
@@ -50,7 +40,7 @@ class Tools
      *
      * @return string scheme
      */
-    private function GetScheme()
+    private static function GetScheme()
     {
         return isset($_SERVER['HTTPS']) ? strtolower(@$_SERVER['HTTPS']) == 'on' ? 'https://' : 'http://' : 'http://';
     }
@@ -64,7 +54,7 @@ class Tools
     {
         $hostname = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'localhost');
         // Remove port from HTTP_HOST generated $hostname
-        $hostname = Tools::substrToString($hostname, ':');
+        $hostname = $this->substrToString($hostname, ':');
         // Validate the hostname
         $hostname = (bool)preg_match(Tools::HOSTNAME_REGEX, $hostname) ? $hostname : 'unknown';
         return $hostname;
@@ -75,7 +65,7 @@ class Tools
      *
      * @return string port
      */
-    private function GetPort()
+    private static function GetPort()
     {
         $port = isset($_SERVER['SERVER_PORT']) ? (string)$_SERVER['SERVER_PORT'] : '80';
         return $port;
@@ -86,7 +76,7 @@ class Tools
      *
      * @return string uri
      */
-    private function GetUri()
+    private static function GetUri()
     {
         $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
         return rawurldecode($uri);
@@ -135,7 +125,7 @@ class Tools
      *
      * @return string
      */
-    protected function substrToString($haystack, $needle)
+    protected static function substrToString($haystack, $needle)
     {
         if (static::contains($haystack, $needle)) {
             return substr($haystack, 0, strpos($haystack, $needle));
@@ -209,6 +199,12 @@ class Tools
         return $_url;
     }
 
+    public static function AddRoute($url, $class)
+    {
+        $array = [$url => $class];
+        Eayo::$router = array_merge($array, Eayo::$router);
+    }
+
     /**
      * Return the request url
      *
@@ -231,12 +227,12 @@ class Tools
      *
      * @return echo file content
      */
-    public function requestFile(Plugin $plugin)
+    public function requestFile()
     {
         if (empty($this->requestUrl)) {
-            $this->requestFile = CONTENT_DIR;
-            $this->requestFile .= file_exists(CONTENT_DIR . 'index' . CONTENT_EXT) ? 'index' : '404';
-            $this->requestFile .= CONTENT_EXT;
+            $file = CONTENT_DIR;
+            $file .= file_exists(CONTENT_DIR . 'index' . CONTENT_EXT) ? 'index' : '404';
+            $file .= CONTENT_EXT;
         } else {
             $query = ltrim($this->requestUrl, '/');
             $queryUrlParts = explode('/', $query);
@@ -250,47 +246,45 @@ class Tools
                 }
                 $queryFileParts[] = $q;
             }
-            if (isset($plugin->plugins) && array_key_exists($queryFileParts[0], $plugin->plugins) && is_array($plugin->plugins[$queryFileParts[0]])) {
-                $this->requestFile = reset($plugin->plugins[$queryFileParts[0]]);
+            if (isset(Eayo::$router) && array_key_exists($queryFileParts[0], Eayo::$router)) {
+                $file = Eayo::$router[$queryFileParts[0]];
+                $file = (new $file)->template;
             } else {
-                $this->requestFile = CONTENT_DIR . implode('/', $queryFileParts);
+                $file = CONTENT_DIR . implode('/', $queryFileParts);
             }
         }
-        if (is_dir($this->requestFile)) {
-            $index = $this->requestFile . '/index' . CONTENT_EXT;
-            if (file_exists($index) || !file_exists($this->requestFile . CONTENT_EXT)) {
-                $this->requestFile = $index;
-                return;
+        if (is_dir($file)) {
+            $index = rtrim($file, '\/').'/';
+            if (file_exists($index.'index'.CONTENT_EXT)) {
+                $file = $index.'index'.CONTENT_EXT;
+            } else if(file_exists($index.'index'.'.twig') && '.twig' !== CONTENT_EXT) {
+                $file = $index.'index'.'.twig';
+            } else {
+                $file = CONTENT_DIR . '404' . CONTENT_EXT;
             }
         } else {
-            if (file_exists($this->requestFile . CONTENT_EXT)) {
-                $this->requestFile .= CONTENT_EXT;
-            } elseif (pathinfo($this->requestFile, PATHINFO_EXTENSION) === 'php' && file_exists($this->requestFile)) {
+            if (file_exists($file)) {
+                $file = $file;
+            } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'php' && file_exists($file)) {
                 $this->fileClass = key($plugin->plugins[$queryFileParts[0]]);
             } else {
-                $this->requestFile = CONTENT_DIR . '404' . CONTENT_EXT;
+                $file = CONTENT_DIR . '404' . CONTENT_EXT;
             }
         }
-        return $this->requestFile;
+        return $file;
     }
 
     public function getContent($file)
     {
-        if (ltrim(CONTENT_EXT, '.') === pathinfo($file, PATHINFO_EXTENSION) && file_exists($file)) {
-            $this->content = \ParsedownExtra::instance()->setBreaksEnabled(true)->text(file_get_contents($file));
-            return;
-        } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
-            $class = new $this->fileClass;
-            $class->__load();
-            $this->template = $class->template;
-            return;
+        if(pathinfo($file, PATHINFO_EXTENSION) === ltrim(CONTENT_EXT, '.')) {
+            return ['md' => $file];
+        } elseif(pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+            return ['php' => $file];
+        } elseif(pathinfo($file, PATHINFO_EXTENSION) === 'twig') {
+            return ['twig' => str_replace(ROOT_DIR, '', $file)];
+        } elseif(pathinfo($file, PATHINFO_EXTENSION) === 'html') {
+            return ['html' => $file];
         }
-        throw new \Exception('Une erreur est survenue pendant le chargement de la page.', 187);
-    }
-
-    public function setContent($content)
-    {
-        $this->content = $content;
     }
 
     /** @return Return instance of Eayo class as singleton */

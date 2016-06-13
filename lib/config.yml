@@ -1,5 +1,8 @@
-themes: 'default'
+themes: default
 twig:
     cache: false
     autoescape: true
     debug: true
+plugins:
+    Admin@EayoCMS:
+        active: true

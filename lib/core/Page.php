@@ -10,23 +10,15 @@
   * file that was distributed with this source code.
   */
 
-namespace App\Ctrl\Admin;
+namespace Core;
 
 defined('EAYO_ACCESS') OR exit('No direct script access.');
 
-use \Core\Plugin;
-
-class Core extends Plugin
+class Page
 {
-    public $template = APP_DIR.'admin'.DS;
-
     public function __construct()
     {
-        //nothing here
-    }
-
-    public function __load()
-    {
-        \Core\Tools::init()->setContent("ss");
+        $config = Config::init()->getAll();
+        var_dump($config);
     }
 }

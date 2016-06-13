@@ -1,0 +1,83 @@
+/* =============================================================
+GENERAL STYLES
+============================================================ */
+
+@import url(http://fonts.googleapis.com/css?family=Lato|Montserrat);
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: "Lato","Helvetica","Tahoma","Geneva","Arial",sans-serif;
+    font-weight: 400;
+}
+
+.wrapper {
+    min-height: 100%;
+    margin: 0 auto -60px;
+}
+
+.content-wrapper {
+    overflow:auto;
+    margin-top: 40px;
+    min-height: 600px;
+    padding-bottom: 60px;
+}
+
+.page-title {
+    font-weight: 900;
+    padding-bottom: 12.5px;
+    border-bottom: 2px solid #2196f3;
+    text-transform: uppercase;
+    color: #2196f3;
+    font-size: 20px;
+    margin-bottom: 25px;
+}
+
+/* HEADER */
+header {
+    font-family: "Montserrat","Helvetica","Tahoma","Geneva","Arial",sans-serif;
+    padding: 30px;
+}
+
+header .navbar-brand {
+    font-size: 50px;
+}
+
+/* MENU LINKS SECTION*/
+#menu-top li {
+    font-family: "Montserrat","Helvetica","Tahoma","Geneva","Arial",sans-serif;
+}
+
+#menu-top a {
+    text-decoration: none;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.navbar {
+    margin-bottom: 0px;
+}
+/* =============================================================
+FOOTER SECTION STYLES
+============================================================ */
+footer {
+    color: #2196f3;
+    text-align: center;
+    font-size: 16px;
+    line-height: 15px;
+}
+
+footer > .container {
+    padding: 10px;
+}
+
+footer .container {
+    border-top: 2px solid #2196f3;
+}
+
+/*==============================================
+DASHBOARD  STYLES
+=============================================*/
+

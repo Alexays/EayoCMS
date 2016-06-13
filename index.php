@@ -14,15 +14,18 @@
 version_compare(PHP_VERSION, "5.3.2", "<") and exit("PHP 5.3.2+ required.");
 
 define('EAYO_ACCESS', true);
+define('PERF_START', microtime(true));
+defined('DS') || define('DS', DIRECTORY_SEPARATOR);
+defined('ROOT_DIR') || define('ROOT_DIR', realpath(__DIR__ . DS) . DS);
 
 //Include Eayo Class
-require_once 'lib/core/Eayo.php';
+require ROOT_DIR.'lib/core/Eayo.php';
 
-ob_start();
+ob_start("ob_gzhandler");
 
 //Init Eayo
 try {
-    \Core\Eayo::init();
+    \Core\Eayo::start();
 } catch (\Exception $e) {
     ob_end_flush();
     if (class_exists('\Core\ErrorHandler\ErrorHandler')) {

@@ -10,11 +10,20 @@
   * file that was distributed with this source code.
   */
 
-namespace Core;
+namespace Plugins\EayoCMS;
 
 defined('EAYO_ACCESS') OR exit('No direct script access.');
 
-class Controller
+class Admin
 {
+    //Name of plugin
+    public $name = 'admin';
 
+    //Template for admin
+    public $template = __DIR__.DS.'public';
+
+    public function __construct()
+    {
+        \Core\Tools::AddRoute('admin', get_called_class());
+    }
 }
