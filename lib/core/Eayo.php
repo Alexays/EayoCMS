@@ -77,22 +77,8 @@ class Eayo
         /* Init Plugins API*/
         $this->initPlugins();
 
-        /* Init Backend Plugin */
-        //$this->plugins->addPlugin(APP_DIR.'ctrl'.DS.'admin'.DS.'core.php', '\App\Ctrl\Admin\Core', 'admin'); //same as futur plugins api
-
-        /* Sanitize URL to prevent XSS */
-        $this->tools->SanitizeURL();
-
-        /* Discovered Requested File *
-        $file = $this->tools->requestFile($this->plugins);
-
-        /* Set Content from Discovered Requested File *
-        $this->tools->getContent($file);*/
-
         /* init Twig */
         $this->initTwig();
-        /* init Router */
-        $this->Router();
     }
 
     /** Initialize the autoloader */
@@ -108,11 +94,11 @@ class Eayo
             }
         );
         spl_autoload_register('\Core\Plugin::autoload');
-        $vendor = ROOT_DIR . 'vendor' . DS . 'autoload.php';
+        $vendor = LIB_DIR . 'vendor' . DS . 'autoload.php';
         if(is_file($vendor)) {
             include $vendor;
         } else {
-            throw new \Exception('Cannot find `vendor/autoload.php`. Run `composer install`.', 1568);
+            throw new \Exception('Cannot find `lib/vendor/autoload.php`. Run `composer install`.', 1568);
         }
     }
 
@@ -128,13 +114,56 @@ class Eayo
         }
     }
 
-    /**
-     * Router
-     */
-    protected function Router()
+    public function Router()
     {
-        $file = $this->tools->requestFile();
-        echo $this->processPage($this->tools->getContent($file));
+        $query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+        if (($queryLength = strpos($query, '&')) !== false) {
+            $query = substr($query, 0, $queryLength);
+        }
+        $query = strpos($query, '=') === false ? rawurldecode($query) : '';
+        $query = trim($query, '/');
+
+        $_query = [];
+        $template = '';
+        $file = '';
+        $is_twig = false;
+
+        if (empty($query)) {
+            $_query = ['index' => $this->tools->findTemplate('default')];
+        } else {
+            $_queryPart = explode('/', $query);
+            if (isset(Eayo::$router) && array_key_exists($_queryPart[0], Eayo::$router)) {
+                $qPart = $_queryPart;
+                unset($qPart[0]);
+                $qPart = implode('/', $qPart);
+                $qPart = empty($qPart) ? 'index' : $qPart;
+                $_query = [$qPart => $this->tools->findTemplate($_queryPart[0])];
+                $is_twig = true;
+            } else {
+                $_queryPart = implode('/', $_queryPart);
+                $_query = [$_queryPart => $this->tools->findTemplate('default')];
+            }
+        }
+        $fileContent = glob(CONTENT_DIR.key($_query).'.{md,html,htm}', GLOB_BRACE);
+        $fileContent2 = glob($_query[key($_query)].DS.key($_query).'.{twig,php}', GLOB_BRACE);
+        if (!empty($fileContent) && !$is_twig) {
+            $file = $fileContent[0];
+        } elseif (!empty($fileContent2) && pathinfo($fileContent2[0])['filename'] !== 'default'){
+            $file = $fileContent2[0];
+        } else {
+            $file = CONTENT_DIR.'404'.CONTENT_EXT;
+        }
+        $k_query = key($_query) === 'index' ? 'default' : key($_query);
+        $fileTemplate = glob($_query[key($_query)].DS.$k_query.'.{twig,php}', GLOB_BRACE);
+        if (empty($fileTemplate)) {
+            $template = $_query[key($_query)].DS.'default.twig';
+        } elseif ($is_twig) {
+            $template = glob($_query[key($_query)].DS.'default'.".{twig,php}", GLOB_BRACE)[0];
+        } else {
+            $template = glob($_query[key($_query)].DS.$k_query.".{twig,php}", GLOB_BRACE)[0];
+        }
+        $template = str_replace(ROOT_DIR, '', $template);
+        return [$file, $template];
     }
 
     /**
@@ -147,6 +176,9 @@ class Eayo
         $loader_chain = new \Twig_Loader_Chain([$loaderArray, $loader]);
 
         $this->twig = new \Twig_Environment($loader_chain, $this->config->get('twig'));
+        $this->twig->addExtension(new \Jralph\Twig\Markdown\Extension(
+            new \Jralph\Twig\Markdown\Parsedown\ParsedownExtraMarkdown
+        ));
         $this->twig->addExtension(new \Twig_Extension_Debug());
         $this->twig_vars = array_merge($this->twig_vars, array(
             'version' => Eayo::VERSION,
@@ -155,25 +187,43 @@ class Eayo
         ));
     }
 
-    public function processPage($page)
+    public function Process($router)
     {
+        $page = $router[0];
+        $template = $router[1];
+
         $local_twig = clone($this->twig);
         $time_end = microtime(true);
         $time = number_format($time_end - PERF_START, 3);
-        $this->twig_vars = array_merge($this->twig_vars, array(
-            'load_time' => $time,
-            'content' => Eayo::$content
-        ));
         $output = '';
-
+        $is_markdown = false;
         try {
-            $type = key($page);
-            $file = $page[$type];
-            if($type === 'twig') {
-                $output = $local_twig->render($file, $this->twig_vars);
-            } elseif ($type === 'md') {
-                $output = \ParsedownExtra::instance()->setBreaksEnabled(true)->text(file_get_contents($file));
+            $fpage = fopen($page, 'r');
+            switch (pathinfo($page)['extension']) {
+                case 'php':
+                    Eayo::$content = include $page;
+                    break;
+                case 'twig':
+                    $page = str_replace(ROOT_DIR, '', $page);
+                    Eayo::$content = $this->twig->render($page);
+                    break;
+                case 'html':
+                    $page = fread($fpage);
+                    Eayo::$content = file_get_contents($page);
+                    break;
+                case 'md':
+                    $page = fread($fpage);
+                    Eayo::$content = file_get_contents($page);
+                    $is_markdown = true;
+                    break;
             }
+            fclose($fpage);
+            $this->twig_vars = array_merge($this->twig_vars, array(
+                'load_time' => $time,
+                'content' => Eayo::$content,
+                'is_markdown' => $is_markdown
+            ));
+            $output = $local_twig->render($template, $this->twig_vars);
         } catch (\Twig_Error_Loader $e) {
             throw new \Exception($e->getRawMessage(), 4054);
         }

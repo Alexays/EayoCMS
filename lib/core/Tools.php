@@ -32,7 +32,9 @@ class Tools
         $this->uri = $this->GetUri();
         $this->rootpath = $this->GetRootPath();
         $this->rooturl = $this->GetRootUrl();
-        $this->requestUrl = $this->requestUrl();
+
+        /* Sanitize URL to prevent XSS */
+        $this->SanitizeURL();
     }
 
     /**
@@ -100,11 +102,7 @@ class Tools
     public function GetRootPath()
     {
         $root_path = str_replace(' ', '%20', rtrim(substr($_SERVER['PHP_SELF'], 0, strpos($_SERVER['PHP_SELF'], 'index.php')), '/'));
-        // check if userdir in the path and workaround PHP bug with PHP_SELF
-        if (strpos($this->uri, '/~') !== false && strpos($_SERVER['PHP_SELF'], '/~') === false) {
-            $root_path = substr($this->uri, 0, strpos($this->uri, '/', 1)) . $root_path;
-        }
-        return $root_path;
+        return strpos($this->uri, '/~') !== false && strpos($_SERVER['PHP_SELF'], '/~') === false ?  substr($this->uri, 0, strpos($this->uri, '/', 1)) . $root_path : $root_path;
     }
 
     /**
@@ -127,10 +125,7 @@ class Tools
      */
     protected static function substrToString($haystack, $needle)
     {
-        if (static::contains($haystack, $needle)) {
-            return substr($haystack, 0, strpos($haystack, $needle));
-        }
-        return $haystack;
+        return static::contains($haystack, $needle) ? substr($haystack, 0, strpos($haystack, $needle)) : $haystack;
     }
 
     /**
@@ -199,79 +194,18 @@ class Tools
         return $_url;
     }
 
+    public function findTemplate($route = null) {
+        $this->template = array_merge($this->template, ['default' => THEMES_DIR.Config::init()->get('themes').DS.'templates']);
+        foreach (Eayo::$router as $key => $val) {
+            $this->template = array_merge($this->template, [$key => (new $val)->template]);
+        }
+        return $key !== null ? $this->template[$route] : $this->template;
+    }
+
     public static function AddRoute($url, $class)
     {
         $array = [$url => $class];
         Eayo::$router = array_merge($array, Eayo::$router);
-    }
-
-    /**
-     * Return the request url
-     *
-     * @return string requesturl
-     */
-    protected function requestUrl()
-    {
-        $pathComponent = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
-        if (($pathComponentLength = strpos($pathComponent, '&')) !== false) {
-            $pathComponent = substr($pathComponent, 0, $pathComponentLength);
-        }
-        $_requestUrl = (strpos($pathComponent, '=') === false) ? rawurldecode($pathComponent) : '';
-        $_requestUrl = trim($_requestUrl, '/');
-
-        return $_requestUrl;
-    }
-
-    /**
-     * Return the request file
-     *
-     * @return echo file content
-     */
-    public function requestFile()
-    {
-        if (empty($this->requestUrl)) {
-            $file = CONTENT_DIR;
-            $file .= file_exists(CONTENT_DIR . 'index' . CONTENT_EXT) ? 'index' : '404';
-            $file .= CONTENT_EXT;
-        } else {
-            $query = ltrim($this->requestUrl, '/');
-            $queryUrlParts = explode('/', $query);
-            $queryFileParts = array();
-            foreach ($queryUrlParts as $q) {
-                if ($q === '' || $q === '.') {
-                    continue;
-                } elseif ($q === '..') {
-                    array_pop($queryFileParts);
-                    continue;
-                }
-                $queryFileParts[] = $q;
-            }
-            if (isset(Eayo::$router) && array_key_exists($queryFileParts[0], Eayo::$router)) {
-                $file = Eayo::$router[$queryFileParts[0]];
-                $file = (new $file)->template;
-            } else {
-                $file = CONTENT_DIR . implode('/', $queryFileParts);
-            }
-        }
-        if (is_dir($file)) {
-            $index = rtrim($file, '\/').'/';
-            if (file_exists($index.'index'.CONTENT_EXT)) {
-                $file = $index.'index'.CONTENT_EXT;
-            } else if(file_exists($index.'index'.'.twig') && '.twig' !== CONTENT_EXT) {
-                $file = $index.'index'.'.twig';
-            } else {
-                $file = CONTENT_DIR . '404' . CONTENT_EXT;
-            }
-        } else {
-            if (file_exists($file)) {
-                $file = $file;
-            } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'php' && file_exists($file)) {
-                $this->fileClass = key($plugin->plugins[$queryFileParts[0]]);
-            } else {
-                $file = CONTENT_DIR . '404' . CONTENT_EXT;
-            }
-        }
-        return $file;
     }
 
     public function getContent($file)

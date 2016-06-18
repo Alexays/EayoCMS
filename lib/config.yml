@@ -1,7 +1,7 @@
 themes: default
 twig:
     cache: false
-    autoescape: true
+    autoescape: false
     debug: true
 plugins:
     Admin@EayoCMS:

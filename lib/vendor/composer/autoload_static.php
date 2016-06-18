@@ -11,12 +11,20 @@ class ComposerStaticInit10681162e7d736b4d8feb24723628dc7
         array (
             'Symfony\\Component\\Yaml\\' => 23,
         ),
+        'J' =>
+        array (
+            'Jralph\\Twig\\Markdown\\' => 21,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'Symfony\\Component\\Yaml\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
+        ),
+        'Jralph\\Twig\\Markdown\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/jralph/twig-markdown/src',
         ),
     );
 
@@ -42,6 +50,11 @@ class ComposerStaticInit10681162e7d736b4d8feb24723628dc7
     );
 
     public static $classMap = array (
+        'Jralph\\Twig\\Markdown\\Contracts\\MarkdownInterface' => __DIR__ . '/..' . '/jralph/twig-markdown/src/Contracts/MarkdownInterface.php',
+        'Jralph\\Twig\\Markdown\\Extension' => __DIR__ . '/..' . '/jralph/twig-markdown/src/Extension.php',
+        'Jralph\\Twig\\Markdown\\Node' => __DIR__ . '/..' . '/jralph/twig-markdown/src/Node.php',
+        'Jralph\\Twig\\Markdown\\Parsedown\\ParsedownExtraMarkdown' => __DIR__ . '/..' . '/jralph/twig-markdown/src/Parsedown/ParsedownExtraMarkdown.php',
+        'Jralph\\Twig\\Markdown\\TokenParser' => __DIR__ . '/..' . '/jralph/twig-markdown/src/TokenParser.php',
         'Parsedown' => __DIR__ . '/..' . '/erusev/parsedown/Parsedown.php',
         'ParsedownExtra' => __DIR__ . '/..' . '/erusev/parsedown-extra/ParsedownExtra.php',
         'ParsedownExtraTest' => __DIR__ . '/..' . '/erusev/parsedown-extra/test/ParsedownExtraTest.php',

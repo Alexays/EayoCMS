@@ -25,7 +25,9 @@ ob_start("ob_gzhandler");
 
 //Init Eayo
 try {
-    \Core\Eayo::start();
+    $core = \Core\Eayo::start();
+    $router = $core->Router();
+    echo $core->Process($router);
 } catch (\Exception $e) {
     ob_end_flush();
     if (class_exists('\Core\ErrorHandler\ErrorHandler')) {
