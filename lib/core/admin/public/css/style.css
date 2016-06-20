@@ -21,18 +21,7 @@ body {
 .content-wrapper {
     overflow:auto;
     margin-top: 40px;
-    min-height: 600px;
     padding-bottom: 60px;
-}
-
-.page-title {
-    font-weight: 900;
-    padding-bottom: 12.5px;
-    border-bottom: 2px solid #2196f3;
-    text-transform: uppercase;
-    color: #2196f3;
-    font-size: 20px;
-    margin-bottom: 25px;
 }
 
 /* HEADER */
@@ -41,11 +30,16 @@ header {
     padding: 30px;
 }
 
-header .navbar-brand {
-    font-size: 50px;
+.page-title {
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 15px;
 }
 
 /* MENU LINKS SECTION*/
+#menu-top {
+    float: right!important;
+}
 #menu-top li {
     font-family: "Montserrat","Helvetica","Tahoma","Geneva","Arial",sans-serif;
 }
@@ -75,6 +69,22 @@ footer > .container {
 
 footer .container {
     border-top: 2px solid #2196f3;
+}
+
+/* ============================================
+DROPDOWN ANIMATION
+============================================= */
+.open > .dropdown-menu {
+    opacity: 1;
+    margin-top: 0px!important;
+}
+
+.dropdown-menu {
+    display: block;
+    opacity: 0;
+    margin-top: 25px!important;
+    transition: opacity 0.2s ease,
+                margin-top 0.2s ease;
 }
 
 /*==============================================

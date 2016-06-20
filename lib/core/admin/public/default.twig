@@ -10,11 +10,12 @@
 <![endif]-->
         <title>Admin</title>
         <!-- BOOTSTRAP CORE STYLE  -->
-        <link href="{{base_url}}/plugins/Admin@EayoCMS/public/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="{{template}}/css/bootstrap.min.css" rel="stylesheet" />
         <!-- FONT AWESOME ICONS  -->
-        <link href="{{base_url}}/plugins/Admin@EayoCMS/public/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="{{template}}/css/font-awesome.min.css" rel="stylesheet" />
         <!-- CUSTOM STYLE  -->
-        <link href="{{base_url}}/plugins/Admin@EayoCMS/public/css/style.css" rel="stylesheet" />
+        <link href="{{template}}/css/style.css" rel="stylesheet" />
+        <link href="{{template}}/css/waves.min.css" rel="stylesheet" />
         <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -40,15 +41,29 @@
             <section class="navbar navbar-default">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-3">
+                            <span class="navbar-brand page-title">Tableaux de bord</span>
+                        </div>
+                        <div class="col-xs-9">
                             <div class="navbar-collapse collapse">
-                                <ul id="menu-top" class="nav navbar-nav navbar-right">
+                                <ul id="menu-top" class="nav navbar-nav">
                                     <li class="active"><a href="index.html">Tableaux de bord</a></li>
-                                    <li><a href="ui.html">UI Elements</a></li>
-                                    <li><a href="table.html">Data Tables</a></li>
-                                    <li><a href="forms.html">Forms</a></li>
-                                    <li><a href="login.html">Login Page</a></li>
-                                    <li><a href="blank.html">Blank Page</a></li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Action</a></li>
+                                            <li><a href="#">Another action</a></li>
+                                            <li><a href="#">Something else here</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#">Separated link</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#">One more separated link</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="table.html">Utilisateurs</a></li>
+                                    <li><a href="forms.html">Plugins</a></li>
+                                    <li><a href="login.html">Paramètres</a></li>
+                                    <li class="profile"><a href="blank.html">Moi</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -60,15 +75,10 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h4 class="page-title">Tableaux de bord</h4>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
                             {% if is_markdown %}
-                                {{markdown(content)}}
+                            {{markdown(content)}}
                             {% else %}
-                                {{content}}
+                            {{content}}
                             {% endif %}
                         </div>
                     </div>
@@ -88,8 +98,11 @@
         </footer>
         <!-- FOOTER SECTION END-->
         <!-- CORE JQUERY SCRIPTS -->
-        <script src="{{base_url}}/plugins/Admin@EayoCMS/public/js/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
         <!-- BOOTSTRAP SCRIPTS  -->
-        <script src="{{base_url}}/plugins/Admin@EayoCMS/public/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <!-- Admin SCRIPTS  -->
+        <script src="{{template}}/js/waves.min.js"></script>
+        <script src="{{template}}/js/admin.js"></script>
     </body>
 </html>

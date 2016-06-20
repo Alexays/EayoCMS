@@ -195,11 +195,10 @@ class Tools
     }
 
     public function findTemplate($route = null) {
-        $this->template = array_merge($this->template, ['default' => THEMES_DIR.Config::init()->get('themes').DS.'templates']);
         foreach (Eayo::$router as $key => $val) {
             $this->template = array_merge($this->template, [$key => (new $val)->template]);
         }
-        return $key !== null ? $this->template[$route] : $this->template;
+        return isset($route) && $route !== null ? isset($key) && $key !== null ? $this->template[$route] : $this->template['default'] : $this->template;
     }
 
     public static function AddRoute($url, $class)

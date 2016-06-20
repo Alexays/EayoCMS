@@ -52,6 +52,9 @@ class Eayo
 
     protected function __construct()
     {
+        // Local
+        date_default_timezone_set('Europe/Paris');
+
         /* Define App */
         defined('LIB_DIR') || define('LIB_DIR', ROOT_DIR . 'lib' . DS);
         defined('APP_DIR') || define('APP_DIR', LIB_DIR . 'app' . DS);
@@ -73,6 +76,9 @@ class Eayo
 
         /* Init Tools API*/
         $this->tools = Tools::init();
+
+        /* Init Admin */
+        new Admin\Core;
 
         /* Init Plugins API*/
         $this->initPlugins();
@@ -116,6 +122,7 @@ class Eayo
 
     public function Router()
     {
+        $this->tools->template = array_merge($this->tools->template, ['default' => THEMES_DIR.Config::init()->get('themes').DS.'templates']);
         $query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
         if (($queryLength = strpos($query, '&')) !== false) {
             $query = substr($query, 0, $queryLength);
@@ -126,7 +133,7 @@ class Eayo
         $_query = [];
         $template = '';
         $file = '';
-        $is_twig = false;
+        $routing = false;
 
         if (empty($query)) {
             $_query = ['index' => $this->tools->findTemplate('default')];
@@ -136,17 +143,15 @@ class Eayo
                 $qPart = $_queryPart;
                 unset($qPart[0]);
                 $qPart = implode('/', $qPart);
-                $qPart = empty($qPart) ? 'index' : $qPart;
-                $_query = [$qPart => $this->tools->findTemplate($_queryPart[0])];
-                $is_twig = true;
+                $_query = [empty($qPart) ? 'index' : $qPart => $this->tools->findTemplate($_queryPart[0])];
+                $routing = true;
             } else {
-                $_queryPart = implode('/', $_queryPart);
-                $_query = [$_queryPart => $this->tools->findTemplate('default')];
+                $_query = [implode('/', $_queryPart) => $this->tools->findTemplate('default')];
             }
         }
-        $fileContent = glob(CONTENT_DIR.key($_query).'.{md,html,htm}', GLOB_BRACE);
-        $fileContent2 = glob($_query[key($_query)].DS.key($_query).'.{twig,php}', GLOB_BRACE);
-        if (!empty($fileContent) && !$is_twig) {
+        $fileContent = glob(CONTENT_DIR.key($_query).'.{md,html,htm,twig,php}', GLOB_BRACE);
+        $fileContent2 = glob($_query[key($_query)].DS.key($_query).'.{md,html,htm,twig,php}', GLOB_BRACE);
+        if (!empty($fileContent) && !$routing) {
             $file = $fileContent[0];
         } elseif (!empty($fileContent2) && pathinfo($fileContent2[0])['filename'] !== 'default'){
             $file = $fileContent2[0];
@@ -157,13 +162,12 @@ class Eayo
         $fileTemplate = glob($_query[key($_query)].DS.$k_query.'.{twig,php}', GLOB_BRACE);
         if (empty($fileTemplate)) {
             $template = $_query[key($_query)].DS.'default.twig';
-        } elseif ($is_twig) {
+        } elseif ($routing) {
             $template = glob($_query[key($_query)].DS.'default'.".{twig,php}", GLOB_BRACE)[0];
         } else {
             $template = glob($_query[key($_query)].DS.$k_query.".{twig,php}", GLOB_BRACE)[0];
         }
-        $template = str_replace(ROOT_DIR, '', $template);
-        return [$file, $template];
+        return [$file, str_replace(ROOT_DIR, '', $template)];
     }
 
     /**
@@ -208,18 +212,19 @@ class Eayo
                     Eayo::$content = $this->twig->render($page);
                     break;
                 case 'html':
-                    $page = fread($fpage);
-                    Eayo::$content = file_get_contents($page);
+                    $page = fread($fpage, filesize($page));
+                    Eayo::$content = $page;
                     break;
                 case 'md':
-                    $page = fread($fpage);
-                    Eayo::$content = file_get_contents($page);
+                    $page = fread($fpage, filesize($page));
+                    Eayo::$content = $page;
                     $is_markdown = true;
                     break;
             }
             fclose($fpage);
             $this->twig_vars = array_merge($this->twig_vars, array(
                 'load_time' => $time,
+                'template' => $this->tools->rooturl.DS.pathinfo($template)['dirname'],
                 'content' => Eayo::$content,
                 'is_markdown' => $is_markdown
             ));

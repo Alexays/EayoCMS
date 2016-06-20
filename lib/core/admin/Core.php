@@ -10,11 +10,11 @@
   * file that was distributed with this source code.
   */
 
-namespace Plugins\EayoCMS;
+namespace Core\Admin;
 
 defined('EAYO_ACCESS') OR exit('No direct script access.');
 
-class Admin
+class Core
 {
     //Name of plugin
     public $name = 'admin';

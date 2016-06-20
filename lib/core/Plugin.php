@@ -37,7 +37,7 @@ class Plugin
                     $plugin = new $plugClass;
                 }
             }
-            $this->plugins = array_merge($this->plugins, array($dirPlugin => $plugin));
+            $this->plugins = isset($plugin) ? array_merge($this->plugins, array($dirPlugin => $plugin)) : $this->plugins;
         }
         return $this->plugins;
     }
