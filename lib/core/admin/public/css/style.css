@@ -2,8 +2,6 @@
 GENERAL STYLES
 ============================================================ */
 
-@import url(http://fonts.googleapis.com/css?family=Lato|Montserrat);
-
 html, body {
     height: 100%;
 }
@@ -28,6 +26,31 @@ body {
 header {
     font-family: "Montserrat","Helvetica","Tahoma","Geneva","Arial",sans-serif;
     padding: 30px;
+}
+
+header .navbar-brand {
+    opacity: 0.8;
+    transition: opacity 0.2 ease;
+}
+
+header .navbar-brand > img {
+    -webkit-filter: drop-shadow(1px 1px 1px #222);
+    filter: drop-shadow(1px 1px 1px #222);
+    max-height: 75px;
+    margin-top: -22.5px;
+}
+
+header .navbar-brand:hover {
+    opacity: 1;
+}
+
+header .version {
+    font: smaller "Lato","Helvetica","Tahoma","Geneva","Arial",sans-serif;
+    -webkit-filter: drop-shadow(1px 1px 1px #222);
+    filter: drop-shadow(1px 1px 1px #222);
+    position: relative;
+    left: 270px;
+    top: -54px;
 }
 
 .page-title {
@@ -84,7 +107,7 @@ DROPDOWN ANIMATION
     opacity: 0;
     margin-top: 25px!important;
     transition: opacity 0.2s ease,
-                margin-top 0.2s ease;
+        margin-top 0.2s ease;
 }
 
 /*==============================================
