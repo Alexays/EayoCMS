@@ -25,6 +25,5 @@ class Core
     public function __construct()
     {
         \Core\Tools::AddRoute('admin', get_called_class());
-        //include 'load_css.php';
     }
 }

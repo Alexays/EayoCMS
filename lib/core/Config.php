@@ -22,10 +22,12 @@ class Config
     private static $_instance = null;
 
     private $settings = [];
+    private $accounts = [];
 
     public function __construct() {
         try {
             $this->settings = Yaml::parse(file_get_contents(LIB_DIR.'config.yml'));
+            $this->accounts = Yaml::parse(file_get_contents(APP_DIR.'accounts.yml'));
         } catch (ParseException $e) {
             throw new  \Exception("Unable to parse the YAML string: ".$e->getMessage(), 150);
         }
@@ -55,6 +57,35 @@ class Config
             return null;
         }
         return $this->settings[$k];
+    }
+
+    /**
+     * Get accounts from accounts file
+     *
+     * @param  string $array
+     *
+     * @return string $value->$params
+     */
+    public function getAllAccounts()
+    {
+        return $this->accounts;
+    }
+
+    /**
+     * Get specified accounts from accounts file
+     *
+     * @param  string $array
+     *
+     * @return string $value->$params
+     */
+    public function getAccount($k)
+    {
+        $account = Yaml::parse(file_get_contents(APP_DIR.'accounts'.DS.$k.'.yml'));
+        if (!isset($account))
+        {
+            return null;
+        }
+        return $account;
     }
 
     /**

@@ -35,7 +35,7 @@
                             <span class="icon-bar"></span>
                         </button>
                         <a class="navbar-brand" href="{{base_url}}/admin/">
-                            <img alt="Logo EayoCMS" src="{{base_url}}/lib/core/logo.png" height="75" width="384">
+                            <img alt="Logo EayoCMS" src="{{base_url}}/lib/core/assets/logo.png" height="75" width="384">
                             <p id="version">{{version}}</p>
                             <p id="sub">Administration</p>
                         </a>
@@ -66,7 +66,12 @@
                             <li><a href="{{base_url}}/admin/users/">Utilisateurs</a></li>
                             <li><a href="forms.html">Plugins</a></li>
                             <li><a href="login.html">Paramètres</a></li>
-                            <li class="profile"><a href="blank.html">Moi</a></li>
+                            <li class="profile">
+                                <a href="blank.html">
+                                    <img width="40" height="40" src="{{base_url}}{{user.avatar}}" alt="My profile" class="img-circle">
+                                    {{user.firstname}}
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>

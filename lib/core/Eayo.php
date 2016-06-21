@@ -38,6 +38,8 @@ class Eayo
         Eayo::DEVELOPMENT => 'development',
     );
 
+    public $self_user;
+
     public static $router = [];
 
     public $twig;
@@ -67,6 +69,9 @@ class Eayo
 
         /** Set Eayo Environment */
         Eayo::$environment = Eayo::DEVELOPMENT;
+
+        /* Init Session */
+        $this->sessionStart();
 
         /** Load Core file */
         $this->__autoload();
@@ -187,7 +192,8 @@ class Eayo
         $this->twig_vars = array_merge($this->twig_vars, array(
             'version' => Eayo::VERSION,
             'config' => $this->config->getAll(),
-            'base_url' => $this->tools->rooturl
+            'base_url' => $this->tools->rooturl,
+            'user' => $this->self_user
         ));
     }
 
@@ -234,6 +240,44 @@ class Eayo
         }
 
         return $output;
+    }
+
+    public function login($emailid, $pass) {
+        //if (!isset($_SESSION['login_str'])) {
+            $wanted_user;
+            foreach ($this->config->getAllAccounts() as $key => $val){
+                if(strcasecmp($emailid, $val['username']) === 0 || strcasecmp($emailid, $val['email']) === 0) {
+                    $wanted_user = $key;
+                }
+            }
+            if (password_verify($pass, $this->config->getAccount($wanted_user)['pass_hash'])) {
+                $this->self_user = $this->config->getAccount($wanted_user);
+                $_SESSION['user_id'] = preg_replace("/[^0-9]+/", "", $wanted_user);
+                $_SESSION['username'] = preg_replace("/[^a-zA-Z0-9_\-]+/",
+                                                     "",
+                                                     $this->self_user['username']);
+                $_SESSION['login_str'] = hash('sha512', $this->self_user['pass_hash'].$_SERVER['HTTP_USER_AGENT']);
+                return true;
+            } else {
+                return false;
+            }
+        /*} else {
+            return 'Vous ête déjà connecté.';
+        }*/
+    }
+
+    public function register() {
+        //echo password_hash($pass, PASSWORD_DEFAULT);
+    }
+
+    protected function sessionStart() {
+        if (ini_set('session.use_only_cookies', 1) === '0') {
+            throw new \Exception('Could not initiate a safe session (ini_set)', 145);
+        }
+        session_name('eayo_Session');
+        session_set_cookie_params(0, '/', $_SERVER['SERVER_NAME'], isset($_SERVER['HTTPS']), true);
+        session_start();
+        session_regenerate_id(true);
     }
 
     /**

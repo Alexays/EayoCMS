@@ -11,7 +11,7 @@
   */
 
 /* Verify PHP version */
-version_compare(PHP_VERSION, "5.3.2", "<") and exit("PHP 5.3.2+ required.");
+version_compare(PHP_VERSION, "5.5.0", "<") and exit("PHP 5.5.0+ required.");
 
 define('EAYO_ACCESS', true);
 define('PERF_START', microtime(true));
