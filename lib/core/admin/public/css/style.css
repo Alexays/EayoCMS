@@ -24,8 +24,7 @@ body {
 
 /* HEADER */
 header {
-    font-family: "Montserrat","Helvetica","Tahoma","Geneva","Arial",sans-serif;
-    padding: 30px;
+    padding-bottom: 50px;
 }
 
 header .navbar-brand {
@@ -34,23 +33,33 @@ header .navbar-brand {
 }
 
 header .navbar-brand > img {
-    -webkit-filter: drop-shadow(1px 1px 1px #222);
-    filter: drop-shadow(1px 1px 1px #222);
-    max-height: 75px;
-    margin-top: -22.5px;
+    -webkit-filter: drop-shadow(1px 1px 0.5px #222);
+    filter: drop-shadow(1px 1px 0.5px #222);
 }
 
 header .navbar-brand:hover {
     opacity: 1;
 }
 
-header .version {
+header p {
     font: smaller "Lato","Helvetica","Tahoma","Geneva","Arial",sans-serif;
     -webkit-filter: drop-shadow(1px 1px 1px #222);
     filter: drop-shadow(1px 1px 1px #222);
+    margin: 0;
     position: relative;
-    left: 270px;
+}
+
+header #version {
+    left: 258px;
     top: -54px;
+    width: 67px;
+    text-align: center;
+}
+
+header #sub {
+    top: -44px;
+    left: 160px;
+    font-size: medium;
 }
 
 .page-title {
@@ -60,9 +69,6 @@ header .version {
 }
 
 /* MENU LINKS SECTION*/
-#menu-top {
-    float: right!important;
-}
 #menu-top li {
     font-family: "Montserrat","Helvetica","Tahoma","Geneva","Arial",sans-serif;
 }
@@ -76,6 +82,7 @@ header .version {
 .navbar {
     margin-bottom: 0px;
 }
+
 /* =============================================================
 FOOTER SECTION STYLES
 ============================================================ */
@@ -114,3 +121,6 @@ DROPDOWN ANIMATION
 DASHBOARD  STYLES
 =============================================*/
 
+.d-shadow {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
