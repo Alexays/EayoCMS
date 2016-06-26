@@ -82,13 +82,13 @@ class Eayo
         $this->config = Config::init();
 
         /* Init Tools API*/
-        $this->tools = Tools::init();
+        $this->tools = Tools::init();//a refaire
 
         /* Init Admin */
-        new Admin\Core;
+        new Admin\Core(true);
 
         /* Init Plugins API*/
-        $this->initPlugins();
+        $this->initPlugins(); //a refaire
 
         /* Init default Route */
         $this->initRoute();
@@ -149,6 +149,7 @@ class Eayo
                     $_query = [$index => '@default'];
                 } else {
                     $_query = [$query => '@'.$index];
+                    (new Eayo::$router[$index])->render();
                 }
             } else {
                 $query = implode($queryPart, '/');
