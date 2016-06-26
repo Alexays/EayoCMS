@@ -17,15 +17,13 @@ defined('EAYO_ACCESS') OR exit('No direct script access.');
 class Core
 {
 
-    public function __construct($init = null)
+    public function __construct()
     {
-        if ($init === true ) {
-            \Core\Tools::AddRoute('admin', get_called_class());
-            \Core\Tools::init()->template = array('@'.$this->PluginDetails()['name'] => LIB_DIR.'core'.DS.'admin'.DS.'template');
-        }
+        \Core\Tools::AddRoute('admin', get_called_class());
+        \Core\Tools::init()->template = array('@'.$this->PluginDetails()['name'] => LIB_DIR.'core'.DS.'admin'.DS.'template');
     }
 
-    public static function PluginDetails()
+    public function PluginDetails()
     {
         return [
             'name' => 'admin',
@@ -36,9 +34,8 @@ class Core
     }
 
     public static function render() {
-
         /* Check Login Status */
-        if (!isset($_SESSION['login_string'])) {
+        if (isset($_SESSION['login_string'])) {
             header('location: '.\Core\Tools::init()->rooturl.'/login/');
         }
     }

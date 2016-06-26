@@ -78,18 +78,6 @@ class Eayo
         /** Load Core file */
         $this->__autoload();
 
-        /* Init Config API */
-        $this->config = Config::init();
-
-        /* Init Tools API*/
-        $this->tools = Tools::init();//a refaire
-
-        /* Init Admin */
-        new Admin\Core(true);
-
-        /* Init Plugins API*/
-        $this->initPlugins(); //a refaire
-
         /* Init default Route */
         $this->initRoute();
     }
@@ -113,6 +101,18 @@ class Eayo
         } else {
             throw new \Exception('Cannot find `lib/vendor/autoload.php`. Run `composer install`.', 1568);
         }
+
+        /* Init Config API */
+        $this->config = Config::init();
+
+        /* Init Tools API*/
+        $this->tools = Tools::init();
+
+        /* Init Admin */
+        new Admin\Core();
+
+        /* Init Plugins API*/
+        $this->initPlugins();
     }
 
     /**
@@ -149,7 +149,8 @@ class Eayo
                     $_query = [$index => '@default'];
                 } else {
                     $_query = [$query => '@'.$index];
-                    (new Eayo::$router[$index])->render();
+                    $class = DS.Eayo::$router[$index];
+                    $class::render();
                 }
             } else {
                 $query = implode($queryPart, '/');

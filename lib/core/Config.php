@@ -31,6 +31,10 @@ class Config
         } catch (ParseException $e) {
             throw new  \Exception("Unable to parse the YAML string: ".$e->getMessage(), 150);
         }
+
+        if (Eayo::$environment === Eayo::DEVELOPMENT) {
+            ini_set('display_errors', 1);
+        }
     }
 
      /**

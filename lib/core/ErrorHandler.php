@@ -10,7 +10,7 @@
   * file that was distributed with this source code.
   */
 
-namespace Core\ErrorHandler;
+namespace Core;
 
 defined('EAYO_ACCESS') OR exit('No direct script access.');
 
@@ -97,14 +97,14 @@ class ErrorHandler extends \Exception
             5
         );
         $marker = [
-        'base_url' => \Core\Tools::init()->rootpath,
-        'type' => $exception ? 'Exception' : 'Error',
-        'exception_message' => htmlspecialchars($message),
-        'exception_code' => htmlspecialchars($code),
-        'exception_file' => htmlspecialchars($file),
-        'exception_line' => htmlspecialchars($line),
-        'exception_fragment' => $fragment,
-        'exception_class' => '',
+            'base_url' => \Core\Tools::init()->rootpath,
+            'type' => $exception ? 'Exception' : 'Error',
+            'exception_message' => htmlspecialchars($message),
+            'exception_code' => htmlspecialchars($code),
+            'exception_file' => htmlspecialchars($file),
+            'exception_line' => htmlspecialchars($line),
+            'exception_fragment' => $fragment,
+            'exception_class' => '',
         ];
         if ($exception) {
             $marker['exception_class'] = $this->linkClass(get_class($exception));
@@ -117,7 +117,285 @@ class ErrorHandler extends \Exception
         $tplPath = realpath(dirname(__FILE__)) . $DS . 'ErrorHandler.html.php';
         ob_start();
         extract($marker);
-        include $tplPath;
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Eayo Development Error Handler</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="<?php echo $base_url;?>/lib/Core/ErrorHandler/style.css" type="text/css" rel="stylesheet" />
+        <style>
+            @import url(//fonts.googleapis.com/css?family=Montserrat:400|Raleway:300,400,600|Inconsolata);
+            html,
+            body {
+                height: 100%;
+            }
+
+            body {
+                padding: 30px;
+                background: #fff;
+                color: #444;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+
+            a {
+                color: #1BB3E9;
+            }
+
+            a:hover {
+                color: #0e6e90;
+            }
+
+            b,
+            strong,
+            label,
+            th {
+                font-weight: 600;
+            }
+
+            .header {
+                font-size: 35px;
+                text-align: center;
+            }
+
+            html,
+            body,
+            button,
+            input,
+            select,
+            textarea,
+            .pure-g,
+            .pure-g [class*="pure-u"] {
+                font-family: "Raleway", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
+                font-weight: 400;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                font-family: "Montserrat", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
+                font-weight: 400;
+                text-rendering: optimizeLegibility;
+                letter-spacing: -0px;
+            }
+
+            h1 {
+                font-size: 3.2rem;
+            }
+
+            @media only all and (max-width: 47.938em) {
+                h1 {
+                    font-size: 2.5rem;
+                    line-height: 1.2;
+                    margin-bottom: 2.5rem;
+                }
+            }
+
+            @media only all and (min-width: 48em) and (max-width: 59.938em) {
+                h2 {
+                    font-size: 2.1rem;
+                }
+            }
+
+            @media only all and (max-width: 47.938em) {
+                h2 {
+                    font-size: 2rem;
+                }
+            }
+
+            @media only all and (min-width: 48em) and (max-width: 59.938em) {
+                h3 {
+                    font-size: 1.7rem;
+                }
+            }
+
+            @media only all and (max-width: 47.938em) {
+                h3 {
+                    font-size: 1.6rem;
+                }
+            }
+
+            @media only all and (min-width: 48em) and (max-width: 59.938em) {
+                h4 {
+                    font-size: 1.35rem;
+                }
+            }
+
+            @media only all and (max-width: 47.938em) {
+                h4 {
+                    font-size: 1.25rem;
+                }
+            }
+
+            h1 {
+                text-align: center;
+                letter-spacing: -3px;
+            }
+
+            h2 {
+                letter-spacing: -2px;
+            }
+
+            h3 {
+                letter-spacing: -1px;
+            }
+
+            h1 + h2 {
+                margin: -2rem 0 2rem 0;
+                font-size: 2rem;
+                line-height: 1;
+                text-align: center;
+                font-family: "Raleway", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
+                font-weight: 300;
+            }
+
+            @media only all and (min-width: 48em) and (max-width: 59.938em) {
+                h1 + h2 {
+                    font-size: 1.6rem;
+                }
+            }
+
+            @media only all and (max-width: 47.938em) {
+                h1 + h2 {
+                    font-size: 1.5rem;
+                }
+            }
+
+            h2 + h3 {
+                margin: 0.5rem 0 2rem 0;
+                font-size: 2rem;
+                line-height: 1;
+                text-align: center;
+                font-family: "Raleway", "Helvetica", "Tahoma", "Geneva", "Arial", sans-serif;
+                font-weight: 300;
+            }
+
+            @media only all and (min-width: 48em) and (max-width: 59.938em) {
+                h2 + h3 {
+                    font-size: 1.6rem;
+                }
+            }
+
+            @media only all and (max-width: 47.938em) {
+                h2 + h3 {
+                    font-size: 1.5rem;
+                }
+            }
+
+            blockquote {
+                border-left: 10px solid #F0F2F4;
+            }
+
+            blockquote p {
+                font-size: 1.1rem;
+                color: #999;
+            }
+
+            blockquote cite {
+                display: block;
+                text-align: right;
+                color: #666;
+                font-size: 1.2rem;
+            }
+
+            blockquote > blockquote > blockquote {
+                margin: 0;
+            }
+
+            blockquote > blockquote > blockquote p {
+                padding: 15px;
+                display: block;
+                font-size: 1rem;
+                margin-top: 0rem;
+                margin-bottom: 0rem;
+            }
+
+            blockquote > blockquote > blockquote > p {
+                margin-left: -71px;
+                border-left: 10px solid #F0AD4E;
+                background: #FCF8F2;
+                color: #df8a13;
+            }
+
+            blockquote > blockquote > blockquote > blockquote > p {
+                margin-left: -94px;
+                border-left: 10px solid #D9534F;
+                background: #FDF7F7;
+                color: #b52b27;
+            }
+
+            blockquote > blockquote > blockquote > blockquote > blockquote > p {
+                margin-left: -118px;
+                border-left: 10px solid #5BC0DE;
+                background: #F4F8FA;
+                color: #28a1c5;
+            }
+
+            blockquote > blockquote > blockquote > blockquote > blockquote > blockquote > p {
+                margin-left: -142px;
+                border-left: 10px solid #5CB85C;
+                background: #F1F9F1;
+                color: #3d8b3d;
+            }
+
+            code,
+            kbd,
+            pre,
+            samp {
+                font-family: "Inconsolata", monospace;
+            }
+
+            code {
+                background: #f9f2f4;
+                color: #9c1d3d;
+            }
+
+            pre {
+                padding: 2rem;
+                background: #f6f6f6;
+                border: 1px solid #ddd;
+                border-radius: 3px;
+            }
+
+            pre code {
+                color: #237794;
+                background: inherit;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="main">
+            <div class="header">Eayo Development Error Handler</div>
+            <div class="body">
+                <h2>Une erreur de type "<?php echo $type ?>" s'est produite :(</h2>
+                <p>
+                    <strong>
+                        <?= $exception_message ?> [<?= $exception_code ?>]
+                    </strong>
+                    <br />
+                    <span class="exception"><?= $exception_class ?></span>
+                    triggered in file
+                    <span class="file">
+                        <?= $exception_file ?></span> on line <span class="line"><?= $exception_line ?>
+                    </span>.
+                </p>
+                <?= $exception_fragment ?>
+                <?php if (isset($exception_backtrace)) : ?>
+                <h2>Backtrace</h2>
+                <?= $exception_backtrace ?>
+                <?php
+            endif; ?>
+            </div>
+        </div>
+    </body>
+</html>
+
+<?php
         ob_end_flush();
         die();
     }
@@ -178,8 +456,8 @@ class ErrorHandler extends \Exception
                 'span',
                 $content,
                 [
-                'class' => $class,
-                'title' => print_r($argument, true)
+                    'class' => $class,
+                    'title' => print_r($argument, true)
                 ]
             );
         }

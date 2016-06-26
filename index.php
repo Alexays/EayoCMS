@@ -21,8 +21,6 @@ defined('ROOT_DIR') || define('ROOT_DIR', realpath(__DIR__ . DS) . DS);
 //Include Eayo Class
 require ROOT_DIR.'lib/core/Eayo.php';
 
-ini_set('display_errors', 1);
-
 //substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') ? ob_start("ob_gzhandler") : ob_start();
 
 //Init Eayo
@@ -31,9 +29,8 @@ try {
     $router = $core->Router();
     echo $core->Process($router);
 } catch (\Exception $e) {
-    if (class_exists('\Core\ErrorHandler\ErrorHandler')) {
-        $errorHandler = new \Core\ErrorHandler\ErrorHandler;
-        $errorHandler->handleException($e);
+    if (class_exists('\Core\ErrorHandler')) {
+        (new \Core\ErrorHandler)->handleException($e);
     } else {
         print($e);
     }
