@@ -22,7 +22,7 @@ class Tools
 
     public $url;
 
-    public $template = [];
+    public $template;
 
     public function __construct()
     {
@@ -116,6 +116,16 @@ class Tools
     }
 
     /**
+     * Return the template
+     *
+     * @return string rooturl
+     */
+    public function findTemplate($namespace)
+    {
+        return $this->template[$namespace];
+    }
+
+    /**
      * Returns the substring of a string up to a specified needle.  if not found, return the whole haytack
      *
      * @param $haystack
@@ -192,13 +202,6 @@ class Tools
             $this->url = $this->scheme.$_url;
         }
         return $_url;
-    }
-
-    public function findTemplate($route = null) {
-        foreach (Eayo::$router as $key => $val) {
-            $this->template = array_merge($this->template, [$key => (new $val)->template]);
-        }
-        return isset($route) && $route !== null ? isset($key) && $key !== null ? $this->template[$route] : $this->template['default'] : $this->template;
     }
 
     public static function AddRoute($url, $class)

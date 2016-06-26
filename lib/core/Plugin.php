@@ -42,19 +42,6 @@ class Plugin
         return $this->plugins;
     }
 
-    /*public function addPlugin($path, $class, $url)
-    {
-        $tmpPlugin = array($url, $path);
-        $class = new $class;
-        $array = $this->set_element($tmpPlugin, $class);
-        if (isset($this->plugin)) {
-            $this->plugin = array_merge($this->plugins, $array);
-            return;
-        }
-        $this->plugins = $array;
-        return;
-    }*/
-
     public function set_element(&$path, $data) {
         return ($key = array_pop($path)) ? $this->set_element($path, array($key=>$data)) : $data;
     }

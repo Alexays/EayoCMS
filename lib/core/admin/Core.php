@@ -16,14 +16,28 @@ defined('EAYO_ACCESS') OR exit('No direct script access.');
 
 class Core
 {
-    //Name of plugin
-    public $name = 'admin';
-
-    //Template for admin
-    public $template = __DIR__.DS.'public';
 
     public function __construct()
     {
         \Core\Tools::AddRoute('admin', get_called_class());
+        \Core\Tools::init()->template = array('@'.$this->PluginDetails()['name'] => LIB_DIR.'core'.DS.'admin'.DS.'template');
+    }
+
+    public static function PluginDetails()
+    {
+        return [
+            'name' => 'admin',
+            'description' => 'Admin Plugin',
+            'author' => 'EayoCMS / Alexis Rouillard',
+            'template' => __DIR__.DS.'assets'
+        ];
+    }
+
+    public static function render() {
+
+        /* Check Login Status */
+        if (isset($_SESSION['login_string'])) {
+            header('location: '.\Core\Tools::init()->rooturl.'/login/');
+        }
     }
 }

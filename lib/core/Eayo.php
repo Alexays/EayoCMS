@@ -44,6 +44,8 @@ class Eayo
 
     public $twig;
 
+    public $twig_loader;
+
     public $twig_vars = [];
 
     /** @access  protected clone method */
@@ -88,8 +90,8 @@ class Eayo
         /* Init Plugins API*/
         $this->initPlugins();
 
-        /* init Twig */
-        $this->initTwig();
+        /* Init default Route */
+        $this->initRoute();
     }
 
     /** Initialize the autoloader */
@@ -127,64 +129,77 @@ class Eayo
 
     public function Router()
     {
-        $this->tools->template = array_merge($this->tools->template, ['default' => THEMES_DIR.Config::init()->get('themes').DS.'templates']);
-        $query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
-        if (($queryLength = strpos($query, '&')) !== false) {
-            $query = substr($query, 0, $queryLength);
-        }
-        $query = strpos($query, '=') === false ? rawurldecode($query) : '';
-        $query = trim($query, '/');
-
         $_query = [];
-        $template = '';
-        $file = '';
+        $content_file;
+        $template_file;
         $routing = false;
 
-        if (empty($query)) {
-            $_query = ['index' => $this->tools->findTemplate('default')];
-        } else {
-            $_queryPart = explode('/', $query);
-            if (isset(Eayo::$router) && array_key_exists($_queryPart[0], Eayo::$router)) {
-                $qPart = $_queryPart;
-                unset($qPart[0]);
-                $qPart = implode('/', $qPart);
-                $_query = [empty($qPart) ? 'index' : $qPart => $this->tools->findTemplate($_queryPart[0])];
+        $query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+        $queryLength = strpos($query, '&') !== false ? $query = substr($query, 0, $queryLength) : '';
+        $queryPart = explode('/', $query);
+        $index = empty($queryPart) ? '' : $queryPart[0];
+
+        //Prepare Query
+        if (count($queryPart) > 1) {
+            if (isset(Eayo::$router) && array_key_exists($index, Eayo::$router)) {
                 $routing = true;
+                unset($queryPart[0]);
+                $query = implode($queryPart, '/');
+                if (Eayo::$router[$index] === true) {
+                    $_query = [$index => '@default'];
+                } else {
+                    $_query = [$query => '@'.$index];
+                }
             } else {
-                $_query = [implode('/', $_queryPart) => $this->tools->findTemplate('default')];
+                $query = implode($queryPart, '/');
+                $_query = [$query => '@default'];
+            }
+        } else {
+            if (empty($query)) {
+                $_query = ['index' => '@default'];
+            } else {
+                $_query = [$index => '@default'];
             }
         }
-        $fileContent = glob(CONTENT_DIR.key($_query).'.{md,html,htm,twig,php}', GLOB_BRACE);
-        $fileContent2 = glob($_query[key($_query)].DS.key($_query).'.{md,html,htm,twig,php}', GLOB_BRACE);
-        if (!empty($fileContent) && !$routing) {
-            $file = $fileContent[0];
-        } elseif (!empty($fileContent2) && pathinfo($fileContent2[0])['filename'] !== 'default'){
-            $file = $fileContent2[0];
+
+        //Understand Query
+        $query = key($_query);
+        $namespace = current($_query);
+        $template = $this->tools->findTemplate($namespace);
+        $content_dir = CONTENT_DIR;
+
+        if ($namespace === '@default' && !$routing) {
+            $content_file = $content_dir.$query;
+            if (is_dir($content_dir.$query)) {
+                $content_file .= '\index';
+            }
         } else {
-            $file = CONTENT_DIR.'404'.CONTENT_EXT;
+            $content_dir = rtrim($template, '\/').DS.'views'.DS;
+            $content_file = $content_dir.$query;
+            if (is_dir($content_dir.$query)) {
+                $content_file .= 'index';
+            }
         }
-        $k_query = key($_query) === 'index' ? 'default' : key($_query);
-        $fileTemplate = glob($_query[key($_query)].DS.$k_query.'.{twig,php}', GLOB_BRACE);
-        if (empty($fileTemplate)) {
-            $template = $_query[key($_query)].DS.'default.twig';
-        } elseif ($routing) {
-            $template = glob($_query[key($_query)].DS.'default'.".{twig,php}", GLOB_BRACE)[0];
+
+        //Attribute File Extension
+        $content_file = glob($content_file.'.{md,html,htm,twig,php}', GLOB_BRACE);
+        if (!empty($content_file)) {
+            $content_file = $content_file[0];
         } else {
-            $template = glob($_query[key($_query)].DS.$k_query.".{twig,php}", GLOB_BRACE)[0];
+            $content_file = glob(CONTENT_DIR.'404.{md,html,htm,php}', GLOB_BRACE)[0];
         }
-        return [$file, str_replace(ROOT_DIR, '', $template)];
+
+        return [$content_file, $namespace, $template];
     }
 
     /**
      * Prepare Twig Environment
      */
-    protected function initTwig()
+    protected function initTwig($template)
     {
-        $loader = new \Twig_Loader_Filesystem(ROOT_DIR);
-        $loaderArray = new \Twig_Loader_Array([]);
-        $loader_chain = new \Twig_Loader_Chain([$loaderArray, $loader]);
+        $this->twig_loader = new \Twig_Loader_Filesystem($template);
 
-        $this->twig = new \Twig_Environment($loader_chain, $this->config->get('twig'));
+        $this->twig = new \Twig_Environment($this->twig_loader, $this->config->get('twig'));
         $this->twig->addExtension(new \Jralph\Twig\Markdown\Extension(
             new \Jralph\Twig\Markdown\Parsedown\ParsedownExtraMarkdown
         ));
@@ -197,15 +212,25 @@ class Eayo
         ));
     }
 
+    /**
+     * Prepare default Route
+     */
+    protected function initRoute()
+    {
+        $this->tools->AddRoute('login', true);
+        $this->tools->template = empty($this->tools->template) ? array('@default' => THEMES_DIR.$this->config->get('theme').DS.'templates'.DS) : array_merge($this->tools->template, array('@default' => THEMES_DIR.$this->config->get('theme').DS.'templates'.DS));
+    }
+
     public function Process($router)
     {
         $page = $router[0];
-        $template = $router[1];
+        $namespace = ltrim($router[1], '@');
+        $template = $router[2];
+        $this->InitTwig($template);
+        $this->twig_loader->setPaths($template, $namespace);
 
-        $local_twig = clone($this->twig);
         $time_end = microtime(true);
         $time = number_format($time_end - PERF_START, 3);
-        $output = '';
         $is_markdown = false;
         try {
             $fpage = fopen($page, 'r');
@@ -214,8 +239,7 @@ class Eayo
                     Eayo::$content = include $page;
                     break;
                 case 'twig':
-                    $page = str_replace(ROOT_DIR, '', $page);
-                    Eayo::$content = $this->twig->render($page);
+                    Eayo::$content = $this->twig->render(str_replace($template, '', $page));
                     break;
                 case 'html':
                     $page = fread($fpage, filesize($page));
@@ -230,11 +254,11 @@ class Eayo
             fclose($fpage);
             $this->twig_vars = array_merge($this->twig_vars, array(
                 'load_time' => $time,
-                'template' => $this->tools->rooturl.DS.pathinfo($template)['dirname'],
+                'template' => $this->tools->rooturl.'/'.str_replace(ROOT_DIR, '', $template),
                 'content' => Eayo::$content,
                 'is_markdown' => $is_markdown
             ));
-            $output = $local_twig->render($template, $this->twig_vars);
+            $output = $this->twig->render('@'.$namespace.'/default.twig', $this->twig_vars);
         } catch (\Twig_Error_Loader $e) {
             throw new \Exception($e->getRawMessage(), 4054);
         }
@@ -243,7 +267,7 @@ class Eayo
     }
 
     public function login($emailid, $pass) {
-        //if (!isset($_SESSION['login_str'])) {
+        if (!isset($_SESSION['login_str'])) {
             $wanted_user;
             foreach ($this->config->getAllAccounts() as $key => $val){
                 if(strcasecmp($emailid, $val['username']) === 0 || strcasecmp($emailid, $val['email']) === 0) {
@@ -261,9 +285,9 @@ class Eayo
             } else {
                 return false;
             }
-        /*} else {
+        } else {
             return 'Vous ête déjà connecté.';
-        }*/
+        }
     }
 
     public function register() {
