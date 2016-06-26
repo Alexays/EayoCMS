@@ -65,7 +65,7 @@ class Eayo
         defined('CONTENT_DIR') || define('CONTENT_DIR', APP_DIR . 'views' . DS);
         defined('CONTENT_EXT') || define('CONTENT_EXT', '.md');
         defined('PLUGINS_DIR') || define('PLUGINS_DIR', ROOT_DIR . 'plugins' . DS);
-        defined('THEMES_DIR') || define('THEMES_DIR', APP_DIR . 'themes' . DS);
+        defined('THEMES_DIR') || define('THEMES_DIR', ROOT_DIR . 'themes' . DS);
         defined('CACHE_DIR') || define('CACHE_DIR', LIB_DIR . 'cache' . DS);
         defined('STORAGE_DIR') || define('STORAGE_DIR', LIB_DIR . 'datastorage' . DS);
 
