@@ -32,11 +32,4 @@ class Core
             'template' => __DIR__.DS.'assets'
         ];
     }
-
-    public static function render() {
-        /* Check Login Status */
-        if (isset($_SESSION['login_string'])) {
-            header('location: '.\Core\Tools::init()->rooturl.'/login/');
-        }
-    }
 }

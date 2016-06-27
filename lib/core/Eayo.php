@@ -146,8 +146,6 @@ class Eayo
                     $_query = [$index => '@default'];
                 } else {
                     $_query = [$query => '@'.$index];
-                    $class = DS.Eayo::$router[$index];
-                    $class::render();
                 }
             } else {
                 $query = implode($queryPart, DS);
@@ -169,7 +167,7 @@ class Eayo
         if ($namespace === '@default' && !$routing) {
             $content_file = $content_dir.$query;
             if (is_dir($content_dir.$query)) {
-                $content_file .= '\index';
+                $content_file .= DS.'index';
             }
         } else {
             $content_dir = rtrim($template, '\/').DS.'views'.DS;
@@ -184,9 +182,9 @@ class Eayo
             $content_file = $content_file[0];
         } else {
             $content_file = glob(CONTENT_DIR.'404.{md,html,htm,php}', GLOB_BRACE)[0];
-        }
+        } //throw new 404 not found
 
-        return [$content_file, $namespace, $template];
+        return [$index, $content_file, $namespace, $template];
     }
 
     /**
@@ -198,7 +196,10 @@ class Eayo
 
         $loader->addPath($template, $namespace);
 
-        $this->twig = new \Twig_Environment($loader, $this->config->get('twig'));
+        $twigConf = $this->config->get('twig');
+        $twigConf['cache'] = $twigConf['cache'] === true ? LIB_DIR.'cache'.DS : false;
+
+        $this->twig = new \Twig_Environment($loader, $twigConf);
         $this->twig->addExtension(new \Jralph\Twig\Markdown\Extension(
             new \Jralph\Twig\Markdown\Parsedown\ParsedownExtraMarkdown
         ));
@@ -222,31 +223,54 @@ class Eayo
 
     public function Process($router)
     {
-        $page = $router[0];
-        $namespace = ltrim($router[1], '@');
-        $template = $router[2];
+        $index = $router[0];
+        $page = $router[1];
+        $namespace = ltrim($router[2], '@');
+        $template = $router[3];
+        $classRoot = explode('\\', Eayo::$router[$index]);
+        $classRootCount = count($classRoot);
+        unset($classRoot[$classRootCount - 1]);
+        $classRoot = implode('\\', $classRoot);
         $this->InitTwig($template, $namespace);
         $is_markdown = false;
+        $controller = null;
         try {
             switch (pathinfo($page)['extension']) {
                 case 'php':
                     Eayo::$content = include $page;
+                    if ($namespace === 'default') {
+                        $controller = "\\App\\Controller\\".$index."Ctrl";
+                        $controller = (new $controller)->index();
+                    } else {
+                        $controller = DS.$classRoot."\\Controller\\".$index."Ctrl";
+                        $controller = (new $controller)->index();
+                    }
                     break;
                 case 'twig':
                     Eayo::$content = $this->twig->render('@'.$namespace.'/'.str_replace($template, '',$page));
+                    if ($namespace === 'default') {
+                        $controller = "\\App\\Controller\\".$index."Ctrl";
+                        $controller = new $controller;
+                        $controller->index();
+                    } else {
+                        $controller = DS.$classRoot."\\Controller\\".$index."Ctrl";
+                        $controller = new $controller;
+                        $controller->index();
+                    }
                     break;
                 case 'html' || 'htm' || 'md':
                     $is_markdown = pathinfo($page)['extension'] === 'md' ? true : false;
                     $fpage = fopen($page, 'r');
                     $page = fread($fpage, filesize($page));
-                    Eayo::$content = $page;
+                    Eayo::$content = $is_markdown ? nl2br($page) : $page;
                     fclose($fpage);
                     break;
             }
             $this->twig_vars = array_merge($this->twig_vars, array(
                 'load_time' => number_format(microtime(true) - PERF_START, 3),
-                'template' => $this->tools->rooturl.'/'.str_replace(ROOT_DIR, '', $template),
-                'content' => nl2br(Eayo::$content),
+                'template' => $this->tools->rooturl.'/'.str_replace(DS, '/', str_replace(ROOT_DIR, '', $template.DS)),
+                'content' => Eayo::$content,
+                'ctrl' => $controller,
                 'is_markdown' => $is_markdown
             ));
             $output = $this->twig->render('@'.$namespace.'/default.twig', $this->twig_vars);
