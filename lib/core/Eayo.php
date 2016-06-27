@@ -44,8 +44,6 @@ class Eayo
 
     public $twig;
 
-    public $twig_loader;
-
     public $twig_vars = [];
 
     /** @access  protected clone method */
@@ -139,12 +137,11 @@ class Eayo
         $queryPart = explode('/', $query);
         $index = empty($queryPart) ? '' : $queryPart[0];
 
-        //Prepare Query
         if (count($queryPart) > 1) {
             if (isset(Eayo::$router) && array_key_exists($index, Eayo::$router)) {
                 $routing = true;
                 unset($queryPart[0]);
-                $query = implode($queryPart, '/');
+                $query = implode($queryPart, DS);
                 if (Eayo::$router[$index] === true) {
                     $_query = [$index => '@default'];
                 } else {
@@ -153,7 +150,7 @@ class Eayo
                     $class::render();
                 }
             } else {
-                $query = implode($queryPart, '/');
+                $query = implode($queryPart, DS);
                 $_query = [$query => '@default'];
             }
         } else {
@@ -164,7 +161,6 @@ class Eayo
             }
         }
 
-        //Understand Query
         $query = key($_query);
         $namespace = current($_query);
         $template = $this->tools->findTemplate($namespace);
@@ -183,7 +179,6 @@ class Eayo
             }
         }
 
-        //Attribute File Extension
         $content_file = glob($content_file.'.{md,html,htm,twig,php}', GLOB_BRACE);
         if (!empty($content_file)) {
             $content_file = $content_file[0];
@@ -197,11 +192,13 @@ class Eayo
     /**
      * Prepare Twig Environment
      */
-    protected function initTwig($template)
+    protected function initTwig($template, $namespace)
     {
-        $this->twig_loader = new \Twig_Loader_Filesystem($template);
+        $loader = new \Twig_Loader_Filesystem(CONTENT_DIR);
 
-        $this->twig = new \Twig_Environment($this->twig_loader, $this->config->get('twig'));
+        $loader->addPath($template, $namespace);
+
+        $this->twig = new \Twig_Environment($loader, $this->config->get('twig'));
         $this->twig->addExtension(new \Jralph\Twig\Markdown\Extension(
             new \Jralph\Twig\Markdown\Parsedown\ParsedownExtraMarkdown
         ));
@@ -228,44 +225,36 @@ class Eayo
         $page = $router[0];
         $namespace = ltrim($router[1], '@');
         $template = $router[2];
-        $this->InitTwig($template);
-        $this->twig_loader->setPaths($template, $namespace);
-
-        $time_end = microtime(true);
-        $time = number_format($time_end - PERF_START, 3);
+        $this->InitTwig($template, $namespace);
         $is_markdown = false;
         try {
-            $fpage = fopen($page, 'r');
             switch (pathinfo($page)['extension']) {
                 case 'php':
                     Eayo::$content = include $page;
                     break;
                 case 'twig':
-                    Eayo::$content = $this->twig->render(str_replace($template, '', $page));
+                    Eayo::$content = $this->twig->render('@'.$namespace.'/'.str_replace($template, '',$page));
                     break;
-                case 'html':
+                case 'html' || 'htm' || 'md':
+                    $is_markdown = pathinfo($page)['extension'] === 'md' ? true : false;
+                    $fpage = fopen($page, 'r');
                     $page = fread($fpage, filesize($page));
                     Eayo::$content = $page;
-                    break;
-                case 'md':
-                    $page = fread($fpage, filesize($page));
-                    Eayo::$content = $page;
-                    $is_markdown = true;
+                    fclose($fpage);
                     break;
             }
-            fclose($fpage);
             $this->twig_vars = array_merge($this->twig_vars, array(
-                'load_time' => $time,
+                'load_time' => number_format(microtime(true) - PERF_START, 3),
                 'template' => $this->tools->rooturl.'/'.str_replace(ROOT_DIR, '', $template),
-                'content' => Eayo::$content,
+                'content' => nl2br(Eayo::$content),
                 'is_markdown' => $is_markdown
             ));
             $output = $this->twig->render('@'.$namespace.'/default.twig', $this->twig_vars);
+
+            return $output;
         } catch (\Twig_Error_Loader $e) {
             throw new \Exception($e->getRawMessage(), 4054);
         }
-
-        return $output;
     }
 
     public function login($emailid, $pass) {

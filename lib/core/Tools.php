@@ -223,6 +223,11 @@ class Tools
         }
     }
 
+    public function getMetaFile($file)
+    {
+
+    }
+
     /** @return Return instance of Eayo class as singleton */
     public static function init()
     {
