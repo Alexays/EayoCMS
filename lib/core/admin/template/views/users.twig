@@ -8,11 +8,11 @@
             </tr>
         </thead>
         <tbody>
-           {% for user in ctrl.userList %}
+           {% for key, user in ctrl.userList %}
             <tr>
                 <th>
-                    <img width="45" height="45" src="{{base_url}}{{user.avatar}}" alt="My profile" class="img-circle avatar">
-                    <a href="user-profile.html" class="name">{{ user.username }}</a>
+                    <img width="45" height="45" src="{{uploads_url}}avatar/{{ key }}.png" alt="My profile" class="img-circle avatar">
+                    <a href="user-profile.html" class="name">{{ user.username }} <span>#{{ key }}</span></a>
                     <span class="subtext">Développeur</span>
                 </th>
                 <th>{{ user.signup | date }}</th>

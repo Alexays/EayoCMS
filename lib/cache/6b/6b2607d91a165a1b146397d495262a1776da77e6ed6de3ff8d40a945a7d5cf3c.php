@@ -124,7 +124,9 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
                                     ";
         // line 72
         echo $this->getAttribute((isset($context["user"]) ? $context["user"] : null), "firstname", array());
-        echo "
+        echo " ";
+        echo twig_first($this->env, $this->getAttribute((isset($context["user"]) ? $context["user"] : null), "surname", array()));
+        echo ".
                                 </a>
                             </li>
                         </ul>
@@ -198,7 +200,7 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
 
     public function getDebugInfo()
     {
-        return array (  182 => 108,  178 => 107,  163 => 95,  153 => 87,  147 => 85,  141 => 83,  139 => 82,  126 => 72,  121 => 71,  113 => 66,  97 => 53,  90 => 49,  77 => 39,  73 => 38,  69 => 37,  47 => 18,  43 => 17,  39 => 16,  33 => 13,  19 => 1,);
+        return array (  184 => 108,  180 => 107,  165 => 95,  155 => 87,  149 => 85,  143 => 83,  141 => 82,  126 => 72,  121 => 71,  113 => 66,  97 => 53,  90 => 49,  77 => 39,  73 => 38,  69 => 37,  47 => 18,  43 => 17,  39 => 16,  33 => 13,  19 => 1,);
     }
 }
 /* <!DOCTYPE html>*/
@@ -272,7 +274,7 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
 /*                             <li class="profile">*/
 /*                                 <a href="blank.html">*/
 /*                                     <img width="40" height="40" src="{{base_url}}{{user.avatar}}" alt="My profile" class="img-circle">*/
-/*                                     {{user.firstname}}*/
+/*                                     {{user.firstname}} {{user.surname | first}}.*/
 /*                                 </a>*/
 /*                             </li>*/
 /*                         </ul>*/

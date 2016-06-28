@@ -25,6 +25,8 @@ class Config
     private $accounts = [];
 
     public function __construct() {
+        // Local
+        date_default_timezone_set('Europe/Paris');
         try {
             $this->settings = Yaml::parse(file_get_contents(LIB_DIR.'config.yml'));
             $this->accounts = Yaml::parse(file_get_contents(APP_DIR.'accounts.yml'));

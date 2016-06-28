@@ -31,19 +31,22 @@ class __TwigTemplate_5115adb54b851a2c53f20a612c0c5c714456e6b27177118381c5b0031c0
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["ctrl"]) ? $context["ctrl"] : null), "userList", array()));
         $context['_iterated'] = false;
-        foreach ($context['_seq'] as $context["_key"] => $context["user"]) {
+        foreach ($context['_seq'] as $context["key"] => $context["user"]) {
             // line 12
             echo "            <tr>
                 <th>
                     <img width=\"45\" height=\"45\" src=\"";
             // line 14
-            echo (isset($context["base_url"]) ? $context["base_url"] : null);
-            echo $this->getAttribute($context["user"], "avatar", array());
-            echo "\" alt=\"My profile\" class=\"img-circle avatar\">
+            echo (isset($context["uploads_url"]) ? $context["uploads_url"] : null);
+            echo "avatar/";
+            echo $context["key"];
+            echo ".png\" alt=\"My profile\" class=\"img-circle avatar\">
                     <a href=\"user-profile.html\" class=\"name\">";
             // line 15
             echo $this->getAttribute($context["user"], "username", array());
-            echo "</a>
+            echo " <span>#";
+            echo $context["key"];
+            echo "</span></a>
                     <span class=\"subtext\">Développeur</span>
                 </th>
                 <th>";
@@ -64,7 +67,7 @@ class __TwigTemplate_5115adb54b851a2c53f20a612c0c5c714456e6b27177118381c5b0031c0
             ";
         }
         $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['user'], $context['_parent'], $context['loop']);
+        unset($context['_seq'], $context['_iterated'], $context['key'], $context['user'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
         // line 24
         echo "        </tbody>
@@ -85,7 +88,7 @@ class __TwigTemplate_5115adb54b851a2c53f20a612c0c5c714456e6b27177118381c5b0031c0
 
     public function getDebugInfo()
     {
-        return array (  70 => 24,  63 => 22,  55 => 19,  51 => 18,  45 => 15,  40 => 14,  36 => 12,  31 => 11,  19 => 1,);
+        return array (  73 => 24,  66 => 22,  58 => 19,  54 => 18,  46 => 15,  40 => 14,  36 => 12,  31 => 11,  19 => 1,);
     }
 }
 /* <div class="container-fluid users-list">*/
@@ -98,11 +101,11 @@ class __TwigTemplate_5115adb54b851a2c53f20a612c0c5c714456e6b27177118381c5b0031c0
 /*             </tr>*/
 /*         </thead>*/
 /*         <tbody>*/
-/*            {% for user in ctrl.userList %}*/
+/*            {% for key, user in ctrl.userList %}*/
 /*             <tr>*/
 /*                 <th>*/
-/*                     <img width="45" height="45" src="{{base_url}}{{user.avatar}}" alt="My profile" class="img-circle avatar">*/
-/*                     <a href="user-profile.html" class="name">{{ user.username }}</a>*/
+/*                     <img width="45" height="45" src="{{uploads_url}}avatar/{{ key }}.png" alt="My profile" class="img-circle avatar">*/
+/*                     <a href="user-profile.html" class="name">{{ user.username }} <span>#{{ key }}</span></a>*/
 /*                     <span class="subtext">Développeur</span>*/
 /*                 </th>*/
 /*                 <th>{{ user.signup | date }}</th>*/

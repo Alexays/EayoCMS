@@ -16,5 +16,11 @@ defined('EAYO_ACCESS') OR exit('No direct script access.');
 
 class Controller
 {
+    protected $config = null;
+    protected $tools = null;
 
+    public function __construct() {
+        $this->config = \Core\Config::init();
+        $this->tools = \Core\Tools::init();
+    }
 }

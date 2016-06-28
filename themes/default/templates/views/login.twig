@@ -14,20 +14,20 @@
         <hr class="hr-or">
         <span class="span-or">ou</span>
       </div>
-      <form role="form">
+      <form name="login" method="post" action="">
         <div class="form-group">
           <label for="inputUsernameEmail">Indetifiant ou email</label>
-          <input type="text" class="form-control" id="inputUsernameEmail">
+          <input type="text" class="form-control" name="emailid" id="inputUsernameEmail">
         </div>
         <div class="form-group">
           <a class="pull-right" href="#">Mot de passe oubliez ?</a>
           <label for="inputPassword">Mot de passe</label>
-          <input type="password" class="form-control" id="inputPassword">
+          <input type="password" class="form-control" name="password" id="inputPassword">
         </div>
         <div class="checkbox pull-left">
           <label><input type="checkbox">Se souvenir de moi</label>
         </div>
-        <button type="submit" class="btn btn btn-primary pull-right">
+        <input type="submit" name="login" class="btn btn btn-primary pull-right">
           Connection
         </button>
       </form>

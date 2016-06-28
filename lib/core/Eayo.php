@@ -38,8 +38,6 @@ class Eayo
         Eayo::DEVELOPMENT => 'development',
     );
 
-    public $self_user;
-
     public static $router = [];
 
     public $twig;
@@ -54,13 +52,11 @@ class Eayo
 
     protected function __construct()
     {
-        // Local
-        date_default_timezone_set('Europe/Paris');
-
         /* Define App */
         defined('LIB_DIR') || define('LIB_DIR', ROOT_DIR . 'lib' . DS);
         defined('APP_DIR') || define('APP_DIR', LIB_DIR . 'app' . DS);
         defined('CONTENT_DIR') || define('CONTENT_DIR', APP_DIR . 'views' . DS);
+        defined('UPLOAD_DIR') || define('UPLOAD_DIR', APP_DIR . 'uploads' . DS);
         defined('CONTENT_EXT') || define('CONTENT_EXT', '.md');
         defined('PLUGINS_DIR') || define('PLUGINS_DIR', ROOT_DIR . 'plugins' . DS);
         defined('THEMES_DIR') || define('THEMES_DIR', ROOT_DIR . 'themes' . DS);
@@ -211,7 +207,9 @@ class Eayo
         $this->twig_vars = array_merge($this->twig_vars, array(
             'version' => Eayo::VERSION,
             'config' => $this->config->getAll(),
-            'base_url' => $this->tools->rooturl
+            'base_url' => $this->tools->rooturl,
+            'uploads_url' => $this->tools->rooturl.str_replace(ROOT_DIR, '', UPLOAD_DIR),
+            'user' => isset($_SESSION) ? $_SESSION : null
         ));
     }
 
@@ -224,6 +222,11 @@ class Eayo
         $this->tools->template = empty($this->tools->template) ? array('@default' => THEMES_DIR.$this->config->get('theme').DS.'templates'.DS) : array_merge($this->tools->template, array('@default' => THEMES_DIR.$this->config->get('theme').DS.'templates'.DS));
     }
 
+    /**
+     * Return template and content
+     *
+     * @return $output
+     */
     public function Process($router)
     {
         $index = $router[0];
@@ -280,34 +283,9 @@ class Eayo
         return $output;
     }
 
-    public function login($emailid, $pass) {
-        if (!isset($_SESSION['login_str'])) {
-            $wanted_user;
-            foreach ($this->config->getAllAccounts() as $key => $val){
-                if(strcasecmp($emailid, $val['username']) === 0 || strcasecmp($emailid, $val['email']) === 0) {
-                    $wanted_user = $key;
-                }
-            }
-            if (password_verify($pass, $this->config->getAccount($wanted_user)['pass_hash'])) {
-                $this->self_user = $this->config->getAccount($wanted_user);
-                $_SESSION['user_id'] = preg_replace("/[^0-9]+/", "", $wanted_user);
-                $_SESSION['username'] = preg_replace("/[^a-zA-Z0-9_\-]+/",
-                                                     "",
-                                                     $this->self_user['username']);
-                $_SESSION['login_str'] = hash('sha512', $this->self_user['pass_hash'].$_SERVER['HTTP_USER_AGENT']);
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return 'Vous ête déjà connecté.';
-        }
-    }
-
-    public function register() {
-        //echo password_hash($pass, PASSWORD_DEFAULT);
-    }
-
+    /**
+     * Start Session
+     */
     protected function sessionStart() {
         if (ini_set('session.use_only_cookies', 1) === '0') {
             throw new \Exception('Could not initiate a safe session (ini_set)', 145);

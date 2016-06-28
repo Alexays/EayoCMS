@@ -18,10 +18,11 @@ use Core\Controller\Controller;
 
 class adminCtrl extends Controller
 {
-    public static function index() {
+    public function __construct() {
+        parent::__construct();
         /* Check Login Status */
-        if (!isset($_SESSION['login_string'])) {
-            header('location: '.\Core\Tools::init()->rooturl.'/login/');
+        if (!isset($_SESSION['login_str'])) {
+            header('location: '.$this->tools->rooturl.'login/');
         }
     }
 
