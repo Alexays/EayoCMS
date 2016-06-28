@@ -9,24 +9,24 @@ useful for people who want to understand how Twig works under the hood.
 How does Twig work?
 -------------------
 
-The rendering of a Twig template can be summarized into four key steps:
+The rendering of a Twig theme_url can be summarized into four key steps:
 
-* **Load** the template: If the template is already compiled, load it and go
+* **Load** the theme_url: If the theme_url is already compiled, load it and go
   to the *evaluation* step, otherwise:
 
-  * First, the **lexer** tokenizes the template source code into small pieces
+  * First, the **lexer** tokenizes the theme_url source code into small pieces
     for easier processing;
   * Then, the **parser** converts the token stream into a meaningful tree
     of nodes (the Abstract Syntax Tree);
   * Eventually, the *compiler* transforms the AST into PHP code.
 
-* **Evaluate** the template: It basically means calling the ``display()``
-  method of the compiled template and passing it the context.
+* **Evaluate** the theme_url: It basically means calling the ``display()``
+  method of the compiled theme_url and passing it the context.
 
 The Lexer
 ---------
 
-The lexer tokenizes a template source code into a token stream (each token is
+The lexer tokenizes a theme_url source code into a token stream (each token is
 an instance of ``Twig_Token``, and the stream is an instance of
 ``Twig_TokenStream``). The default lexer recognizes 13 different token types:
 
@@ -39,7 +39,7 @@ an instance of ``Twig_Token``, and the stream is an instance of
 * ``Twig_Token::OPERATOR_TYPE``: An operator;
 * ``Twig_Token::PUNCTUATION_TYPE``: A punctuation sign;
 * ``Twig_Token::INTERPOLATION_START_TYPE``, ``Twig_Token::INTERPOLATION_END_TYPE`` (as of Twig 1.5): Delimiters for string interpolation;
-* ``Twig_Token::EOF_TYPE``: Ends of template.
+* ``Twig_Token::EOF_TYPE``: Ends of theme_url.
 
 You can manually convert a source code into a token stream by calling the
 ``tokenize()`` method of an environment::
@@ -51,7 +51,7 @@ representation of it by echoing the object::
 
     echo $stream."\n";
 
-Here is the output for the ``Hello {{ name }}`` template:
+Here is the output for the ``Hello {{ name }}`` theme_url:
 
 .. code-block:: text
 
@@ -84,7 +84,7 @@ Echoing the node object gives you a nice representation of the tree::
 
     echo $nodes."\n";
 
-Here is the output for the ``Hello {{ name }}`` template:
+Here is the output for the ``Hello {{ name }}`` theme_url:
 
 .. code-block:: text
 
@@ -106,14 +106,14 @@ The Compiler
 ------------
 
 The last step is done by the compiler. It takes a node tree as an input and
-generates PHP code usable for runtime execution of the template.
+generates PHP code usable for runtime execution of the theme_url.
 
 You can manually compile a node tree to PHP code with the ``compile()`` method
 of an environment::
 
     $php = $twig->compile($nodes);
 
-The generated template for a ``Hello {{ name }}`` template reads as follows
+The generated theme_url for a ``Hello {{ name }}`` theme_url reads as follows
 (the actual output can differ depending on the version of Twig you are
 using)::
 

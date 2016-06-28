@@ -17,4 +17,4 @@ Functions
     random
     range
     source
-    template_from_string
+    theme_url_from_string

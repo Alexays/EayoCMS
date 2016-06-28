@@ -1,5 +1,5 @@
 --TEST--
-Exception for syntax error in reused template
+Exception for syntax error in reused theme_url
 --TEMPLATE--
 {% use 'foo.twig' %}
 --TEMPLATE(foo.twig)--

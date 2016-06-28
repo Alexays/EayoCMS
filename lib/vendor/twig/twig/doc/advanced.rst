@@ -21,8 +21,8 @@ itself with node visitors.
 .. caution::
 
     When extending Twig without creating an extension, Twig won't be able to
-    recompile your templates when the PHP code is updated. To see your changes
-    in real-time, either disable template caching or package your code into an
+    recompile your theme_urls when the PHP code is updated. To see your changes
+    in real-time, either disable theme_url caching or package your code into an
     extension (see the next section of this chapter).
 
 Before extending Twig, you must understand the differences between all the
@@ -111,13 +111,13 @@ What?      Implementation difficulty? How often? When?
 Globals
 -------
 
-A global variable is like any other template variable, except that it's
-available in all templates and macros::
+A global variable is like any other theme_url variable, except that it's
+available in all theme_urls and macros::
 
     $twig = new Twig_Environment($loader);
     $twig->addGlobal('text', new Text());
 
-You can then use the ``text`` variable anywhere in a template:
+You can then use the ``text`` variable anywhere in a theme_url:
 
 .. code-block:: jinja
 
@@ -140,7 +140,7 @@ Creating a filter is as simple as associating a name with a PHP callable::
     $filter = new Twig_SimpleFilter('rot13', array('SomeClass', 'rot13Filter'));
 
 The first argument passed to the ``Twig_SimpleFilter`` constructor is the name
-of the filter you will use in templates and the second one is the PHP callable
+of the filter you will use in theme_urls and the second one is the PHP callable
 to associate with it.
 
 Then, add the filter to your Twig environment::
@@ -148,7 +148,7 @@ Then, add the filter to your Twig environment::
     $twig = new Twig_Environment($loader);
     $twig->addFilter($filter);
 
-And here is how to use it in a template:
+And here is how to use it in a theme_url:
 
 .. code-block:: jinja
 
@@ -282,7 +282,7 @@ deprecated one when that makes sense::
     }, array('deprecated' => true, 'alternative' => 'new_one'));
 
 When a filter is deprecated, Twig emits a deprecation notice when compiling a
-template using it. See :ref:`deprecation-notices` for more information.
+theme_url using it. See :ref:`deprecation-notices` for more information.
 
 Functions
 ---------
@@ -372,12 +372,12 @@ name feature as filters and functions.
 Tags
 ----
 
-One of the most exciting features of a template engine like Twig is the
+One of the most exciting features of a theme_url engine like Twig is the
 possibility to define new language constructs. This is also the most complex
 feature as you need to understand how Twig's internals work.
 
 Let's create a simple ``set`` tag that allows the definition of simple
-variables from within a template. The tag can be used like follows:
+variables from within a theme_url. The tag can be used like follows:
 
 .. code-block:: jinja
 
@@ -391,12 +391,12 @@ variables from within a template. The tag can be used like follows:
 
     The ``set`` tag is part of the Core extension and as such is always
     available. The built-in version is slightly more powerful and supports
-    multiple assignments by default (cf. the template designers chapter for
+    multiple assignments by default (cf. the theme_url designers chapter for
     more information).
 
 Three steps are needed to define a new tag:
 
-* Defining a Token Parser class (responsible for parsing the template code);
+* Defining a Token Parser class (responsible for parsing the theme_url code);
 
 * Defining a Node class (responsible for converting the parsed code to PHP);
 
@@ -506,7 +506,7 @@ developer generate beautiful and readable PHP code:
 * ``repr()``: Writes a PHP representation of a given value (see
   ``Twig_Node_For`` for a usage example).
 
-* ``addDebugInfo()``: Adds the line of the original template file related to
+* ``addDebugInfo()``: Adds the line of the original theme_url file related to
   the current node as a comment.
 
 * ``indent()``: Indents the generated code (see ``Twig_Node_Block`` for a
@@ -535,7 +535,7 @@ to host all the specific tags and filters you want to add to Twig.
 .. tip::
 
     When packaging your code into an extension, Twig is smart enough to
-    recompile your templates whenever you make a change to it (when
+    recompile your theme_urls whenever you make a change to it (when
     ``auto_reload`` is enabled).
 
 .. note::
@@ -641,7 +641,7 @@ possible::
     the next sections.
 
 Twig does not care where you save your extension on the filesystem, as all
-extensions must be registered explicitly to be available in your templates.
+extensions must be registered explicitly to be available in your theme_urls.
 
 You can register an extension by using the ``addExtension()`` method on your
 main ``Environment`` object::

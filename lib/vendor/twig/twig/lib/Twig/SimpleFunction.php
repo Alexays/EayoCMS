@@ -10,7 +10,7 @@
  */
 
 /**
- * Represents a template function.
+ * Represents a theme_url function.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */

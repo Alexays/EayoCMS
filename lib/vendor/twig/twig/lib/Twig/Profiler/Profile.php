@@ -16,19 +16,19 @@ class Twig_Profiler_Profile implements IteratorAggregate, Serializable
 {
     const ROOT = 'ROOT';
     const BLOCK = 'block';
-    const TEMPLATE = 'template';
+    const TEMPLATE = 'theme_url';
     const MACRO = 'macro';
 
-    private $template;
+    private $theme_url;
     private $name;
     private $type;
     private $starts = array();
     private $ends = array();
     private $profiles = array();
 
-    public function __construct($template = 'main', $type = self::ROOT, $name = 'main')
+    public function __construct($theme_url = 'main', $type = self::ROOT, $name = 'main')
     {
-        $this->template = $template;
+        $this->theme_url = $theme_url;
         $this->type = $type;
         $this->name = 0 === strpos($name, '__internal_') ? 'INTERNAL' : $name;
         $this->enter();
@@ -36,7 +36,7 @@ class Twig_Profiler_Profile implements IteratorAggregate, Serializable
 
     public function getTemplate()
     {
-        return $this->template;
+        return $this->theme_url;
     }
 
     public function getType()
@@ -150,11 +150,11 @@ class Twig_Profiler_Profile implements IteratorAggregate, Serializable
 
     public function serialize()
     {
-        return serialize(array($this->template, $this->name, $this->type, $this->starts, $this->ends, $this->profiles));
+        return serialize(array($this->theme_url, $this->name, $this->type, $this->starts, $this->ends, $this->profiles));
     }
 
     public function unserialize($data)
     {
-        list($this->template, $this->name, $this->type, $this->starts, $this->ends, $this->profiles) = unserialize($data);
+        list($this->theme_url, $this->name, $this->type, $this->starts, $this->ends, $this->profiles) = unserialize($data);
     }
 }

@@ -56,7 +56,7 @@
                 "role": "Contributors"
             }
         ],
-        "description": "Twig, the flexible, fast, and secure template language for PHP",
+        "description": "Twig, the flexible, fast, and secure theme_url language for PHP",
         "homepage": "http://twig.sensiolabs.org",
         "keywords": [
             "templating"

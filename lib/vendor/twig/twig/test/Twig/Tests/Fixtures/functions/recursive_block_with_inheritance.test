@@ -1,5 +1,5 @@
 --TEST--
-"block" function recursively called in a parent template
+"block" function recursively called in a parent theme_url
 --TEMPLATE--
 {% extends "ordered_menu.twig" %}
 {% block label %}"{{ parent() }}"{% endblock %}

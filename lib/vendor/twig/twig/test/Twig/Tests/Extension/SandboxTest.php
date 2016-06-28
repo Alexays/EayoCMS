@@ -11,7 +11,7 @@
 
 class Twig_Tests_Extension_SandboxTest extends PHPUnit_Framework_TestCase
 {
-    protected static $params, $templates;
+    protected static $params, $theme_urls;
 
     protected function setUp()
     {
@@ -21,7 +21,7 @@ class Twig_Tests_Extension_SandboxTest extends PHPUnit_Framework_TestCase
             'arr' => array('obj' => new FooObject()),
         );
 
-        self::$templates = array(
+        self::$theme_urls = array(
             '1_basic1' => '{{ obj.foo }}',
             '1_basic2' => '{{ name|upper }}',
             '1_basic3' => '{% if name %}foo{% endif %}',
@@ -43,93 +43,93 @@ class Twig_Tests_Extension_SandboxTest extends PHPUnit_Framework_TestCase
      */
     public function testSandboxWithInheritance()
     {
-        $twig = $this->getEnvironment(true, array(), self::$templates, array('block'));
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls, array('block'));
         $twig->loadTemplate('1_child')->render(array());
     }
 
     public function testSandboxGloballySet()
     {
-        $twig = $this->getEnvironment(false, array(), self::$templates);
+        $twig = $this->getEnvironment(false, array(), self::$theme_urls);
         $this->assertEquals('FOO', $twig->loadTemplate('1_basic')->render(self::$params), 'Sandbox does nothing if it is disabled globally');
 
-        $twig = $this->getEnvironment(true, array(), self::$templates);
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls);
         try {
             $twig->loadTemplate('1_basic1')->render(self::$params);
             $this->fail('Sandbox throws a SecurityError exception if an unallowed method is called');
         } catch (Twig_Sandbox_SecurityError $e) {
         }
 
-        $twig = $this->getEnvironment(true, array(), self::$templates);
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls);
         try {
             $twig->loadTemplate('1_basic2')->render(self::$params);
             $this->fail('Sandbox throws a SecurityError exception if an unallowed filter is called');
         } catch (Twig_Sandbox_SecurityError $e) {
         }
 
-        $twig = $this->getEnvironment(true, array(), self::$templates);
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls);
         try {
             $twig->loadTemplate('1_basic3')->render(self::$params);
-            $this->fail('Sandbox throws a SecurityError exception if an unallowed tag is used in the template');
+            $this->fail('Sandbox throws a SecurityError exception if an unallowed tag is used in the theme_url');
         } catch (Twig_Sandbox_SecurityError $e) {
         }
 
-        $twig = $this->getEnvironment(true, array(), self::$templates);
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls);
         try {
             $twig->loadTemplate('1_basic4')->render(self::$params);
-            $this->fail('Sandbox throws a SecurityError exception if an unallowed property is called in the template');
+            $this->fail('Sandbox throws a SecurityError exception if an unallowed property is called in the theme_url');
         } catch (Twig_Sandbox_SecurityError $e) {
         }
 
-        $twig = $this->getEnvironment(true, array(), self::$templates);
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls);
         try {
             $twig->loadTemplate('1_basic5')->render(self::$params);
-            $this->fail('Sandbox throws a SecurityError exception if an unallowed method (__toString()) is called in the template');
+            $this->fail('Sandbox throws a SecurityError exception if an unallowed method (__toString()) is called in the theme_url');
         } catch (Twig_Sandbox_SecurityError $e) {
         }
 
-        $twig = $this->getEnvironment(true, array(), self::$templates);
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls);
         try {
             $twig->loadTemplate('1_basic6')->render(self::$params);
-            $this->fail('Sandbox throws a SecurityError exception if an unallowed method (__toString()) is called in the template');
+            $this->fail('Sandbox throws a SecurityError exception if an unallowed method (__toString()) is called in the theme_url');
         } catch (Twig_Sandbox_SecurityError $e) {
         }
 
-        $twig = $this->getEnvironment(true, array(), self::$templates);
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls);
         try {
             $twig->loadTemplate('1_basic7')->render(self::$params);
-            $this->fail('Sandbox throws a SecurityError exception if an unallowed function is called in the template');
+            $this->fail('Sandbox throws a SecurityError exception if an unallowed function is called in the theme_url');
         } catch (Twig_Sandbox_SecurityError $e) {
         }
 
-        $twig = $this->getEnvironment(true, array(), self::$templates, array(), array(), array('FooObject' => 'foo'));
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls, array(), array(), array('FooObject' => 'foo'));
         FooObject::reset();
         $this->assertEquals('foo', $twig->loadTemplate('1_basic1')->render(self::$params), 'Sandbox allow some methods');
         $this->assertEquals(1, FooObject::$called['foo'], 'Sandbox only calls method once');
 
-        $twig = $this->getEnvironment(true, array(), self::$templates, array(), array(), array('FooObject' => '__toString'));
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls, array(), array(), array('FooObject' => '__toString'));
         FooObject::reset();
         $this->assertEquals('foo', $twig->loadTemplate('1_basic5')->render(self::$params), 'Sandbox allow some methods');
         $this->assertEquals(1, FooObject::$called['__toString'], 'Sandbox only calls method once');
 
-        $twig = $this->getEnvironment(false, array(), self::$templates);
+        $twig = $this->getEnvironment(false, array(), self::$theme_urls);
         FooObject::reset();
         $this->assertEquals('foo', $twig->loadTemplate('1_basic5')->render(self::$params), 'Sandbox allows __toString when sandbox disabled');
         $this->assertEquals(1, FooObject::$called['__toString'], 'Sandbox only calls method once');
 
-        $twig = $this->getEnvironment(true, array(), self::$templates, array(), array('upper'));
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls, array(), array('upper'));
         $this->assertEquals('FABIEN', $twig->loadTemplate('1_basic2')->render(self::$params), 'Sandbox allow some filters');
 
-        $twig = $this->getEnvironment(true, array(), self::$templates, array('if'));
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls, array('if'));
         $this->assertEquals('foo', $twig->loadTemplate('1_basic3')->render(self::$params), 'Sandbox allow some tags');
 
-        $twig = $this->getEnvironment(true, array(), self::$templates, array(), array(), array(), array('FooObject' => 'bar'));
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls, array(), array(), array(), array('FooObject' => 'bar'));
         $this->assertEquals('bar', $twig->loadTemplate('1_basic4')->render(self::$params), 'Sandbox allow some properties');
 
-        $twig = $this->getEnvironment(true, array(), self::$templates, array(), array(), array(), array(), array('cycle'));
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls, array(), array(), array(), array(), array('cycle'));
         $this->assertEquals('bar', $twig->loadTemplate('1_basic7')->render(self::$params), 'Sandbox allow some functions');
 
         foreach (array('getfoobar', 'getFoobar', 'getFooBar') as $name) {
-            $twig = $this->getEnvironment(true, array(), self::$templates, array(), array(), array('FooObject' => $name));
+            $twig = $this->getEnvironment(true, array(), self::$theme_urls, array(), array(), array('FooObject' => $name));
             FooObject::reset();
             $this->assertEquals('foobarfoobar', $twig->loadTemplate('1_basic8')->render(self::$params), 'Sandbox allow methods in a case-insensitive way');
             $this->assertEquals(2, FooObject::$called['getFooBar'], 'Sandbox only calls method once');
@@ -140,20 +140,20 @@ class Twig_Tests_Extension_SandboxTest extends PHPUnit_Framework_TestCase
 
     public function testSandboxLocallySetForAnInclude()
     {
-        self::$templates = array(
+        self::$theme_urls = array(
             '2_basic' => '{{ obj.foo }}{% include "2_included" %}{{ obj.foo }}',
             '2_included' => '{% if obj.foo %}{{ obj.foo|upper }}{% endif %}',
         );
 
-        $twig = $this->getEnvironment(false, array(), self::$templates);
+        $twig = $this->getEnvironment(false, array(), self::$theme_urls);
         $this->assertEquals('fooFOOfoo', $twig->loadTemplate('2_basic')->render(self::$params), 'Sandbox does nothing if disabled globally and sandboxed not used for the include');
 
-        self::$templates = array(
+        self::$theme_urls = array(
             '3_basic' => '{{ obj.foo }}{% sandbox %}{% include "3_included" %}{% endsandbox %}{{ obj.foo }}',
             '3_included' => '{% if obj.foo %}{{ obj.foo|upper }}{% endif %}',
         );
 
-        $twig = $this->getEnvironment(true, array(), self::$templates);
+        $twig = $this->getEnvironment(true, array(), self::$theme_urls);
         try {
             $twig->loadTemplate('3_basic')->render(self::$params);
             $this->fail('Sandbox throws a SecurityError exception when the included file is sandboxed');
@@ -175,9 +175,9 @@ EOF
         $this->assertEquals('<p>username</p>', $twig->loadTemplate('index')->render(array()));
     }
 
-    protected function getEnvironment($sandboxed, $options, $templates, $tags = array(), $filters = array(), $methods = array(), $properties = array(), $functions = array())
+    protected function getEnvironment($sandboxed, $options, $theme_urls, $tags = array(), $filters = array(), $methods = array(), $properties = array(), $functions = array())
     {
-        $loader = new Twig_Loader_Array($templates);
+        $loader = new Twig_Loader_Array($theme_urls);
         $twig = new Twig_Environment($loader, array_merge(array('debug' => true, 'cache' => false, 'autoescape' => false), $options));
         $policy = new Twig_Sandbox_SecurityPolicy($tags, $filters, $methods, $properties, $functions);
         $twig->addExtension(new Twig_Extension_Sandbox($policy, $sandboxed));

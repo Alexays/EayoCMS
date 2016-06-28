@@ -32,9 +32,9 @@ class Twig_Tests_ErrorTest extends PHPUnit_Framework_TestCase
         $loader = new Twig_Loader_Filesystem(dirname(__FILE__).'/Fixtures/errors');
         $twig = new Twig_Environment($loader, array('strict_variables' => true, 'debug' => true, 'cache' => false));
 
-        $template = $twig->loadTemplate('index.html');
+        $theme_url = $twig->loadTemplate('index.html');
         try {
-            $template->render(array());
+            $theme_url->render(array());
 
             $this->fail();
         } catch (Twig_Error_Runtime $e) {
@@ -44,11 +44,11 @@ class Twig_Tests_ErrorTest extends PHPUnit_Framework_TestCase
         }
 
         try {
-            $template->render(array('foo' => new Twig_Tests_ErrorTest_Foo()));
+            $theme_url->render(array('foo' => new Twig_Tests_ErrorTest_Foo()));
 
             $this->fail();
         } catch (Twig_Error_Runtime $e) {
-            $this->assertEquals('An exception has been thrown during the rendering of a template ("Runtime error...") in "index.html" at line 3.', $e->getMessage());
+            $this->assertEquals('An exception has been thrown during the rendering of a theme_url ("Runtime error...") in "index.html" at line 3.', $e->getMessage());
             $this->assertEquals(3, $e->getTemplateLine());
             $this->assertEquals('index.html', $e->getTemplateFile());
         }
@@ -57,15 +57,15 @@ class Twig_Tests_ErrorTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getErroredTemplates
      */
-    public function testTwigExceptionAddsFileAndLine($templates, $name, $line)
+    public function testTwigExceptionAddsFileAndLine($theme_urls, $name, $line)
     {
-        $loader = new Twig_Loader_Array($templates);
+        $loader = new Twig_Loader_Array($theme_urls);
         $twig = new Twig_Environment($loader, array('strict_variables' => true, 'debug' => true, 'cache' => false));
 
-        $template = $twig->loadTemplate('index');
+        $theme_url = $twig->loadTemplate('index');
 
         try {
-            $template->render(array());
+            $theme_url->render(array());
 
             $this->fail();
         } catch (Twig_Error_Runtime $e) {
@@ -75,11 +75,11 @@ class Twig_Tests_ErrorTest extends PHPUnit_Framework_TestCase
         }
 
         try {
-            $template->render(array('foo' => new Twig_Tests_ErrorTest_Foo()));
+            $theme_url->render(array('foo' => new Twig_Tests_ErrorTest_Foo()));
 
             $this->fail();
         } catch (Twig_Error_Runtime $e) {
-            $this->assertEquals(sprintf('An exception has been thrown during the rendering of a template ("Runtime error...") in "%s" at line %d.', $name, $line), $e->getMessage());
+            $this->assertEquals(sprintf('An exception has been thrown during the rendering of a theme_url ("Runtime error...") in "%s" at line %d.', $name, $line), $e->getMessage());
             $this->assertEquals($line, $e->getTemplateLine());
             $this->assertEquals($name, $e->getTemplateFile());
         }
@@ -88,7 +88,7 @@ class Twig_Tests_ErrorTest extends PHPUnit_Framework_TestCase
     public function getErroredTemplates()
     {
         return array(
-            // error occurs in a template
+            // error occurs in a theme_url
             array(
                 array(
                     'index' => "\n\n{{ foo.bar }}\n\n\n{{ 'foo' }}",
@@ -96,7 +96,7 @@ class Twig_Tests_ErrorTest extends PHPUnit_Framework_TestCase
                 'index', 3,
             ),
 
-            // error occurs in an included template
+            // error occurs in an included theme_url
             array(
                 array(
                     'index' => "{% include 'partial' %}",

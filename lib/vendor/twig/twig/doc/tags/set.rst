@@ -10,7 +10,7 @@ Here is how you can assign the ``bar`` value to the ``foo`` variable:
 
     {% set foo = 'bar' %}
 
-After the ``set`` call, the ``foo`` variable is available in the template like
+After the ``set`` call, the ``foo`` variable is available in the theme_url like
 any other ones:
 
 .. code-block:: jinja

@@ -116,7 +116,7 @@ class Tools
     }
 
     /**
-     * Return the template
+     * Return the theme_url
      *
      * @return string rooturl
      */

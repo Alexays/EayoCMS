@@ -48,7 +48,7 @@ abstract class Twig_Tests_Profiler_Dumper_AbstractTest extends PHPUnit_Framework
 
     private function getIndexProfile(array $subProfiles = array())
     {
-        return $this->generateProfile('main', 1, true, 'template', 'index.twig', $subProfiles);
+        return $this->generateProfile('main', 1, true, 'theme_url', 'index.twig', $subProfiles);
     }
 
     private function getEmbeddedBlockProfile(array $subProfiles = array())
@@ -58,12 +58,12 @@ abstract class Twig_Tests_Profiler_Dumper_AbstractTest extends PHPUnit_Framework
 
     private function getEmbeddedTemplateProfile(array $subProfiles = array())
     {
-        return $this->generateProfile('main', 0.0001, true, 'template', 'embedded.twig', $subProfiles);
+        return $this->generateProfile('main', 0.0001, true, 'theme_url', 'embedded.twig', $subProfiles);
     }
 
     private function getIncludedTemplateProfile(array $subProfiles = array())
     {
-        return $this->generateProfile('main', 0.0001, true, 'template', 'included.twig', $subProfiles);
+        return $this->generateProfile('main', 0.0001, true, 'theme_url', 'included.twig', $subProfiles);
     }
 
     private function getMacroProfile(array $subProfiles = array())
@@ -76,12 +76,12 @@ abstract class Twig_Tests_Profiler_Dumper_AbstractTest extends PHPUnit_Framework
      * @param float  $duration
      * @param bool   $isTemplate
      * @param string $type
-     * @param string $templateName
+     * @param string $theme_urlName
      * @param array  $subProfiles
      *
      * @return Twig_Profiler_Profile
      */
-    private function generateProfile($name, $duration, $isTemplate, $type, $templateName, array $subProfiles = array())
+    private function generateProfile($name, $duration, $isTemplate, $type, $theme_urlName, array $subProfiles = array())
     {
         $profile = $this->getMockBuilder('Twig_Profiler_Profile')->disableOriginalConstructor()->getMock();
 
@@ -92,7 +92,7 @@ abstract class Twig_Tests_Profiler_Dumper_AbstractTest extends PHPUnit_Framework
         $profile->expects($this->any())->method('getPeakMemoryUsage')->will($this->returnValue(0));
         $profile->expects($this->any())->method('isTemplate')->will($this->returnValue($isTemplate));
         $profile->expects($this->any())->method('getType')->will($this->returnValue($type));
-        $profile->expects($this->any())->method('getTemplate')->will($this->returnValue($templateName));
+        $profile->expects($this->any())->method('getTemplate')->will($this->returnValue($theme_urlName));
         $profile->expects($this->any())->method('getProfiles')->will($this->returnValue($subProfiles));
         $profile->expects($this->any())->method('getIterator')->will($this->returnValue(new ArrayIterator($subProfiles)));
 

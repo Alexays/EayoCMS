@@ -1,62 +1,62 @@
 Twig for Developers
 ===================
 
-This chapter describes the API to Twig and not the template language. It will
-be most useful as reference to those implementing the template interface to
-the application and not those who are creating Twig templates.
+This chapter describes the API to Twig and not the theme_url language. It will
+be most useful as reference to those implementing the theme_url interface to
+the application and not those who are creating Twig theme_urls.
 
 Basics
 ------
 
 Twig uses a central object called the **environment** (of class
 ``Twig_Environment``). Instances of this class are used to store the
-configuration and extensions, and are used to load templates from the file
+configuration and extensions, and are used to load theme_urls from the file
 system or other locations.
 
 Most applications will create one ``Twig_Environment`` object on application
-initialization and use that to load templates. In some cases it's however
+initialization and use that to load theme_urls. In some cases it's however
 useful to have multiple environments side by side, if different configurations
 are in use.
 
-The simplest way to configure Twig to load templates for your application
+The simplest way to configure Twig to load theme_urls for your application
 looks roughly like this::
 
     require_once '/path/to/lib/Twig/Autoloader.php';
     Twig_Autoloader::register();
 
-    $loader = new Twig_Loader_Filesystem('/path/to/templates');
+    $loader = new Twig_Loader_Filesystem('/path/to/theme_urls');
     $twig = new Twig_Environment($loader, array(
         'cache' => '/path/to/compilation_cache',
     ));
 
-This will create a template environment with the default settings and a loader
-that looks up the templates in the ``/path/to/templates/`` folder. Different
+This will create a theme_url environment with the default settings and a loader
+that looks up the theme_urls in the ``/path/to/theme_urls/`` folder. Different
 loaders are available and you can also write your own if you want to load
-templates from a database or other resources.
+theme_urls from a database or other resources.
 
 .. note::
 
     Notice that the second argument of the environment is an array of options.
     The ``cache`` option is a compilation cache directory, where Twig caches
-    the compiled templates to avoid the parsing phase for sub-sequent
+    the compiled theme_urls to avoid the parsing phase for sub-sequent
     requests. It is very different from the cache you might want to add for
-    the evaluated templates. For such a need, you can use any available PHP
+    the evaluated theme_urls. For such a need, you can use any available PHP
     cache library.
 
-To load a template from this environment you just have to call the
+To load a theme_url from this environment you just have to call the
 ``loadTemplate()`` method which then returns a ``Twig_Template`` instance::
 
-    $template = $twig->loadTemplate('index.html');
+    $theme_url = $twig->loadTemplate('index.html');
 
-To render the template with some variables, call the ``render()`` method::
+To render the theme_url with some variables, call the ``render()`` method::
 
-    echo $template->render(array('the' => 'variables', 'go' => 'here'));
+    echo $theme_url->render(array('the' => 'variables', 'go' => 'here'));
 
 .. note::
 
-    The ``display()`` method is a shortcut to output the template directly.
+    The ``display()`` method is a shortcut to output the theme_url directly.
 
-You can also load and render the template in one fell swoop::
+You can also load and render the theme_url in one fell swoop::
 
     echo $twig->render('index.html', array('the' => 'variables', 'go' => 'here'));
 
@@ -74,28 +74,28 @@ The following options are available:
 
 * ``debug`` *boolean*
 
-  When set to ``true``, the generated templates have a
+  When set to ``true``, the generated theme_urls have a
   ``__toString()`` method that you can use to display the generated nodes
   (default to ``false``).
 
 * ``charset`` *string (default to ``utf-8``)*
 
-  The charset used by the templates.
+  The charset used by the theme_urls.
 
-* ``base_template_class`` *string (default to ``Twig_Template``)*
+* ``base_theme_url_class`` *string (default to ``Twig_Template``)*
 
-  The base template class to use for generated
-  templates.
+  The base theme_url class to use for generated
+  theme_urls.
 
 * ``cache`` *string|false*
 
-  An absolute path where to store the compiled templates, or
+  An absolute path where to store the compiled theme_urls, or
   ``false`` to disable caching (which is the default).
 
 * ``auto_reload`` *boolean*
 
   When developing with Twig, it's useful to recompile the
-  template whenever the source code changes. If you don't provide a value for
+  theme_url whenever the source code changes. If you don't provide a value for
   the ``auto_reload`` option, it will be determined automatically based on the
   ``debug`` value.
 
@@ -109,18 +109,18 @@ The following options are available:
 * ``autoescape`` *string|boolean*
 
   If set to ``true``, HTML auto-escaping will be enabled by
-  default for all templates (default to ``true``).
+  default for all theme_urls (default to ``true``).
 
   As of Twig 1.8, you can set the escaping strategy to use (``html``, ``js``,
   ``false`` to disable).
 
   As of Twig 1.9, you can set the escaping strategy to use (``css``, ``url``,
-  ``html_attr``, or a PHP callback that takes the template "filename" and must
+  ``html_attr``, or a PHP callback that takes the theme_url "filename" and must
   return the escaping strategy to use -- the callback cannot be a function name
   to avoid collision with built-in escaping strategies).
 
   As of Twig 1.17, the ``filename`` escaping strategy determines the escaping
-  strategy to use for a template based on the template filename extension (this
+  strategy to use for a theme_url based on the theme_url filename extension (this
   strategy does not incur any overhead at runtime as auto-escaping is done at
   compilation time.)
 
@@ -133,14 +133,14 @@ The following options are available:
 Loaders
 -------
 
-Loaders are responsible for loading templates from a resource such as the file
+Loaders are responsible for loading theme_urls from a resource such as the file
 system.
 
 Compilation Cache
 ~~~~~~~~~~~~~~~~~
 
-All template loaders can cache the compiled templates on the filesystem for
-future reuse. It speeds up Twig a lot as templates are only compiled once; and
+All theme_url loaders can cache the compiled theme_urls on the filesystem for
+future reuse. It speeds up Twig a lot as theme_urls are only compiled once; and
 the performance boost is even larger if you use a PHP accelerator such as APC.
 See the ``cache`` and ``auto_reload`` options of ``Twig_Environment`` above
 for more information.
@@ -156,45 +156,45 @@ Here is a list of the built-in loaders Twig provides:
 .. versionadded:: 1.10
     The ``prependPath()`` and support for namespaces were added in Twig 1.10.
 
-``Twig_Loader_Filesystem`` loads templates from the file system. This loader
-can find templates in folders on the file system and is the preferred way to
+``Twig_Loader_Filesystem`` loads theme_urls from the file system. This loader
+can find theme_urls in folders on the file system and is the preferred way to
 load them::
 
-    $loader = new Twig_Loader_Filesystem($templateDir);
+    $loader = new Twig_Loader_Filesystem($theme_urlDir);
 
-It can also look for templates in an array of directories::
+It can also look for theme_urls in an array of directories::
 
-    $loader = new Twig_Loader_Filesystem(array($templateDir1, $templateDir2));
+    $loader = new Twig_Loader_Filesystem(array($theme_urlDir1, $theme_urlDir2));
 
-With such a configuration, Twig will first look for templates in
-``$templateDir1`` and if they do not exist, it will fallback to look for them
-in the ``$templateDir2``.
+With such a configuration, Twig will first look for theme_urls in
+``$theme_urlDir1`` and if they do not exist, it will fallback to look for them
+in the ``$theme_urlDir2``.
 
 You can add or prepend paths via the ``addPath()`` and ``prependPath()``
 methods::
 
-    $loader->addPath($templateDir3);
-    $loader->prependPath($templateDir4);
+    $loader->addPath($theme_urlDir3);
+    $loader->prependPath($theme_urlDir4);
 
-The filesystem loader also supports namespaced templates. This allows to group
-your templates under different namespaces which have their own template paths.
+The filesystem loader also supports namespaced theme_urls. This allows to group
+your theme_urls under different namespaces which have their own theme_url paths.
 
 When using the ``setPaths()``, ``addPath()``, and ``prependPath()`` methods,
 specify the namespace as the second argument (when not specified, these
 methods act on the "main" namespace)::
 
-    $loader->addPath($templateDir, 'admin');
+    $loader->addPath($theme_urlDir, 'admin');
 
-Namespaced templates can be accessed via the special
-``@namespace_name/template_path`` notation::
+Namespaced theme_urls can be accessed via the special
+``@namespace_name/theme_url_path`` notation::
 
     $twig->render('@admin/index.html', array());
 
 ``Twig_Loader_Array``
 .....................
 
-``Twig_Loader_Array`` loads a template from a PHP array. It's passed an array
-of strings bound to template names::
+``Twig_Loader_Array`` loads a theme_url from a PHP array. It's passed an array
+of strings bound to theme_url names::
 
     $loader = new Twig_Loader_Array(array(
         'index.html' => 'Hello {{ name }}!',
@@ -204,20 +204,20 @@ of strings bound to template names::
     echo $twig->render('index.html', array('name' => 'Fabien'));
 
 This loader is very useful for unit testing. It can also be used for small
-projects where storing all templates in a single PHP file might make sense.
+projects where storing all theme_urls in a single PHP file might make sense.
 
 .. tip::
 
     When using the ``Array`` or ``String`` loaders with a cache mechanism, you
-    should know that a new cache key is generated each time a template content
-    "changes" (the cache key being the source code of the template). If you
+    should know that a new cache key is generated each time a theme_url content
+    "changes" (the cache key being the source code of the theme_url). If you
     don't want to see your cache grows out of control, you need to take care
     of clearing the old cache file by yourself.
 
 ``Twig_Loader_Chain``
 .....................
 
-``Twig_Loader_Chain`` delegates the loading of templates to other loaders::
+``Twig_Loader_Chain`` delegates the loading of theme_urls to other loaders::
 
     $loader1 = new Twig_Loader_Array(array(
         'base.html' => '{% block content %}{% endblock %}',
@@ -231,10 +231,10 @@ projects where storing all templates in a single PHP file might make sense.
 
     $twig = new Twig_Environment($loader);
 
-When looking for a template, Twig will try each loader in turn and it will
-return as soon as the template is found. When rendering the ``index.html``
-template from the above example, Twig will load it with ``$loader2`` but the
-``base.html`` template will be loaded from ``$loader1``.
+When looking for a theme_url, Twig will try each loader in turn and it will
+return as soon as the theme_url is found. When rendering the ``index.html``
+theme_url from the above example, Twig will load it with ``$loader2`` but the
+``base.html`` theme_url will be loaded from ``$loader1``.
 
 ``Twig_Loader_Chain`` accepts any loader that implements
 ``Twig_LoaderInterface``.
@@ -251,33 +251,33 @@ All loaders implement the ``Twig_LoaderInterface``::
     interface Twig_LoaderInterface
     {
         /**
-         * Gets the source code of a template, given its name.
+         * Gets the source code of a theme_url, given its name.
          *
-         * @param  string $name string The name of the template to load
+         * @param  string $name string The name of the theme_url to load
          *
-         * @return string The template source code
+         * @return string The theme_url source code
          */
         function getSource($name);
 
         /**
-         * Gets the cache key to use for the cache for a given template name.
+         * Gets the cache key to use for the cache for a given theme_url name.
          *
-         * @param  string $name string The name of the template to load
+         * @param  string $name string The name of the theme_url to load
          *
          * @return string The cache key
          */
         function getCacheKey($name);
 
         /**
-         * Returns true if the template is still fresh.
+         * Returns true if the theme_url is still fresh.
          *
-         * @param string    $name The template name
-         * @param timestamp $time The last modification time of the cached template
+         * @param string    $name The theme_url name
+         * @param timestamp $time The last modification time of the cached theme_url
          */
         function isFresh($name, $time);
     }
 
-The ``isFresh()`` method must return ``true`` if the current cached template
+The ``isFresh()`` method must return ``true`` if the current cached theme_url
 is still fresh, given the last modification time, or ``false`` otherwise.
 
 .. tip::
@@ -343,7 +343,7 @@ output escaping strategy::
     $escaper = new Twig_Extension_Escaper('html');
     $twig->addExtension($escaper);
 
-If set to ``html``, all variables in templates are escaped (using the ``html``
+If set to ``html``, all variables in theme_urls are escaped (using the ``html``
 escaping strategy), except those using the ``raw`` filter:
 
 .. code-block:: jinja
@@ -368,7 +368,7 @@ Twig 1.8):
 
 The escaping rules are implemented as follows:
 
-* Literals (integers, booleans, arrays, ...) used in the template directly as
+* Literals (integers, booleans, arrays, ...) used in the theme_url directly as
   variables or filter arguments are never automatically escaped:
 
   .. code-block:: jinja
@@ -450,7 +450,7 @@ tags, filters, properties, and methods::
     $policy = new Twig_Sandbox_SecurityPolicy($tags, $filters, $methods, $properties, $functions);
 
 With the previous configuration, the security policy will only allow usage of
-the ``if`` tag, and the ``upper`` filter. Moreover, the templates will only be
+the ``if`` tag, and the ``upper`` filter. Moreover, the theme_urls will only be
 able to call the ``getTitle()`` and ``getBody()`` methods on ``Article``
 objects, and the ``title`` and ``body`` public properties. Everything else
 won't be allowed and will generate a ``Twig_Sandbox_SecurityError`` exception.
@@ -461,7 +461,7 @@ The policy object is the first argument of the sandbox constructor::
     $twig->addExtension($sandbox);
 
 By default, the sandbox mode is disabled and should be enabled when including
-untrusted template code by using the ``sandbox`` tag:
+untrusted theme_url code by using the ``sandbox`` tag:
 
 .. code-block:: jinja
 
@@ -469,7 +469,7 @@ untrusted template code by using the ``sandbox`` tag:
         {% include 'user.html' %}
     {% endsandbox %}
 
-You can sandbox all templates by passing ``true`` as the second argument of
+You can sandbox all theme_urls by passing ``true`` as the second argument of
 the extension constructor::
 
     $sandbox = new Twig_Extension_Sandbox($policy, true);
@@ -480,7 +480,7 @@ Profiler Extension
 .. versionadded:: 1.18
     The Profile extension was added in Twig 1.18.
 
-The ``profiler`` extension enables a profiler for Twig templates; it should
+The ``profiler`` extension enables a profiler for Twig theme_urls; it should
 only be used on your development machines as it adds some overhead::
 
     $profile = new Twig_Profiler_Profile();
@@ -489,7 +489,7 @@ only be used on your development machines as it adds some overhead::
     $dumper = new Twig_Profiler_Dumper_Text();
     echo $dumper->dump($profile);
 
-A profile contains information about time and memory consumption for template,
+A profile contains information about time and memory consumption for theme_url,
 block, and macro executions.
 
 You can also dump the data in a `Blackfire.io <https://blackfire.io/>`_
@@ -531,7 +531,7 @@ Twig supports the following optimizations:
 * ``Twig_NodeVisitor_Optimizer::OPTIMIZE_RAW_FILTER``, removes the ``raw``
   filter whenever possible.
 * ``Twig_NodeVisitor_Optimizer::OPTIMIZE_VAR_ACCESS``, simplifies the creation
-  and access of variables in the compiled templates whenever possible.
+  and access of variables in the compiled theme_urls whenever possible.
 
 Exceptions
 ----------
@@ -541,12 +541,12 @@ Twig can throw exceptions:
 * ``Twig_Error``: The base exception for all errors.
 
 * ``Twig_Error_Syntax``: Thrown to tell the user that there is a problem with
-  the template syntax.
+  the theme_url syntax.
 
 * ``Twig_Error_Runtime``: Thrown when an error occurs at runtime (when a filter
   does not exist for instance).
 
-* ``Twig_Error_Loader``: Thrown when an error occurs during template loading.
+* ``Twig_Error_Loader``: Thrown when an error occurs during theme_url loading.
 
 * ``Twig_Sandbox_SecurityError``: Thrown when an unallowed tag, filter, or
-  method is called in a sandboxed template.
+  method is called in a sandboxed theme_url.

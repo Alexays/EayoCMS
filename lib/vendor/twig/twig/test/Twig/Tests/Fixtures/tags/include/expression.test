@@ -1,5 +1,5 @@
 --TEST--
-"include" tag allows expressions for the template to include
+"include" tag allows expressions for the theme_url to include
 --TEMPLATE--
 FOO
 {% include foo %}

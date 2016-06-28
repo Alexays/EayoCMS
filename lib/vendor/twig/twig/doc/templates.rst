@@ -1,21 +1,21 @@
 Twig for Template Designers
 ===========================
 
-This document describes the syntax and semantics of the template engine and
-will be most useful as reference to those creating Twig templates.
+This document describes the syntax and semantics of the theme_url engine and
+will be most useful as reference to those creating Twig theme_urls.
 
 Synopsis
 --------
 
-A template is simply a text file. It can generate any text-based format (HTML,
+A theme_url is simply a text file. It can generate any text-based format (HTML,
 XML, CSV, LaTeX, etc.). It doesn't have a specific extension, ``.html`` or
 ``.xml`` are just fine.
 
-A template contains **variables** or **expressions**, which get replaced with
-values when the template is evaluated, and **tags**, which control the logic
-of the template.
+A theme_url contains **variables** or **expressions**, which get replaced with
+values when the theme_url is evaluated, and **tags**, which control the logic
+of the theme_url.
 
-Below is a minimal template that illustrates a few basics. We will cover further
+Below is a minimal theme_url that illustrates a few basics. We will cover further
 details later on:
 
 .. code-block:: html+jinja
@@ -39,7 +39,7 @@ details later on:
 
 There are two kinds of delimiters: ``{% ... %}`` and ``{{ ... }}``. The first
 one is used to execute statements such as for-loops, the latter prints the
-result of an expression to the template.
+result of an expression to the theme_url.
 
 IDEs Integration
 ----------------
@@ -60,14 +60,14 @@ Many IDEs support syntax highlighting and auto-completion for Twig:
 * *Emacs* via `web-mode.el`_
 * *Atom* via the `PHP-twig for atom`_
 
-Also, `TwigFiddle`_ is an online service that allows you to execute Twig templates
+Also, `TwigFiddle`_ is an online service that allows you to execute Twig theme_urls
 from a browser; it supports all versions of Twig.
 
 Variables
 ---------
 
-The application passes variables to the templates for manipulation in the
-template. Variables may have attributes or elements you can access,
+The application passes variables to the theme_urls for manipulation in the
+theme_url. Variables may have attributes or elements you can access,
 too. The visual representation of a variable depends heavily on the application providing
 it.
 
@@ -125,9 +125,9 @@ is set, Twig will throw an error (see :ref:`environment options<environment_opti
 Global Variables
 ~~~~~~~~~~~~~~~~
 
-The following variables are always available in templates:
+The following variables are always available in theme_urls:
 
-* ``_self``: references the current template;
+* ``_self``: references the current theme_url;
 * ``_context``: references the current context;
 * ``_charset``: references the current charset.
 
@@ -207,7 +207,7 @@ Named Arguments
         {{ i }},
     {% endfor %}
 
-Using named arguments makes your templates more explicit about the meaning of
+Using named arguments makes your theme_urls more explicit about the meaning of
 the values you pass as arguments:
 
 .. code-block:: jinja
@@ -278,13 +278,13 @@ Go to the :doc:`tags<tags/index>` page to learn more about the built-in tags.
 Comments
 --------
 
-To comment-out part of a line in a template, use the comment syntax ``{# ...
-#}``. This is useful for debugging or to add information for other template
+To comment-out part of a line in a theme_url, use the comment syntax ``{# ...
+#}``. This is useful for debugging or to add information for other theme_url
 designers or yourself:
 
 .. code-block:: jinja
 
-    {# note: disabled template because we no longer use this
+    {# note: disabled theme_url because we no longer use this
         {% for user in users %}
             ...
         {% endfor %}
@@ -293,16 +293,16 @@ designers or yourself:
 Including other Templates
 -------------------------
 
-The :doc:`include<functions/include>` function is useful to include a template
-and return the rendered content of that template into the current one:
+The :doc:`include<functions/include>` function is useful to include a theme_url
+and return the rendered content of that theme_url into the current one:
 
 .. code-block:: jinja
 
     {{ include('sidebar.html') }}
 
-By default, included templates have access to the same context as the template
-which includes them. This means that any variable defined in the main template
-will be available in the included template too:
+By default, included theme_urls have access to the same context as the theme_url
+which includes them. This means that any variable defined in the main theme_url
+will be available in the included theme_url too:
 
 .. code-block:: jinja
 
@@ -310,11 +310,11 @@ will be available in the included template too:
         {{ include('render_box.html') }}
     {% endfor %}
 
-The included template ``render_box.html`` is able to access the ``box`` variable.
+The included theme_url ``render_box.html`` is able to access the ``box`` variable.
 
-The filename of the template depends on the template loader. For instance, the
-``Twig_Loader_Filesystem`` allows you to access other templates by giving the
-filename. You can access templates in subdirectories with a slash:
+The filename of the theme_url depends on the theme_url loader. For instance, the
+``Twig_Loader_Filesystem`` allows you to access other theme_urls by giving the
+filename. You can access theme_urls in subdirectories with a slash:
 
 .. code-block:: jinja
 
@@ -325,15 +325,15 @@ This behavior depends on the application embedding Twig.
 Template Inheritance
 --------------------
 
-The most powerful part of Twig is template inheritance. Template inheritance
-allows you to build a base "skeleton" template that contains all the common
-elements of your site and defines **blocks** that child templates can
+The most powerful part of Twig is theme_url inheritance. Template inheritance
+allows you to build a base "skeleton" theme_url that contains all the common
+elements of your site and defines **blocks** that child theme_urls can
 override.
 
 Sounds complicated but it is very basic. It's easier to understand it by
 starting with an example.
 
-Let's define a base template, ``base.html``, which defines a simple HTML
+Let's define a base theme_url, ``base.html``, which defines a simple HTML
 skeleton document that you might use for a simple two-column page:
 
 .. code-block:: html+jinja
@@ -357,11 +357,11 @@ skeleton document that you might use for a simple two-column page:
     </html>
 
 In this example, the :doc:`block<tags/block>` tags define four blocks that
-child templates can fill in. All the ``block`` tag does is to tell the
-template engine that a child template may override those portions of the
-template.
+child theme_urls can fill in. All the ``block`` tag does is to tell the
+theme_url engine that a child theme_url may override those portions of the
+theme_url.
 
-A child template might look like this:
+A child theme_url might look like this:
 
 .. code-block:: jinja
 
@@ -381,13 +381,13 @@ A child template might look like this:
         </p>
     {% endblock %}
 
-The :doc:`extends<tags/extends>` tag is the key here. It tells the template
-engine that this template "extends" another template. When the template system
-evaluates this template, first it locates the parent. The extends tag should
-be the first tag in the template.
+The :doc:`extends<tags/extends>` tag is the key here. It tells the theme_url
+engine that this theme_url "extends" another theme_url. When the theme_url system
+evaluates this theme_url, first it locates the parent. The extends tag should
+be the first tag in the theme_url.
 
-Note that since the child template doesn't define the ``footer`` block, the
-value from the parent template is used instead.
+Note that since the child theme_url doesn't define the ``footer`` block, the
+value from the parent theme_url is used instead.
 
 It's possible to render the contents of the parent block by using the
 :doc:`parent<functions/parent>` function. This gives back the results of the
@@ -411,12 +411,12 @@ parent block:
 
     Twig also supports multiple inheritance with the so called horizontal reuse
     with the help of the :doc:`use<tags/use>` tag. This is an advanced feature
-    hardly ever needed in regular templates.
+    hardly ever needed in regular theme_urls.
 
 HTML Escaping
 -------------
 
-When generating HTML from templates, there's always a risk that a variable
+When generating HTML from theme_urls, there's always a risk that a variable
 will include characters that affect the resulting HTML. There are two
 approaches: manually escaping each variable or automatically escaping
 everything by default.
@@ -456,7 +456,7 @@ Working with Automatic Escaping
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Whether automatic escaping is enabled or not, you can mark a section of a
-template to be escaped or not by using the :doc:`autoescape<tags/autoescape>`
+theme_url to be escaped or not by using the :doc:`autoescape<tags/autoescape>`
 tag:
 
 .. code-block:: jinja
@@ -480,7 +480,7 @@ Escaping
 
 It is sometimes desirable or even necessary to have Twig ignore parts it would
 otherwise handle as variables or blocks. For example if the default syntax is
-used and you want to use ``{{`` as raw string in the template and not start a
+used and you want to use ``{{`` as raw string in the theme_url and not start a
 variable you have to use a trick.
 
 The easiest way is to output the variable delimiter (``{{``) by using a variable
@@ -511,7 +511,7 @@ A macro is defined via the :doc:`macro<tags/macro>` tag. Here is a small example
         <input type="{{ type|default('text') }}" name="{{ name }}" value="{{ value|e }}" size="{{ size|default(20) }}" />
     {% endmacro %}
 
-Macros can be defined in any template, and need to be "imported" via the
+Macros can be defined in any theme_url, and need to be "imported" via the
 :doc:`import<tags/import>` tag before being used:
 
 .. code-block:: jinja
@@ -520,7 +520,7 @@ Macros can be defined in any template, and need to be "imported" via the
 
     <p>{{ forms.input('username') }}</p>
 
-Alternatively, you can import individual macro names from a template into the
+Alternatively, you can import individual macro names from a theme_url into the
 current namespace via the :doc:`from<tags/from>` tag and optionally alias them:
 
 .. code-block:: jinja
@@ -583,9 +583,9 @@ for PHP types such as strings, numbers, and arrays. The following literals
 exist:
 
 * ``"Hello World"``: Everything between two double or single quotes is a
-  string. They are useful whenever you need a string in the template (for
+  string. They are useful whenever you need a string in the theme_url (for
   example as arguments to function calls, filters or just to extend or include
-  a template). A string can contain a delimiter if it is preceded by a
+  a theme_url). A string can contain a delimiter if it is preceded by a
   backslash (``\``) -- like in ``'It\'s good'``. If the string contains a
   backslash (e.g. ``'c:\Program Files'``) escape it by doubling it
   (e.g. ``'c:\\Program Files'``).
@@ -634,7 +634,7 @@ Arrays and hashes can be nested:
 Math
 ~~~~
 
-Twig allows you to calculate with values. This is rarely useful in templates
+Twig allows you to calculate with values. This is rarely useful in theme_urls
 but exists for completeness' sake. The following operators are supported:
 
 * ``+``: Adds two objects together (the operands are casted to numbers). ``{{
@@ -831,7 +831,7 @@ inserted into the string:
     {{ "foo #{bar} baz" }}
     {{ "foo #{1 + 2} baz" }}
 
-.. _templates-whitespace-control:
+.. _theme_urls-whitespace-control:
 
 Whitespace Control
 ------------------
@@ -839,8 +839,8 @@ Whitespace Control
 .. versionadded:: 1.1
     Tag level whitespace control was added in Twig 1.1.
 
-The first newline after a template tag is removed automatically (like in PHP.)
-Whitespace is not further modified by the template engine, so each whitespace
+The first newline after a theme_url tag is removed automatically (like in PHP.)
+Whitespace is not further modified by the theme_url engine, so each whitespace
 (spaces, tabs, newlines etc.) is returned unchanged.
 
 Use the ``spaceless`` tag to remove whitespace *between HTML tags*:
@@ -897,7 +897,7 @@ Extension<creating_extensions>` chapter.
 .. _`vim-twig plugin`:            https://github.com/evidens/vim-twig
 .. _`Twig syntax plugin`:         http://plugins.netbeans.org/plugin/37069/php-twig
 .. _`Twig plugin`:                https://github.com/pulse00/Twig-Eclipse-Plugin
-.. _`Twig language definition`:   https://github.com/gabrielcorpse/gedit-twig-template-language
+.. _`Twig language definition`:   https://github.com/gabrielcorpse/gedit-twig-theme_url-language
 .. _`extension repository`:       http://github.com/twigphp/Twig-extensions
 .. _`Twig syntax mode`:           https://github.com/bobthecow/Twig-HTML.mode
 .. _`other Twig syntax mode`:     https://github.com/muxx/Twig-HTML.mode

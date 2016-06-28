@@ -10,7 +10,7 @@
  */
 
 /**
- * Loads template from the filesystem.
+ * Loads theme_url from the filesystem.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
@@ -26,7 +26,7 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
     /**
      * Constructor.
      *
-     * @param string|array $paths A path or an array of paths where to look for templates
+     * @param string|array $paths A path or an array of paths where to look for theme_urls
      */
     public function __construct($paths = array())
     {
@@ -36,11 +36,11 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
     }
 
     /**
-     * Returns the paths to the templates.
+     * Returns the paths to the theme_urls.
      *
      * @param string $namespace A path namespace
      *
-     * @return array The array of paths where to look for templates
+     * @return array The array of paths where to look for theme_urls
      */
     public function getPaths($namespace = self::MAIN_NAMESPACE)
     {
@@ -60,9 +60,9 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
     }
 
     /**
-     * Sets the paths where templates are stored.
+     * Sets the paths where theme_urls are stored.
      *
-     * @param string|array $paths     A path or an array of paths where to look for templates
+     * @param string|array $paths     A path or an array of paths where to look for theme_urls
      * @param string       $namespace A path namespace
      */
     public function setPaths($paths, $namespace = self::MAIN_NAMESPACE)
@@ -78,9 +78,9 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
     }
 
     /**
-     * Adds a path where templates are stored.
+     * Adds a path where theme_urls are stored.
      *
-     * @param string $path      A path where to look for templates
+     * @param string $path      A path where to look for theme_urls
      * @param string $namespace A path name
      *
      * @throws Twig_Error_Loader
@@ -98,9 +98,9 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
     }
 
     /**
-     * Prepends a path where templates are stored.
+     * Prepends a path where theme_urls are stored.
      *
-     * @param string $path      A path where to look for templates
+     * @param string $path      A path where to look for theme_urls
      * @param string $namespace A path name
      *
      * @throws Twig_Error_Loader
@@ -206,7 +206,7 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
             }
         }
 
-        $this->errorCache[$name] = sprintf('Unable to find template "%s" (looked into: %s).', $name, implode(', ', $this->paths[$namespace]));
+        $this->errorCache[$name] = sprintf('Unable to find theme_url "%s" (looked into: %s).', $name, implode(', ', $this->paths[$namespace]));
 
         if (!$throw) {
             return false;
@@ -219,7 +219,7 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
     {
         if (isset($name[0]) && '@' == $name[0]) {
             if (false === $pos = strpos($name, '/')) {
-                throw new Twig_Error_Loader(sprintf('Malformed namespaced template name "%s" (expecting "@namespace/template_name").', $name));
+                throw new Twig_Error_Loader(sprintf('Malformed namespaced theme_url name "%s" (expecting "@namespace/theme_url_name").', $name));
             }
 
             $namespace = substr($name, 1, $pos - 1);
@@ -239,7 +239,7 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
     protected function validateName($name)
     {
         if (false !== strpos($name, "\0")) {
-            throw new Twig_Error_Loader('A template name cannot contain NUL bytes.');
+            throw new Twig_Error_Loader('A theme_url name cannot contain NUL bytes.');
         }
 
         $name = ltrim($name, '/');
@@ -253,7 +253,7 @@ class Twig_Loader_Filesystem implements Twig_LoaderInterface, Twig_ExistsLoaderI
             }
 
             if ($level < 0) {
-                throw new Twig_Error_Loader(sprintf('Looks like you try to load a template outside configured directories (%s).', $name));
+                throw new Twig_Error_Loader(sprintf('Looks like you try to load a theme_url outside configured directories (%s).', $name));
             }
         }
     }

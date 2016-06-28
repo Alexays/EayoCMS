@@ -10,7 +10,7 @@
  */
 
 /**
- * Represents a template test.
+ * Represents a theme_url test.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */

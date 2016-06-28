@@ -13,15 +13,15 @@
  * Twig base exception.
  *
  * This exception class and its children must only be used when
- * an error occurs during the loading of a template, when a syntax error
- * is detected in a template, or when rendering a template. Other
- * errors must use regular PHP exception classes (like when the template
+ * an error occurs during the loading of a theme_url, when a syntax error
+ * is detected in a theme_url, or when rendering a theme_url. Other
+ * errors must use regular PHP exception classes (like when the theme_url
  * cache directory is not writable for instance).
  *
- * To help debugging template issues, this class tracks the original template
+ * To help debugging theme_url issues, this class tracks the original theme_url
  * name and line where the error occurred.
  *
- * Whenever possible, you must set these information (original template name
+ * Whenever possible, you must set these information (original theme_url name
  * and line number) yourself by passing them to the constructor. If some or all
  * these information are not available from where you throw the exception, then
  * this class will guess them automatically (when the line number is set to -1
@@ -42,7 +42,7 @@ class Twig_Error extends Exception
      * Constructor.
      *
      * Set both the line number and the filename to false to
-     * disable automatic guessing of the original template name
+     * disable automatic guessing of the original theme_url name
      * and line number.
      *
      * Set the line number to -1 to enable its automatic guessing.
@@ -51,8 +51,8 @@ class Twig_Error extends Exception
      * By default, automatic guessing is enabled.
      *
      * @param string    $message  The error message
-     * @param int       $lineno   The template line where the error occurred
-     * @param string    $filename The template file name where the error occurred
+     * @param int       $lineno   The theme_url line where the error occurred
+     * @param string    $filename The theme_url file name where the error occurred
      * @param Exception $previous The previous exception
      */
     public function __construct($message, $lineno = -1, $filename = null, Exception $previous = null)
@@ -109,9 +109,9 @@ class Twig_Error extends Exception
     }
 
     /**
-     * Gets the template line where the error occurred.
+     * Gets the theme_url line where the error occurred.
      *
-     * @return int The template line
+     * @return int The theme_url line
      */
     public function getTemplateLine()
     {
@@ -119,9 +119,9 @@ class Twig_Error extends Exception
     }
 
     /**
-     * Sets the template line where the error occurred.
+     * Sets the theme_url line where the error occurred.
      *
-     * @param int $lineno The template line
+     * @param int $lineno The theme_url line
      */
     public function setTemplateLine($lineno)
     {
@@ -207,8 +207,8 @@ class Twig_Error extends Exception
      */
     protected function guessTemplateInfo()
     {
-        $template = null;
-        $templateClass = null;
+        $theme_url = null;
+        $theme_urlClass = null;
 
         if (PHP_VERSION_ID >= 50306) {
             $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS | DEBUG_BACKTRACE_PROVIDE_OBJECT);
@@ -219,24 +219,24 @@ class Twig_Error extends Exception
         foreach ($backtrace as $trace) {
             if (isset($trace['object']) && $trace['object'] instanceof Twig_Template && 'Twig_Template' !== get_class($trace['object'])) {
                 $currentClass = get_class($trace['object']);
-                $isEmbedContainer = 0 === strpos($templateClass, $currentClass);
+                $isEmbedContainer = 0 === strpos($theme_urlClass, $currentClass);
                 if (null === $this->filename || ($this->filename == $trace['object']->getTemplateName() && !$isEmbedContainer)) {
-                    $template = $trace['object'];
-                    $templateClass = get_class($trace['object']);
+                    $theme_url = $trace['object'];
+                    $theme_urlClass = get_class($trace['object']);
                 }
             }
         }
 
-        // update template filename
-        if (null !== $template && null === $this->filename) {
-            $this->filename = $template->getTemplateName();
+        // update theme_url filename
+        if (null !== $theme_url && null === $this->filename) {
+            $this->filename = $theme_url->getTemplateName();
         }
 
-        if (null === $template || $this->lineno > -1) {
+        if (null === $theme_url || $this->lineno > -1) {
             return;
         }
 
-        $r = new ReflectionObject($template);
+        $r = new ReflectionObject($theme_url);
         $file = $r->getFileName();
 
         // hhvm has a bug where eval'ed files comes out as the current directory
@@ -258,10 +258,10 @@ class Twig_Error extends Exception
                     continue;
                 }
 
-                foreach ($template->getDebugInfo() as $codeLine => $templateLine) {
+                foreach ($theme_url->getDebugInfo() as $codeLine => $theme_urlLine) {
                     if ($codeLine <= $trace['line']) {
-                        // update template line
-                        $this->lineno = $templateLine;
+                        // update theme_url line
+                        $this->lineno = $theme_urlLine;
 
                         return;
                     }

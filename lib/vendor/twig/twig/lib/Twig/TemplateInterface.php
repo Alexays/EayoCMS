@@ -10,7 +10,7 @@
  */
 
 /**
- * Interface implemented by all compiled templates.
+ * Interface implemented by all compiled theme_urls.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  *
@@ -23,24 +23,24 @@ interface Twig_TemplateInterface
     const METHOD_CALL = 'method';
 
     /**
-     * Renders the template with the given context and returns it as string.
+     * Renders the theme_url with the given context and returns it as string.
      *
-     * @param array $context An array of parameters to pass to the template
+     * @param array $context An array of parameters to pass to the theme_url
      *
-     * @return string The rendered template
+     * @return string The rendered theme_url
      */
     public function render(array $context);
 
     /**
-     * Displays the template with the given context.
+     * Displays the theme_url with the given context.
      *
-     * @param array $context An array of parameters to pass to the template
-     * @param array $blocks  An array of blocks to pass to the template
+     * @param array $context An array of parameters to pass to the theme_url
+     * @param array $blocks  An array of blocks to pass to the theme_url
      */
     public function display(array $context, array $blocks = array());
 
     /**
-     * Returns the bound environment for this template.
+     * Returns the bound environment for this theme_url.
      *
      * @return Twig_Environment The current environment
      */

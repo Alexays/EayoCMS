@@ -1,10 +1,10 @@
-Twig, the flexible, fast, and secure template language for PHP
+Twig, the flexible, fast, and secure theme_url language for PHP
 ==============================================================
 
-Twig is a template language for PHP, released under the new BSD license (code
+Twig is a theme_url language for PHP, released under the new BSD license (code
 and documentation).
 
-Twig uses a syntax similar to the Django and Jinja template languages which
+Twig uses a syntax similar to the Django and Jinja theme_url languages which
 inspired the Twig runtime environment.
 
 More Information

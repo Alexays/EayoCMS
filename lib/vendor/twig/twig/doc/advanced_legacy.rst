@@ -21,8 +21,8 @@ itself with node visitors.
 .. caution::
 
     When extending Twig by calling methods on the Twig environment instance,
-    Twig won't be able to recompile your templates when the PHP code is
-    updated. To see your changes in real-time, either disable template caching
+    Twig won't be able to recompile your theme_urls when the PHP code is
+    updated. To see your changes in real-time, either disable theme_url caching
     or package your code into an extension (see the next section of this
     chapter).
 
@@ -112,13 +112,13 @@ What?      Implementation difficulty? How often? When?
 Globals
 -------
 
-A global variable is like any other template variable, except that it's
-available in all templates and macros::
+A global variable is like any other theme_url variable, except that it's
+available in all theme_urls and macros::
 
     $twig = new Twig_Environment($loader);
     $twig->addGlobal('text', new Text());
 
-You can then use the ``text`` variable anywhere in a template:
+You can then use the ``text`` variable anywhere in a theme_url:
 
 .. code-block:: jinja
 
@@ -132,13 +132,13 @@ side of the filter (before the pipe ``|``) as first argument and the extra
 arguments passed to the filter (within parentheses ``()``) as extra arguments.
 
 Defining a filter is as easy as associating the filter name with a PHP
-callable. For instance, let's say you have the following code in a template:
+callable. For instance, let's say you have the following code in a theme_url:
 
 .. code-block:: jinja
 
     {{ 'TWIG'|lower }}
 
-When compiling this template to PHP, Twig looks for the PHP callable
+When compiling this theme_url to PHP, Twig looks for the PHP callable
 associated with the ``lower`` filter. The ``lower`` filter is a built-in Twig
 filter, and it is simply mapped to the PHP ``strtolower()`` function. After
 compilation, the generated PHP code is roughly equivalent to:
@@ -295,13 +295,13 @@ Functions
 ---------
 
 A function is a regular PHP function or an object method that can be called from
-templates.
+theme_urls.
 
 .. code-block:: jinja
 
     {{ constant("DATE_W3C") }}
 
-When compiling this template to PHP, Twig looks for the PHP callable
+When compiling this theme_url to PHP, Twig looks for the PHP callable
 associated with the ``constant`` function. The ``constant`` function is a built-in Twig
 function, and it is simply mapped to the PHP ``constant()`` function. After
 compilation, the generated PHP code is roughly equivalent to:
@@ -316,7 +316,7 @@ Adding a function is similar to adding a filter. This can be done by calling the
     $twig = new Twig_Environment($loader);
     $twig->addFunction('functionName', new Twig_Function_Function('someFunction'));
 
-You can also expose extension methods as functions in your templates::
+You can also expose extension methods as functions in your theme_urls::
 
     // $this is an object that implements Twig_ExtensionInterface.
     $twig = new Twig_Environment($loader);
@@ -361,12 +361,12 @@ following PHP call: ``twig_path('a', 'b', 'foo')``.
 Tags
 ----
 
-One of the most exciting feature of a template engine like Twig is the
+One of the most exciting feature of a theme_url engine like Twig is the
 possibility to define new language constructs. This is also the most complex
 feature as you need to understand how Twig's internals work.
 
 Let's create a simple ``set`` tag that allows the definition of simple
-variables from within a template. The tag can be used like follows:
+variables from within a theme_url. The tag can be used like follows:
 
 .. code-block:: jinja
 
@@ -380,12 +380,12 @@ variables from within a template. The tag can be used like follows:
 
     The ``set`` tag is part of the Core extension and as such is always
     available. The built-in version is slightly more powerful and supports
-    multiple assignments by default (cf. the template designers chapter for
+    multiple assignments by default (cf. the theme_url designers chapter for
     more information).
 
 Three steps are needed to define a new tag:
 
-* Defining a Token Parser class (responsible for parsing the template code);
+* Defining a Token Parser class (responsible for parsing the theme_url code);
 
 * Defining a Node class (responsible for converting the parsed code to PHP);
 
@@ -494,7 +494,7 @@ developer generate beautiful and readable PHP code:
 * ``repr()``: Writes a PHP representation of a given value (see
   ``Twig_Node_For`` for a usage example).
 
-* ``addDebugInfo()``: Adds the line of the original template file related to
+* ``addDebugInfo()``: Adds the line of the original theme_url file related to
   the current node as a comment.
 
 * ``indent()``: Indents the generated code (see ``Twig_Node_Block`` for a
@@ -523,7 +523,7 @@ to host all the specific tags and filters you want to add to Twig.
 .. tip::
 
     When packaging your code into an extension, Twig is smart enough to
-    recompile your templates whenever you make a change to it (when the
+    recompile your theme_urls whenever you make a change to it (when the
     ``auto_reload`` is enabled).
 
 .. note::
@@ -625,7 +625,7 @@ possible::
     the next sections.
 
 Twig does not care where you save your extension on the filesystem, as all
-extensions must be registered explicitly to be available in your templates.
+extensions must be registered explicitly to be available in your theme_urls.
 
 You can register an extension by using the ``addExtension()`` method on your
 main ``Environment`` object::

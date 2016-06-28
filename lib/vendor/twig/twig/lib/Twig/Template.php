@@ -11,7 +11,7 @@
  */
 
 /**
- * Default base class for compiled templates.
+ * Default base class for compiled theme_urls.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
@@ -36,9 +36,9 @@ abstract class Twig_Template implements Twig_TemplateInterface
     }
 
     /**
-     * Returns the template name.
+     * Returns the theme_url name.
      *
-     * @return string The template name
+     * @return string The theme_url name
      */
     abstract public function getTemplateName();
 
@@ -53,14 +53,14 @@ abstract class Twig_Template implements Twig_TemplateInterface
     }
 
     /**
-     * Returns the parent template.
+     * Returns the parent theme_url.
      *
      * This method is for internal use only and should never be called
      * directly.
      *
      * @param array $context
      *
-     * @return Twig_TemplateInterface|false The parent template or false if there is no parent
+     * @return Twig_TemplateInterface|false The parent theme_url or false if there is no parent
      *
      * @internal
      */
@@ -125,7 +125,7 @@ abstract class Twig_Template implements Twig_TemplateInterface
         } elseif (false !== $parent = $this->getParent($context)) {
             $parent->displayBlock($name, $context, $blocks, false);
         } else {
-            throw new Twig_Error_Runtime(sprintf('The template has no parent and no traits defining the "%s" block', $name), -1, $this->getTemplateName());
+            throw new Twig_Error_Runtime(sprintf('The theme_url has no parent and no traits defining the "%s" block', $name), -1, $this->getTemplateName());
         }
     }
 
@@ -147,27 +147,27 @@ abstract class Twig_Template implements Twig_TemplateInterface
         $name = (string) $name;
 
         if ($useBlocks && isset($blocks[$name])) {
-            $template = $blocks[$name][0];
+            $theme_url = $blocks[$name][0];
             $block = $blocks[$name][1];
         } elseif (isset($this->blocks[$name])) {
-            $template = $this->blocks[$name][0];
+            $theme_url = $this->blocks[$name][0];
             $block = $this->blocks[$name][1];
         } else {
-            $template = null;
+            $theme_url = null;
             $block = null;
         }
 
-        if (null !== $template) {
+        if (null !== $theme_url) {
             // avoid RCEs when sandbox is enabled
-            if (!$template instanceof self) {
+            if (!$theme_url instanceof self) {
                 throw new LogicException('A block must be a method on a Twig_Template instance.');
             }
 
             try {
-                $template->$block($context, $blocks);
+                $theme_url->$block($context, $blocks);
             } catch (Twig_Error $e) {
                 if (!$e->getTemplateFile()) {
-                    $e->setTemplateFile($template->getTemplateName());
+                    $e->setTemplateFile($theme_url->getTemplateName());
                 }
 
                 // this is mostly useful for Twig_Error_Loader exceptions
@@ -179,7 +179,7 @@ abstract class Twig_Template implements Twig_TemplateInterface
 
                 throw $e;
             } catch (Exception $e) {
-                throw new Twig_Error_Runtime(sprintf('An exception has been thrown during the rendering of a template ("%s").', $e->getMessage()), -1, $template->getTemplateName(), $e);
+                throw new Twig_Error_Runtime(sprintf('An exception has been thrown during the rendering of a theme_url ("%s").', $e->getMessage()), -1, $theme_url->getTemplateName(), $e);
             }
         } elseif (false !== $parent = $this->getParent($context)) {
             $parent->displayBlock($name, $context, array_merge($this->blocks, $blocks), false);
@@ -237,11 +237,11 @@ abstract class Twig_Template implements Twig_TemplateInterface
      * This method is for internal use only and should never be called
      * directly.
      *
-     * This method does only return blocks defined in the current template
+     * This method does only return blocks defined in the current theme_url
      * or defined in "used" traits.
      *
-     * It does not return blocks from parent templates as the parent
-     * template name can be dynamic, which is only known based on the
+     * It does not return blocks from parent theme_urls as the parent
+     * theme_url name can be dynamic, which is only known based on the
      * current context.
      *
      * @param string $name The block name
@@ -272,21 +272,21 @@ abstract class Twig_Template implements Twig_TemplateInterface
         return array_keys($this->blocks);
     }
 
-    protected function loadTemplate($template, $templateName = null, $line = null, $index = null)
+    protected function loadTemplate($theme_url, $theme_urlName = null, $line = null, $index = null)
     {
         try {
-            if (is_array($template)) {
-                return $this->env->resolveTemplate($template);
+            if (is_array($theme_url)) {
+                return $this->env->resolveTemplate($theme_url);
             }
 
-            if ($template instanceof self) {
-                return $template;
+            if ($theme_url instanceof self) {
+                return $theme_url;
             }
 
-            return $this->env->loadTemplate($template, $index);
+            return $this->env->loadTemplate($theme_url, $index);
         } catch (Twig_Error $e) {
             if (!$e->getTemplateFile()) {
-                $e->setTemplateFile($templateName ? $templateName : $this->getTemplateName());
+                $e->setTemplateFile($theme_urlName ? $theme_urlName : $this->getTemplateName());
             }
 
             if ($e->getTemplateLine()) {
@@ -321,9 +321,9 @@ abstract class Twig_Template implements Twig_TemplateInterface
     }
 
     /**
-     * Returns the template source code.
+     * Returns the theme_url source code.
      *
-     * @return string|null The template source code or null if it is not available
+     * @return string|null The theme_url source code or null if it is not available
      */
     public function getSource()
     {
@@ -399,15 +399,15 @@ abstract class Twig_Template implements Twig_TemplateInterface
 
             throw $e;
         } catch (Exception $e) {
-            throw new Twig_Error_Runtime(sprintf('An exception has been thrown during the rendering of a template ("%s").', $e->getMessage()), -1, $this->getTemplateName(), $e);
+            throw new Twig_Error_Runtime(sprintf('An exception has been thrown during the rendering of a theme_url ("%s").', $e->getMessage()), -1, $this->getTemplateName(), $e);
         }
     }
 
     /**
-     * Auto-generated method to display the template with the given context.
+     * Auto-generated method to display the theme_url with the given context.
      *
-     * @param array $context An array of parameters to pass to the template
-     * @param array $blocks  An array of blocks to pass to the template
+     * @param array $context An array of parameters to pass to the theme_url
+     * @param array $blocks  An array of blocks to pass to the theme_url
      */
     abstract protected function doDisplay(array $context, array $blocks = array());
 
@@ -547,7 +547,7 @@ abstract class Twig_Template implements Twig_TemplateInterface
 
         // object method
         if (!isset(self::$cache[$class]['methods'])) {
-            // get_class_methods returns all methods accessible in the scope, but we only want public ones to be accessible in templates
+            // get_class_methods returns all methods accessible in the scope, but we only want public ones to be accessible in theme_urls
             if ($object instanceof self) {
                 $ref = new ReflectionClass($class);
                 $methods = array();
@@ -555,7 +555,7 @@ abstract class Twig_Template implements Twig_TemplateInterface
                 foreach ($ref->getMethods(ReflectionMethod::IS_PUBLIC) as $refMethod) {
                     $methodName = strtolower($refMethod->name);
 
-                    // Accessing the environment from templates is forbidden to prevent untrusted changes to the environment
+                    // Accessing the environment from theme_urls is forbidden to prevent untrusted changes to the environment
                     if ('getenvironment' !== $methodName) {
                         $methods[$methodName] = true;
                     }
@@ -609,7 +609,7 @@ abstract class Twig_Template implements Twig_TemplateInterface
             throw $e;
         }
 
-        // useful when calling a template method from a template
+        // useful when calling a theme_url method from a theme_url
         // this is not supported but unfortunately heavily used in the Symfony profiler
         if ($object instanceof Twig_TemplateInterface) {
             return $ret === '' ? '' : new Twig_Markup($ret, $this->env->getCharset());

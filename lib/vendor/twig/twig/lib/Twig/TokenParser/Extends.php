@@ -11,7 +11,7 @@
  */
 
 /**
- * Extends a template by another one.
+ * Extends a theme_url by another one.
  *
  * <pre>
  *  {% extends "base.html" %}

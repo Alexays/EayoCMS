@@ -13,7 +13,7 @@ Deprecated features generate deprecation notices (via a call to the
 ``trigger_error()`` PHP function). By default, they are silenced and never
 displayed nor logged.
 
-To easily remove all deprecated feature usages from your templates, write and
+To easily remove all deprecated feature usages from your theme_urls, write and
 run a script along the lines of the following::
 
     require_once __DIR__.'/vendor/autoload.php';
@@ -22,16 +22,16 @@ run a script along the lines of the following::
 
     $deprecations = new Twig_Util_DeprecationCollector($twig);
 
-    print_r($deprecations->collectDir(__DIR__.'/templates'));
+    print_r($deprecations->collectDir(__DIR__.'/theme_urls'));
 
-The ``collectDir()`` method compiles all templates found in a directory,
+The ``collectDir()`` method compiles all theme_urls found in a directory,
 catches deprecation notices, and return them.
 
 .. tip::
 
-    If your templates are not stored on the filesystem, use the ``collect()``
+    If your theme_urls are not stored on the filesystem, use the ``collect()``
     method instead which takes an ``Iterator``; the iterator must return
-    template names as keys and template contents as values (as done by
+    theme_url names as keys and theme_url contents as values (as done by
     ``Twig_Util_TemplateDirIterator``).
 
 However, this code won't find all deprecations (like using deprecated some Twig
@@ -50,7 +50,7 @@ below::
     print_r($deprecations);
 
 Note that most deprecation notices are triggered during **compilation**, so
-they won't be generated when templates are already cached.
+they won't be generated when theme_urls are already cached.
 
 .. tip::
 
@@ -63,7 +63,7 @@ Making a Layout conditional
 ---------------------------
 
 Working with Ajax means that the same content is sometimes displayed as is,
-and sometimes decorated with a layout. As Twig layout template names can be
+and sometimes decorated with a layout. As Twig layout theme_url names can be
 any valid expression, you can pass a variable that evaluates to ``true`` when
 the request is made via Ajax and choose the layout accordingly:
 
@@ -78,17 +78,17 @@ the request is made via Ajax and choose the layout accordingly:
 Making an Include dynamic
 -------------------------
 
-When including a template, its name does not need to be a string. For
+When including a theme_url, its name does not need to be a string. For
 instance, the name can depend on the value of a variable:
 
 .. code-block:: jinja
 
     {% include var ~ '_foo.html' %}
 
-If ``var`` evaluates to ``index``, the ``index_foo.html`` template will be
+If ``var`` evaluates to ``index``, the ``index_foo.html`` theme_url will be
 rendered.
 
-As a matter of fact, the template name can be any valid expression, such as
+As a matter of fact, the theme_url name can be any valid expression, such as
 the following:
 
 .. code-block:: jinja
@@ -98,21 +98,21 @@ the following:
 Overriding a Template that also extends itself
 ----------------------------------------------
 
-A template can be customized in two different ways:
+A theme_url can be customized in two different ways:
 
-* *Inheritance*: A template *extends* a parent template and overrides some
+* *Inheritance*: A theme_url *extends* a parent theme_url and overrides some
   blocks;
 
 * *Replacement*: If you use the filesystem loader, Twig loads the first
-  template it finds in a list of configured directories; a template found in a
+  theme_url it finds in a list of configured directories; a theme_url found in a
   directory *replaces* another one from a directory further in the list.
 
-But how do you combine both: *replace* a template that also extends itself
-(aka a template in a directory further in the list)?
+But how do you combine both: *replace* a theme_url that also extends itself
+(aka a theme_url in a directory further in the list)?
 
-Let's say that your templates are loaded from both ``.../templates/mysite``
-and ``.../templates/default`` in this order. The ``page.twig`` template,
-stored in ``.../templates/default`` reads as follows:
+Let's say that your theme_urls are loaded from both ``.../theme_urls/mysite``
+and ``.../theme_urls/default`` in this order. The ``page.twig`` theme_url,
+stored in ``.../theme_urls/default`` reads as follows:
 
 .. code-block:: jinja
 
@@ -122,30 +122,30 @@ stored in ``.../templates/default`` reads as follows:
     {% block content %}
     {% endblock %}
 
-You can replace this template by putting a file with the same name in
-``.../templates/mysite``. And if you want to extend the original template, you
+You can replace this theme_url by putting a file with the same name in
+``.../theme_urls/mysite``. And if you want to extend the original theme_url, you
 might be tempted to write the following:
 
 .. code-block:: jinja
 
-    {# page.twig in .../templates/mysite #}
-    {% extends "page.twig" %} {# from .../templates/default #}
+    {# page.twig in .../theme_urls/mysite #}
+    {% extends "page.twig" %} {# from .../theme_urls/default #}
 
-Of course, this will not work as Twig will always load the template from
-``.../templates/mysite``.
+Of course, this will not work as Twig will always load the theme_url from
+``.../theme_urls/mysite``.
 
 It turns out it is possible to get this to work, by adding a directory right
-at the end of your template directories, which is the parent of all of the
-other directories: ``.../templates`` in our case. This has the effect of
-making every template file within our system uniquely addressable. Most of the
+at the end of your theme_url directories, which is the parent of all of the
+other directories: ``.../theme_urls`` in our case. This has the effect of
+making every theme_url file within our system uniquely addressable. Most of the
 time you will use the "normal" paths, but in the special case of wanting to
-extend a template with an overriding version of itself we can reference its
-parent's full, unambiguous template path in the extends tag:
+extend a theme_url with an overriding version of itself we can reference its
+parent's full, unambiguous theme_url path in the extends tag:
 
 .. code-block:: jinja
 
-    {# page.twig in .../templates/mysite #}
-    {% extends "default/page.twig" %} {# from .../templates #}
+    {# page.twig in .../theme_urls/mysite #}
+    {% extends "default/page.twig" %} {# from .../theme_urls #}
 
 .. note::
 
@@ -156,7 +156,7 @@ Customizing the Syntax
 ----------------------
 
 Twig allows some syntax customization for the block delimiters. It's not
-recommended to use this feature as templates will be tied with your custom
+recommended to use this feature as theme_urls will be tied with your custom
 syntax. But for specific projects, it can make sense to change the defaults.
 
 To change the block delimiters, you need to create your own lexer object::
@@ -171,7 +171,7 @@ To change the block delimiters, you need to create your own lexer object::
     ));
     $twig->setLexer($lexer);
 
-Here are some configuration example that simulates some other template engines
+Here are some configuration example that simulates some other theme_url engines
 syntax::
 
     // Ruby erb syntax
@@ -231,7 +231,7 @@ Accessing the parent Context in Nested Loops
 
 Sometimes, when using nested loops, you need to access the parent context. The
 parent context is always accessible via the ``loop.parent`` variable. For
-instance, if you have the following template data::
+instance, if you have the following theme_url data::
 
     $data = array(
         'topics' => array(
@@ -240,7 +240,7 @@ instance, if you have the following template data::
         ),
     );
 
-And the following template to display all messages in all topics:
+And the following theme_url to display all messages in all topics:
 
 .. code-block:: jinja
 
@@ -300,17 +300,17 @@ does not return ``false``.
 Validating the Template Syntax
 ------------------------------
 
-When template code is provided by a third-party (through a web interface for
-instance), it might be interesting to validate the template syntax before
-saving it. If the template code is stored in a `$template` variable, here is
+When theme_url code is provided by a third-party (through a web interface for
+instance), it might be interesting to validate the theme_url syntax before
+saving it. If the theme_url code is stored in a `$theme_url` variable, here is
 how you can do it::
 
     try {
-        $twig->parse($twig->tokenize($template));
+        $twig->parse($twig->tokenize($theme_url));
 
-        // the $template is valid
+        // the $theme_url is valid
     } catch (Twig_Error_Syntax $e) {
-        // $template contains one or more syntax errors
+        // $theme_url contains one or more syntax errors
     }
 
 If you iterate over a set of files, you can pass the filename to the
@@ -318,25 +318,25 @@ If you iterate over a set of files, you can pass the filename to the
 
     foreach ($files as $file) {
         try {
-            $twig->parse($twig->tokenize($template, $file));
+            $twig->parse($twig->tokenize($theme_url, $file));
 
-            // the $template is valid
+            // the $theme_url is valid
         } catch (Twig_Error_Syntax $e) {
-            // $template contains one or more syntax errors
+            // $theme_url contains one or more syntax errors
         }
     }
 
 .. note::
 
     This method won't catch any sandbox policy violations because the policy
-    is enforced during template rendering (as Twig needs the context for some
+    is enforced during theme_url rendering (as Twig needs the context for some
     checks like allowed methods on objects).
 
 Refreshing modified Templates when OPcache or APC is enabled
 ------------------------------------------------------------
 
 When using OPcache with ``opcache.validate_timestamps`` set to ``0`` or APC
-with ``apc.stat`` set to ``0`` and Twig cache enabled, clearing the template
+with ``apc.stat`` set to ``0`` and Twig cache enabled, clearing the theme_url
 cache won't update the cache.
 
 To get around this, force Twig to invalidate the bytecode cache::
@@ -369,8 +369,8 @@ Reusing a stateful Node Visitor
 -------------------------------
 
 When attaching a visitor to a ``Twig_Environment`` instance, Twig uses it to
-visit *all* templates it compiles. If you need to keep some state information
-around, you probably want to reset it when visiting a new template.
+visit *all* theme_urls it compiles. If you need to keep some state information
+around, you probably want to reset it when visiting a new theme_url.
 
 This can be easily achieved with the following code::
 
@@ -379,7 +379,7 @@ This can be easily achieved with the following code::
     public function enterNode(Twig_NodeInterface $node, Twig_Environment $env)
     {
         if ($node instanceof Twig_Node_Module) {
-            // reset the state as we are entering a new template
+            // reset the state as we are entering a new theme_url
             $this->someTemplateState = array();
         }
 
@@ -391,24 +391,24 @@ This can be easily achieved with the following code::
 Using a Database to store Templates
 -----------------------------------
 
-If you are developing a CMS, templates are usually stored in a database. This
-recipe gives you a simple PDO template loader you can use as a starting point
+If you are developing a CMS, theme_urls are usually stored in a database. This
+recipe gives you a simple PDO theme_url loader you can use as a starting point
 for your own.
 
 First, let's create a temporary in-memory SQLite3 database to work with::
 
     $dbh = new PDO('sqlite::memory:');
-    $dbh->exec('CREATE TABLE templates (name STRING, source STRING, last_modified INTEGER)');
+    $dbh->exec('CREATE TABLE theme_urls (name STRING, source STRING, last_modified INTEGER)');
     $base = '{% block content %}{% endblock %}';
     $index = '
     {% extends "base.twig" %}
     {% block content %}Hello {{ name }}{% endblock %}
     ';
     $now = time();
-    $dbh->exec("INSERT INTO templates (name, source, last_modified) VALUES ('base.twig', '$base', $now)");
-    $dbh->exec("INSERT INTO templates (name, source, last_modified) VALUES ('index.twig', '$index', $now)");
+    $dbh->exec("INSERT INTO theme_urls (name, source, last_modified) VALUES ('base.twig', '$base', $now)");
+    $dbh->exec("INSERT INTO theme_urls (name, source, last_modified) VALUES ('index.twig', '$index', $now)");
 
-We have created a simple ``templates`` table that hosts two templates:
+We have created a simple ``theme_urls`` table that hosts two theme_urls:
 ``base.twig`` and ``index.twig``.
 
 Now, let's define a loader able to use this database::
@@ -453,7 +453,7 @@ Now, let's define a loader able to use this database::
 
         protected function getValue($column, $name)
         {
-            $sth = $this->dbh->prepare('SELECT '.$column.' FROM templates WHERE name = :name');
+            $sth = $this->dbh->prepare('SELECT '.$column.' FROM theme_urls WHERE name = :name');
             $sth->execute(array(':name' => (string) $name));
 
             return $sth->fetchColumn();
@@ -471,14 +471,14 @@ Using different Template Sources
 --------------------------------
 
 This recipe is the continuation of the previous one. Even if you store the
-contributed templates in a database, you might want to keep the original/base
-templates on the filesystem. When templates can be loaded from different
+contributed theme_urls in a database, you might want to keep the original/base
+theme_urls on the filesystem. When theme_urls can be loaded from different
 sources, you need to use the ``Twig_Loader_Chain`` loader.
 
-As you can see in the previous recipe, we reference the template in the exact
+As you can see in the previous recipe, we reference the theme_url in the exact
 same way as we would have done it with a regular filesystem loader. This is
-the key to be able to mix and match templates coming from the database, the
-filesystem, or any other loader for that matter: the template name should be a
+the key to be able to mix and match theme_urls coming from the database, the
+filesystem, or any other loader for that matter: the theme_url name should be a
 logical name, and not the path from the filesystem::
 
     $loader1 = new DatabaseTwigLoader($dbh);
@@ -491,25 +491,25 @@ logical name, and not the path from the filesystem::
 
     echo $twig->render('index.twig', array('name' => 'Fabien'));
 
-Now that the ``base.twig`` templates is defined in an array loader, you can
+Now that the ``base.twig`` theme_urls is defined in an array loader, you can
 remove it from the database, and everything else will still work as before.
 
 Loading a Template from a String
 --------------------------------
 
-From a template, you can easily load a template stored in a string via the
-``template_from_string`` function (available as of Twig 1.11 via the
+From a theme_url, you can easily load a theme_url stored in a string via the
+``theme_url_from_string`` function (available as of Twig 1.11 via the
 ``Twig_Extension_StringLoader`` extension):
 
 .. code-block:: jinja
 
-    {{ include(template_from_string("Hello {{ name }}")) }}
+    {{ include(theme_url_from_string("Hello {{ name }}")) }}
 
-From PHP, it's also possible to load a template stored in a string via
+From PHP, it's also possible to load a theme_url stored in a string via
 ``Twig_Environment::createTemplate()`` (available as of Twig 1.18)::
 
-    $template = $twig->createTemplate('hello {{ name }}');
-    echo $template->render(array('name' => 'Fabien'));
+    $theme_url = $twig->createTemplate('hello {{ name }}');
+    echo $theme_url->render(array('name' => 'Fabien'));
 
 .. note::
 

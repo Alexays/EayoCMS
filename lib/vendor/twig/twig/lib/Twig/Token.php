@@ -184,7 +184,7 @@ class Twig_Token
     {
         switch ($type) {
             case self::EOF_TYPE:
-                return 'end of template';
+                return 'end of theme_url';
             case self::TEXT_TYPE:
                 return 'text';
             case self::BLOCK_START_TYPE:

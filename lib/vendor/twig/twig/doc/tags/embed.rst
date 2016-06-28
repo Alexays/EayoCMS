@@ -6,11 +6,11 @@
 
 The ``embed`` tag combines the behaviour of :doc:`include<include>` and
 :doc:`extends<extends>`.
-It allows you to include another template's contents, just like ``include``
+It allows you to include another theme_url's contents, just like ``include``
 does. But it also allows you to override any block defined inside the
-included template, like when extending a template.
+included theme_url, like when extending a theme_url.
 
-Think of an embedded template as a "micro layout skeleton".
+Think of an embedded theme_url as a "micro layout skeleton".
 
 .. code-block:: jinja
 
@@ -25,14 +25,14 @@ Think of an embedded template as a "micro layout skeleton".
         {% endblock %}
     {% endembed %}
 
-The ``embed`` tag takes the idea of template inheritance to the level of
-content fragments. While template inheritance allows for "document skeletons",
-which are filled with life by child templates, the ``embed`` tag allows you to
+The ``embed`` tag takes the idea of theme_url inheritance to the level of
+content fragments. While theme_url inheritance allows for "document skeletons",
+which are filled with life by child theme_urls, the ``embed`` tag allows you to
 create "skeletons" for smaller units of content and re-use and fill them
 anywhere you like.
 
 Since the use case may not be obvious, let's look at a simplified example.
-Imagine a base template shared by multiple HTML pages, defining a single block
+Imagine a base theme_url shared by multiple HTML pages, defining a single block
 named "content":
 
 .. code-block:: text
@@ -42,7 +42,7 @@ named "content":
     │           ┌── block "content" ──┐   │
     │           │                     │   │
     │           │                     │   │
-    │           │ (child template to  │   │
+    │           │ (child theme_url to  │   │
     │           │  put content here)  │   │
     │           │                     │   │
     │           │                     │   │
@@ -86,21 +86,21 @@ two boxes side by side:
     │                                     │
     └─────────────────────────────────────┘
 
-Without the ``embed`` tag, you have two ways to design your templates:
+Without the ``embed`` tag, you have two ways to design your theme_urls:
 
- * Create two "intermediate" base templates that extend the master layout
-   template: one with vertically stacked boxes to be used by the "foo" and
+ * Create two "intermediate" base theme_urls that extend the master layout
+   theme_url: one with vertically stacked boxes to be used by the "foo" and
    "bar" pages and another one with side-by-side boxes for the "boom" and
    "baz" pages.
 
  * Embed the markup for the top/bottom and left/right boxes into each page 
-   template directly.
+   theme_url directly.
 
 These two solutions do not scale well because they each have a major drawback:
 
  * The first solution may indeed work for this simplified example. But imagine
    we add a sidebar, which may again contain different, recurring structures
-   of content. Now we would need to create intermediate base templates for
+   of content. Now we would need to create intermediate base theme_urls for
    all occurring combinations of content structure and sidebar structure...
    and so on.
 
@@ -110,11 +110,11 @@ These two solutions do not scale well because they each have a major drawback:
    go out of sync by careless modifications etc.
 
 In such a situation, the ``embed`` tag comes in handy. The common layout
-code can live in a single base template, and the two different content structures,
-let's call them "micro layouts" go into separate templates which are embedded
+code can live in a single base theme_url, and the two different content structures,
+let's call them "micro layouts" go into separate theme_urls which are embedded
 as necessary:
 
-Page template ``foo.twig``:
+Page theme_url ``foo.twig``:
 
 .. code-block:: jinja
 
@@ -148,7 +148,7 @@ And here is the code for ``vertical_boxes_skeleton.twig``:
         {% endblock %}
     </div>
 
-The goal of the ``vertical_boxes_skeleton.twig`` template being to factor
+The goal of the ``vertical_boxes_skeleton.twig`` theme_url being to factor
 out the HTML markup for the boxes.
 
 The ``embed`` tag takes the exact same arguments as the ``include`` tag:
@@ -169,9 +169,9 @@ The ``embed`` tag takes the exact same arguments as the ``include`` tag:
 
 .. warning::
 
-    As embedded templates do not have "names", auto-escaping strategies based
-    on the template "filename" won't work as expected if you change the
-    context (for instance, if you embed a CSS/JavaScript template into an HTML
+    As embedded theme_urls do not have "names", auto-escaping strategies based
+    on the theme_url "filename" won't work as expected if you change the
+    context (for instance, if you embed a CSS/JavaScript theme_url into an HTML
     one). In that case, explicitly set the default auto-escaping strategy with
     the ``autoescape`` tag.
 

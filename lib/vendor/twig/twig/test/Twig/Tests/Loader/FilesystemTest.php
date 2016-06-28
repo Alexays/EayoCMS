@@ -14,15 +14,15 @@ class Twig_Tests_Loader_FilesystemTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getSecurityTests
      */
-    public function testSecurity($template)
+    public function testSecurity($theme_url)
     {
         $loader = new Twig_Loader_Filesystem(array(dirname(__FILE__).'/../Fixtures'));
 
         try {
-            $loader->getCacheKey($template);
+            $loader->getCacheKey($theme_url);
             $this->fail();
         } catch (Twig_Error_Loader $e) {
-            $this->assertNotContains('Unable to find template', $e->getMessage());
+            $this->assertNotContains('Unable to find theme_url', $e->getMessage());
         }
     }
 
@@ -112,7 +112,7 @@ class Twig_Tests_Loader_FilesystemTest extends PHPUnit_Framework_TestCase
             $loader->getSource('@named/nowhere.html');
         } catch (Exception $e) {
             $this->assertInstanceof('Twig_Error_Loader', $e);
-            $this->assertContains('Unable to find template "@named/nowhere.html"', $e->getMessage());
+            $this->assertContains('Unable to find theme_url "@named/nowhere.html"', $e->getMessage());
         }
     }
 
@@ -140,36 +140,36 @@ class Twig_Tests_Loader_FilesystemTest extends PHPUnit_Framework_TestCase
 
         $twig = new Twig_Environment($loader);
 
-        $template = $twig->loadTemplate('blocks.html.twig');
-        $this->assertSame('block from theme 1', $template->renderBlock('b1', array()));
+        $theme_url = $twig->loadTemplate('blocks.html.twig');
+        $this->assertSame('block from theme 1', $theme_url->renderBlock('b1', array()));
 
-        $template = $twig->loadTemplate('blocks.html.twig');
-        $this->assertSame('block from theme 2', $template->renderBlock('b2', array()));
+        $theme_url = $twig->loadTemplate('blocks.html.twig');
+        $this->assertSame('block from theme 2', $theme_url->renderBlock('b2', array()));
     }
 
     public function getArrayInheritanceTests()
     {
         return array(
             'valid array inheritance' => array('array_inheritance_valid_parent.html.twig'),
-            'array inheritance with null first template' => array('array_inheritance_null_parent.html.twig'),
-            'array inheritance with empty first template' => array('array_inheritance_empty_parent.html.twig'),
-            'array inheritance with non-existent first template' => array('array_inheritance_nonexistent_parent.html.twig'),
+            'array inheritance with null first theme_url' => array('array_inheritance_null_parent.html.twig'),
+            'array inheritance with empty first theme_url' => array('array_inheritance_empty_parent.html.twig'),
+            'array inheritance with non-existent first theme_url' => array('array_inheritance_nonexistent_parent.html.twig'),
         );
     }
 
     /**
      * @dataProvider getArrayInheritanceTests
      *
-     * @param $templateName string Template name with array inheritance
+     * @param $theme_urlName string Template name with array inheritance
      */
-    public function testArrayInheritance($templateName)
+    public function testArrayInheritance($theme_urlName)
     {
         $loader = new Twig_Loader_Filesystem(array());
         $loader->addPath(dirname(__FILE__).'/Fixtures/inheritance');
 
         $twig = new Twig_Environment($loader);
 
-        $template = $twig->loadTemplate($templateName);
-        $this->assertSame('VALID Child', $template->renderBlock('body', array()));
+        $theme_url = $twig->loadTemplate($theme_urlName);
+        $this->assertSame('VALID Child', $theme_url->renderBlock('body', array()));
     }
 }

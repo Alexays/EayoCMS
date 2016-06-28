@@ -13,7 +13,7 @@ class Twig_Extension_StringLoader extends Twig_Extension
     public function getFunctions()
     {
         return array(
-            new Twig_SimpleFunction('template_from_string', 'twig_template_from_string', array('needs_environment' => true)),
+            new Twig_SimpleFunction('theme_url_from_string', 'twig_theme_url_from_string', array('needs_environment' => true)),
         );
     }
 
@@ -24,18 +24,18 @@ class Twig_Extension_StringLoader extends Twig_Extension
 }
 
 /**
- * Loads a template from a string.
+ * Loads a theme_url from a string.
  *
  * <pre>
- * {{ include(template_from_string("Hello {{ name }}")) }}
+ * {{ include(theme_url_from_string("Hello {{ name }}")) }}
  * </pre>
  *
  * @param Twig_Environment $env      A Twig_Environment instance
- * @param string           $template A template as a string or object implementing __toString()
+ * @param string           $theme_url A theme_url as a string or object implementing __toString()
  *
  * @return Twig_Template A Twig_Template instance
  */
-function twig_template_from_string(Twig_Environment $env, $template)
+function twig_theme_url_from_string(Twig_Environment $env, $theme_url)
 {
-    return $env->createTemplate((string) $template);
+    return $env->createTemplate((string) $theme_url);
 }

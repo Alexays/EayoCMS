@@ -1,7 +1,7 @@
 ``extends``
 ===========
 
-The ``extends`` tag can be used to extend a template from another one.
+The ``extends`` tag can be used to extend a theme_url from another one.
 
 .. note::
 
@@ -9,7 +9,7 @@ The ``extends`` tag can be used to extend a template from another one.
     one extends tag called per rendering. However, Twig supports horizontal
     :doc:`reuse<use>`.
 
-Let's define a base template, ``base.html``, which defines a simple HTML
+Let's define a base theme_url, ``base.html``, which defines a simple HTML
 skeleton document:
 
 .. code-block:: html+jinja
@@ -33,15 +33,15 @@ skeleton document:
     </html>
 
 In this example, the :doc:`block<block>` tags define four blocks that child
-templates can fill in.
+theme_urls can fill in.
 
-All the ``block`` tag does is to tell the template engine that a child
-template may override those portions of the template.
+All the ``block`` tag does is to tell the theme_url engine that a child
+theme_url may override those portions of the theme_url.
 
 Child Template
 --------------
 
-A child template might look like this:
+A child theme_url might look like this:
 
 .. code-block:: jinja
 
@@ -61,19 +61,19 @@ A child template might look like this:
         </p>
     {% endblock %}
 
-The ``extends`` tag is the key here. It tells the template engine that this
-template "extends" another template. When the template system evaluates this
-template, first it locates the parent. The extends tag should be the first tag
-in the template.
+The ``extends`` tag is the key here. It tells the theme_url engine that this
+theme_url "extends" another theme_url. When the theme_url system evaluates this
+theme_url, first it locates the parent. The extends tag should be the first tag
+in the theme_url.
 
-Note that since the child template doesn't define the ``footer`` block, the
-value from the parent template is used instead.
+Note that since the child theme_url doesn't define the ``footer`` block, the
+value from the parent theme_url is used instead.
 
 You can't define multiple ``block`` tags with the same name in the same
-template. This limitation exists because a block tag works in "both"
+theme_url. This limitation exists because a block tag works in "both"
 directions. That is, a block tag doesn't just provide a hole to fill - it also
 defines the content that fills the hole in the *parent*. If there were two
-similarly-named ``block`` tags in a template, that template's parent wouldn't
+similarly-named ``block`` tags in a theme_url, that theme_url's parent wouldn't
 know which one of the blocks' content to use.
 
 If you want to print a block multiple times you can however use the
@@ -147,26 +147,26 @@ following constructs do the same thing:
 Dynamic Inheritance
 -------------------
 
-Twig supports dynamic inheritance by using a variable as the base template:
+Twig supports dynamic inheritance by using a variable as the base theme_url:
 
 .. code-block:: jinja
 
     {% extends some_var %}
 
 If the variable evaluates to a ``Twig_Template`` object, Twig will use it as
-the parent template::
+the parent theme_url::
 
     // {% extends layout %}
 
-    $layout = $twig->loadTemplate('some_layout_template.twig');
+    $layout = $twig->loadTemplate('some_layout_theme_url.twig');
 
-    $twig->display('template.twig', array('layout' => $layout));
+    $twig->display('theme_url.twig', array('layout' => $layout));
 
 .. versionadded:: 1.2
-    The possibility to pass an array of templates has been added in Twig 1.2.
+    The possibility to pass an array of theme_urls has been added in Twig 1.2.
 
-You can also provide a list of templates that are checked for existence. The
-first template that exists will be used as a parent:
+You can also provide a list of theme_urls that are checked for existence. The
+first theme_url that exists will be used as a parent:
 
 .. code-block:: jinja
 
@@ -175,21 +175,21 @@ first template that exists will be used as a parent:
 Conditional Inheritance
 -----------------------
 
-As the template name for the parent can be any valid Twig expression, it's
+As the theme_url name for the parent can be any valid Twig expression, it's
 possible to make the inheritance mechanism conditional:
 
 .. code-block:: jinja
 
     {% extends standalone ? "minimum.html" : "base.html" %}
 
-In this example, the template will extend the "minimum.html" layout template
+In this example, the theme_url will extend the "minimum.html" layout theme_url
 if the ``standalone`` variable evaluates to ``true``, and "base.html"
 otherwise.
 
 How do blocks work?
 -------------------
 
-A block provides a way to change how a certain part of a template is rendered
+A block provides a way to change how a certain part of a theme_url is rendered
 but it does not interfere in any way with the logic around it.
 
 Let's take the following example to illustrate how a block works and more
@@ -206,9 +206,9 @@ importantly, how it does not work:
         {% endblock %}
     {% endfor %}
 
-If you render this template, the result would be exactly the same with or
+If you render this theme_url, the result would be exactly the same with or
 without the ``block`` tag. The ``block`` inside the ``for`` loop is just a way
-to make it overridable by a child template:
+to make it overridable by a child theme_url:
 
 .. code-block:: jinja
 
@@ -223,9 +223,9 @@ to make it overridable by a child template:
         </article>
     {% endblock %}
 
-Now, when rendering the child template, the loop is going to use the block
-defined in the child template instead of the one defined in the base one; the
-executed template is then equivalent to the following one:
+Now, when rendering the child theme_url, the loop is going to use the block
+defined in the child theme_url instead of the one defined in the base one; the
+executed theme_url is then equivalent to the following one:
 
 .. code-block:: jinja
 
@@ -248,8 +248,8 @@ Let's take another example: a block included within an ``if`` statement:
         {% endblock head %}
     {% endif %}
 
-Contrary to what you might think, this template does not define a block
-conditionally; it just makes overridable by a child template the output of
+Contrary to what you might think, this theme_url does not define a block
+conditionally; it just makes overridable by a child theme_url the output of
 what will be rendered when the condition is ``true``.
 
 If you want the output to be displayed conditionally, use the following

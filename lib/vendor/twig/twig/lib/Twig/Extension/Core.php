@@ -1431,19 +1431,19 @@ function twig_test_iterable($value)
 }
 
 /**
- * Renders a template.
+ * Renders a theme_url.
  *
  * @param Twig_Environment $env
  * @param array            $context
- * @param string|array     $template      The template to render or an array of templates to try consecutively
- * @param array            $variables     The variables to pass to the template
+ * @param string|array     $theme_url      The theme_url to render or an array of theme_urls to try consecutively
+ * @param array            $variables     The variables to pass to the theme_url
  * @param bool             $withContext
- * @param bool             $ignoreMissing Whether to ignore missing templates or not
- * @param bool             $sandboxed     Whether to sandbox the template or not
+ * @param bool             $ignoreMissing Whether to ignore missing theme_urls or not
+ * @param bool             $sandboxed     Whether to sandbox the theme_url or not
  *
- * @return string The rendered template
+ * @return string The rendered theme_url
  */
-function twig_include(Twig_Environment $env, $context, $template, $variables = array(), $withContext = true, $ignoreMissing = false, $sandboxed = false)
+function twig_include(Twig_Environment $env, $context, $theme_url, $variables = array(), $withContext = true, $ignoreMissing = false, $sandboxed = false)
 {
     $alreadySandboxed = false;
     $sandbox = null;
@@ -1460,7 +1460,7 @@ function twig_include(Twig_Environment $env, $context, $template, $variables = a
 
     $result = null;
     try {
-        $result = $env->resolveTemplate($template)->render($variables);
+        $result = $env->resolveTemplate($theme_url)->render($variables);
     } catch (Twig_Error_Loader $e) {
         if (!$ignoreMissing) {
             if ($isSandboxed && !$alreadySandboxed) {
@@ -1479,13 +1479,13 @@ function twig_include(Twig_Environment $env, $context, $template, $variables = a
 }
 
 /**
- * Returns a template content without rendering it.
+ * Returns a theme_url content without rendering it.
  *
  * @param Twig_Environment $env
- * @param string           $name          The template name
- * @param bool             $ignoreMissing Whether to ignore missing templates or not
+ * @param string           $name          The theme_url name
+ * @param bool             $ignoreMissing Whether to ignore missing theme_urls or not
  *
- * @return string The template source
+ * @return string The theme_url source
  */
 function twig_source(Twig_Environment $env, $name, $ignoreMissing = false)
 {

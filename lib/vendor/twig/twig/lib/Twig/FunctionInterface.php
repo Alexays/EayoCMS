@@ -11,7 +11,7 @@
  */
 
 /**
- * Represents a template function.
+ * Represents a theme_url function.
  *
  * Use Twig_SimpleFunction instead.
  *

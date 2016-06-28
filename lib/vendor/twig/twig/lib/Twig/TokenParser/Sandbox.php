@@ -10,7 +10,7 @@
  */
 
 /**
- * Marks a section of a template as untrusted code that must be evaluated in the sandbox mode.
+ * Marks a section of a theme_url as untrusted code that must be evaluated in the sandbox mode.
  *
  * <pre>
  * {% sandbox %}

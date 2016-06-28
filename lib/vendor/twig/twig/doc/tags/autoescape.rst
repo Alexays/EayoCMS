@@ -2,7 +2,7 @@
 ==============
 
 Whether automatic escaping is enabled or not, you can mark a section of a
-template to be escaped or not by using the ``autoescape`` tag:
+theme_url to be escaped or not by using the ``autoescape`` tag:
 
 .. code-block:: jinja
 
@@ -48,7 +48,7 @@ template to be escaped or not by using the ``autoescape`` tag:
         {% endautoescape %}
 
 When automatic escaping is enabled everything is escaped by default except for
-values explicitly marked as safe. Those can be marked in the template by using
+values explicitly marked as safe. Those can be marked in the theme_url by using
 the :doc:`raw<../filters/raw>` filter:
 
 .. code-block:: jinja
@@ -57,7 +57,7 @@ the :doc:`raw<../filters/raw>` filter:
         {{ safe_value|raw }}
     {% endautoescape %}
 
-Functions returning template data (like :doc:`macros<macro>` and
+Functions returning theme_url data (like :doc:`macros<macro>` and
 :doc:`parent<../functions/parent>`) always return safe markup.
 
 .. note::

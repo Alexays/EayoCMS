@@ -58,7 +58,7 @@ class Twig_Tests_EnvironmentTest extends PHPUnit_Framework_TestCase
         $globals = $twig->getGlobals();
         $this->assertEquals('bar', $globals['foo']);
 
-        // globals can be modified after a template has been loaded
+        // globals can be modified after a theme_url has been loaded
         $twig = new Twig_Environment($this->getMock('Twig_LoaderInterface'));
         $twig->addGlobal('foo', 'foo');
         $twig->getGlobals();
@@ -76,7 +76,7 @@ class Twig_Tests_EnvironmentTest extends PHPUnit_Framework_TestCase
         $globals = $twig->getGlobals();
         $this->assertEquals('bar', $globals['foo']);
 
-        // globals can be modified after extensions and a template has been loaded
+        // globals can be modified after extensions and a theme_url has been loaded
         $twig = new Twig_Environment($loader = new Twig_Loader_Array(array('index' => '{{foo}}')));
         $twig->addGlobal('foo', 'foo');
         $twig->getGlobals();
@@ -89,11 +89,11 @@ class Twig_Tests_EnvironmentTest extends PHPUnit_Framework_TestCase
         $twig = new Twig_Environment($loader);
         $twig->getGlobals();
         $twig->addGlobal('foo', 'bar');
-        $template = $twig->loadTemplate('index');
-        $this->assertEquals('bar', $template->render(array()));
+        $theme_url = $twig->loadTemplate('index');
+        $this->assertEquals('bar', $theme_url->render(array()));
 
         /* to be uncomment in Twig 2.0
-        // globals cannot be added after a template has been loaded
+        // globals cannot be added after a theme_url has been loaded
         $twig = new Twig_Environment($this->getMock('Twig_LoaderInterface'));
         $twig->addGlobal('foo', 'foo');
         $twig->getGlobals();
@@ -117,7 +117,7 @@ class Twig_Tests_EnvironmentTest extends PHPUnit_Framework_TestCase
             $this->assertFalse(array_key_exists('bar', $twig->getGlobals()));
         }
 
-        // globals cannot be added after extensions and a template has been loaded
+        // globals cannot be added after extensions and a theme_url has been loaded
         $twig = new Twig_Environment($this->getMock('Twig_LoaderInterface'));
         $twig->addGlobal('foo', 'foo');
         $twig->getGlobals();
@@ -130,7 +130,7 @@ class Twig_Tests_EnvironmentTest extends PHPUnit_Framework_TestCase
             $this->assertFalse(array_key_exists('bar', $twig->getGlobals()));
         }
 
-        // test adding globals after a template has been loaded without call to getGlobals
+        // test adding globals after a theme_url has been loaded without call to getGlobals
         $twig = new Twig_Environment($this->getMock('Twig_LoaderInterface'));
         $twig->loadTemplate('index');
         try {
@@ -165,7 +165,7 @@ class Twig_Tests_EnvironmentTest extends PHPUnit_Framework_TestCase
         $key = $cache->generateKey('index', $twig->getTemplateClass('index'));
         $cache->write($key, $twig->compileSource('{{ foo }}', 'index'));
 
-        // check that extensions won't be initialized when rendering a template that is already in the cache
+        // check that extensions won't be initialized when rendering a theme_url that is already in the cache
         $twig = $this
             ->getMockBuilder('Twig_Environment')
             ->setConstructorArgs(array($loader, $options))
@@ -175,7 +175,7 @@ class Twig_Tests_EnvironmentTest extends PHPUnit_Framework_TestCase
 
         $twig->expects($this->never())->method('initExtensions');
 
-        // render template
+        // render theme_url
         $output = $twig->render('index', array('foo' => 'bar'));
         $this->assertEquals('bar', $output);
 
@@ -184,11 +184,11 @@ class Twig_Tests_EnvironmentTest extends PHPUnit_Framework_TestCase
 
     public function testAutoReloadCacheMiss()
     {
-        $templateName = __FUNCTION__;
-        $templateContent = __FUNCTION__;
+        $theme_urlName = __FUNCTION__;
+        $theme_urlContent = __FUNCTION__;
 
         $cache = $this->getMock('Twig_CacheInterface');
-        $loader = $this->getMockLoader($templateName, $templateContent);
+        $loader = $this->getMockLoader($theme_urlName, $theme_urlContent);
         $twig = new Twig_Environment($loader, array('cache' => $cache, 'auto_reload' => true, 'debug' => false));
 
         // Cache miss: getTimestamp returns 0 and as a result the load() is
@@ -204,16 +204,16 @@ class Twig_Tests_EnvironmentTest extends PHPUnit_Framework_TestCase
         $cache->expects($this->never())
             ->method('load');
 
-        $twig->loadTemplate($templateName);
+        $twig->loadTemplate($theme_urlName);
     }
 
     public function testAutoReloadCacheHit()
     {
-        $templateName = __FUNCTION__;
-        $templateContent = __FUNCTION__;
+        $theme_urlName = __FUNCTION__;
+        $theme_urlContent = __FUNCTION__;
 
         $cache = $this->getMock('Twig_CacheInterface');
-        $loader = $this->getMockLoader($templateName, $templateContent);
+        $loader = $this->getMockLoader($theme_urlName, $theme_urlContent);
         $twig = new Twig_Environment($loader, array('cache' => $cache, 'auto_reload' => true, 'debug' => false));
 
         $now = time();
@@ -232,16 +232,16 @@ class Twig_Tests_EnvironmentTest extends PHPUnit_Framework_TestCase
         $cache->expects($this->once())
             ->method('load');
 
-        $twig->loadTemplate($templateName);
+        $twig->loadTemplate($theme_urlName);
     }
 
     public function testAutoReloadOutdatedCacheHit()
     {
-        $templateName = __FUNCTION__;
-        $templateContent = __FUNCTION__;
+        $theme_urlName = __FUNCTION__;
+        $theme_urlContent = __FUNCTION__;
 
         $cache = $this->getMock('Twig_CacheInterface');
-        $loader = $this->getMockLoader($templateName, $templateContent);
+        $loader = $this->getMockLoader($theme_urlName, $theme_urlContent);
         $twig = new Twig_Environment($loader, array('cache' => $cache, 'auto_reload' => true, 'debug' => false));
 
         $now = time();
@@ -258,7 +258,7 @@ class Twig_Tests_EnvironmentTest extends PHPUnit_Framework_TestCase
         $cache->expects($this->never())
             ->method('load');
 
-        $twig->loadTemplate($templateName);
+        $twig->loadTemplate($theme_urlName);
     }
 
     public function testAddExtension()
@@ -385,17 +385,17 @@ class Twig_Tests_EnvironmentTest extends PHPUnit_Framework_TestCase
         restore_error_handler();
     }
 
-    protected function getMockLoader($templateName, $templateContent)
+    protected function getMockLoader($theme_urlName, $theme_urlContent)
     {
         $loader = $this->getMock('Twig_LoaderInterface');
         $loader->expects($this->any())
           ->method('getSource')
-          ->with($templateName)
-          ->will($this->returnValue($templateContent));
+          ->with($theme_urlName)
+          ->will($this->returnValue($theme_urlContent));
         $loader->expects($this->any())
           ->method('getCacheKey')
-          ->with($templateName)
-          ->will($this->returnValue($templateName));
+          ->with($theme_urlName)
+          ->will($this->returnValue($theme_urlName));
 
         return $loader;
     }

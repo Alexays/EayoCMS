@@ -136,7 +136,6 @@ class Eayo
         $queryLength = strpos($query, '&') !== false ? $query = substr($query, 0, $queryLength) : '';
         $queryPart = explode('/', $query);
         $index = empty($queryPart) ? '' : $queryPart[0];
-
         if (count($queryPart) > 1) {
             if (isset(Eayo::$router) && array_key_exists($index, Eayo::$router)) {
                 $routing = true;
@@ -176,13 +175,18 @@ class Eayo
                 $content_file .= 'index';
             }
         }
-
-        $content_file = glob($content_file.'.{md,html,htm,twig,php}', GLOB_BRACE);
-        if (!empty($content_file)) {
-            $content_file = $content_file[0];
+        $content_file_any = glob($content_file.'.{md,html,htm,twig,php}', GLOB_BRACE);
+        $content_file_without = glob(rtrim($content_file, '\/').'.{md,html,htm,twig,php}', GLOB_BRACE);
+        $page_404 = glob(CONTENT_DIR.'404.{md,html,htm,php}', GLOB_BRACE);
+        if (!empty($content_file_any)) {
+            $content_file = $content_file_any[0];
+        } elseif (!empty($content_file_without)) {
+            $content_file = $content_file_without[0];
+        } elseif(!empty($page_404)) {
+            $content_file = $page_404[0];
         } else {
-            $content_file = glob(CONTENT_DIR.'404.{md,html,htm,php}', GLOB_BRACE)[0];
-        } //throw new 404 not found
+            throw new \Exception('There is no 404 Page.', 164);
+        }
 
         return [$index, $content_file, $namespace, $template];
     }
@@ -207,8 +211,7 @@ class Eayo
         $this->twig_vars = array_merge($this->twig_vars, array(
             'version' => Eayo::VERSION,
             'config' => $this->config->getAll(),
-            'base_url' => $this->tools->rooturl,
-            'user' => $this->self_user
+            'base_url' => $this->tools->rooturl
         ));
     }
 
@@ -224,61 +227,56 @@ class Eayo
     public function Process($router)
     {
         $index = $router[0];
-        $page = $router[1];
+        $content_file = $router[1];
         $namespace = ltrim($router[2], '@');
         $template = $router[3];
-        $classRoot = explode('\\', Eayo::$router[$index]);
-        $classRootCount = count($classRoot);
-        unset($classRoot[$classRootCount - 1]);
-        $classRoot = implode('\\', $classRoot);
-        $this->InitTwig($template, $namespace);
+        $ctrlArray = ['php', 'twig'];
+        $fileExt = pathinfo($content_file)['extension'];
         $is_markdown = false;
+        $modular_twig = false;
         $controller = null;
-        try {
-            switch (pathinfo($page)['extension']) {
-                case 'php':
-                    Eayo::$content = include $page;
-                    if ($namespace === 'default') {
-                        $controller = "\\App\\Controller\\".$index."Ctrl";
-                        $controller = (new $controller)->index();
-                    } else {
-                        $controller = DS.$classRoot."\\Controller\\".$index."Ctrl";
-                        $controller = (new $controller)->index();
-                    }
-                    break;
-                case 'twig':
-                    Eayo::$content = $this->twig->render('@'.$namespace.'/'.str_replace($template, '',$page));
-                    if ($namespace === 'default') {
-                        $controller = "\\App\\Controller\\".$index."Ctrl";
-                        $controller = new $controller;
-                        $controller->index();
-                    } else {
-                        $controller = DS.$classRoot."\\Controller\\".$index."Ctrl";
-                        $controller = new $controller;
-                        $controller->index();
-                    }
-                    break;
-                case 'html' || 'htm' || 'md':
-                    $is_markdown = pathinfo($page)['extension'] === 'md' ? true : false;
-                    $fpage = fopen($page, 'r');
-                    $page = fread($fpage, filesize($page));
-                    Eayo::$content = $is_markdown ? nl2br($page) : $page;
-                    fclose($fpage);
-                    break;
-            }
-            $this->twig_vars = array_merge($this->twig_vars, array(
-                'load_time' => number_format(microtime(true) - PERF_START, 3),
-                'template' => $this->tools->rooturl.'/'.str_replace(DS, '/', str_replace(ROOT_DIR, '', $template.DS)),
-                'content' => Eayo::$content,
-                'ctrl' => $controller,
-                'is_markdown' => $is_markdown
-            ));
-            $output = $this->twig->render('@'.$namespace.'/default.twig', $this->twig_vars);
 
-            return $output;
-        } catch (\Twig_Error_Loader $e) {
-            throw new \Exception($e->getRawMessage(), 4054);
+        $this->InitTwig($template, $namespace);
+        if (in_array($fileExt, $ctrlArray)) {
+            if ($namespace === 'default') {
+                $controller = "\\App\\Controller\\".$index."Ctrl";
+            } else {
+                $classRoot = explode('\\', Eayo::$router[$index]);
+                unset($classRoot[count($classRoot) - 1]);
+                $classRoot = implode('\\', $classRoot);
+                $controller = DS.$classRoot."\\Controller\\".$index."Ctrl";
+            }
+            $controller = new $controller();
+            if ($fileExt === 'php') {
+                $content_file = include $content_file;
+            } else {
+                $modular_twig = true;
+                $content_file = '@'.$namespace.'/'.str_replace($template, '', $content_file);
+            }
+        } elseif ($content_file = file_get_contents($content_file)) {
+            $is_markdown = $fileExt === 'md' ? true : false;
         }
+        $this->twig_vars = array_merge($this->twig_vars, array(
+            'theme_url' => $this->tools->rooturl.'/'.str_replace(DS, '/', str_replace(ROOT_DIR, '', $template.DS)),
+            'ctrl' => $controller,
+            'is_markdown' => $is_markdown,
+            'load_time' => number_format(microtime(true) - PERF_START, 3)
+        ));
+        Eayo::$content = $content_file;
+        try {
+            //Process in-page tiwg
+            if ($modular_twig) {
+                $this->twig_vars['content'] = $this->twig->render(Eayo::$content, $this->twig_vars);
+            } else {
+                $this->twig_vars['content'] = Eayo::$content;
+            }
+            //Process page twig
+            $output = $this->twig->render('@'.$namespace.'/default.twig', $this->twig_vars);
+        } catch (\Twig_Error_Loader $e) {
+            throw new \RuntimeException($e->getRawMessage(), 4054, $e);
+        }
+
+        return $output;
     }
 
     public function login($emailid, $pass) {

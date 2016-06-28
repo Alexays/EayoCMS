@@ -12,34 +12,34 @@
 /**
  * Interface implemented by cache classes.
  *
- * It is highly recommended to always store templates on the filesystem to
+ * It is highly recommended to always store theme_urls on the filesystem to
  * benefit from the PHP opcode cache. This interface is mostly useful if you
- * need to implement a custom strategy for storing templates on the filesystem.
+ * need to implement a custom strategy for storing theme_urls on the filesystem.
  *
  * @author Andrew Tch <andrew@noop.lv>
  */
 interface Twig_CacheInterface
 {
     /**
-     * Generates a cache key for the given template class name.
+     * Generates a cache key for the given theme_url class name.
      *
-     * @param string $name      The template name
-     * @param string $className The template class name
+     * @param string $name      The theme_url name
+     * @param string $className The theme_url class name
      *
      * @return string
      */
     public function generateKey($name, $className);
 
     /**
-     * Writes the compiled template to cache.
+     * Writes the compiled theme_url to cache.
      *
      * @param string $key     The cache key
-     * @param string $content The template representation as a PHP class
+     * @param string $content The theme_url representation as a PHP class
      */
     public function write($key, $content);
 
     /**
-     * Loads a template from the cache.
+     * Loads a theme_url from the cache.
      *
      * @param string $key The cache key
      */

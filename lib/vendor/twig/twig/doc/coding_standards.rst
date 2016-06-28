@@ -1,7 +1,7 @@
 Coding Standards
 ================
 
-When writing Twig templates, we recommend you to follow these official coding
+When writing Twig theme_urls, we recommend you to follow these official coding
 standards:
 
 * Put one (and only one) space after the start of a delimiter (``{{``, ``{%``,
@@ -90,7 +90,7 @@ standards:
      {% set foo_bar = 'foo' %}
 
 * Indent your code inside tags (use the same indentation as the one used for
-  the target language of the rendered template):
+  the target language of the rendered theme_url):
 
   .. code-block:: jinja
 

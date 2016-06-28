@@ -24,4 +24,8 @@ class adminCtrl extends Controller
             header('location: '.\Core\Tools::init()->rooturl.'/login/');
         }
     }
+
+    public function userList() {
+        return \Core\Config::init()->getAllAccounts();
+    }
 }

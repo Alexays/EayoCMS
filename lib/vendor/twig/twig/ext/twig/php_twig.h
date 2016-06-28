@@ -29,7 +29,7 @@ zend_module_entry *get_module(void);
 #include "TSRM.h"
 #endif
 
-PHP_FUNCTION(twig_template_get_attributes);
+PHP_FUNCTION(twig_theme_url_get_attributes);
 PHP_RSHUTDOWN_FUNCTION(twig);
 
 #endif

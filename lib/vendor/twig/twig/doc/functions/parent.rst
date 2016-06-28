@@ -1,7 +1,7 @@
 ``parent``
 ==========
 
-When a template uses inheritance, it's possible to render the contents of the
+When a theme_url uses inheritance, it's possible to render the contents of the
 parent block when overriding a block by using the ``parent`` function:
 
 .. code-block:: jinja
@@ -15,6 +15,6 @@ parent block when overriding a block by using the ``parent`` function:
     {% endblock %}
 
 The ``parent()`` call will return the content of the ``sidebar`` block as
-defined in the ``base.html`` template.
+defined in the ``base.html`` theme_url.
 
 .. seealso:: :doc:`extends<../tags/extends>`, :doc:`block<../functions/block>`, :doc:`block<../tags/block>`

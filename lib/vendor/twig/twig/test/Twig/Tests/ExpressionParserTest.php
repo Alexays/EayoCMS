@@ -15,12 +15,12 @@ class Twig_Tests_ExpressionParserTest extends PHPUnit_Framework_TestCase
      * @expectedException Twig_Error_Syntax
      * @dataProvider getFailingTestsForAssignment
      */
-    public function testCanOnlyAssignToNames($template)
+    public function testCanOnlyAssignToNames($theme_url)
     {
         $env = new Twig_Environment($this->getMock('Twig_LoaderInterface'), array('cache' => false, 'autoescape' => false));
         $parser = new Twig_Parser($env);
 
-        $parser->parse($env->tokenize($template, 'index'));
+        $parser->parse($env->tokenize($theme_url, 'index'));
     }
 
     public function getFailingTestsForAssignment()
@@ -44,10 +44,10 @@ class Twig_Tests_ExpressionParserTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getTestsForArray
      */
-    public function testArrayExpression($template, $expected)
+    public function testArrayExpression($theme_url, $expected)
     {
         $env = new Twig_Environment($this->getMock('Twig_LoaderInterface'), array('cache' => false, 'autoescape' => false));
-        $stream = $env->tokenize($template, 'index');
+        $stream = $env->tokenize($theme_url, 'index');
         $parser = new Twig_Parser($env);
 
         $this->assertEquals($expected, $parser->parse($stream)->getNode('body')->getNode(0)->getNode('expr'));
@@ -57,12 +57,12 @@ class Twig_Tests_ExpressionParserTest extends PHPUnit_Framework_TestCase
      * @expectedException Twig_Error_Syntax
      * @dataProvider getFailingTestsForArray
      */
-    public function testArraySyntaxError($template)
+    public function testArraySyntaxError($theme_url)
     {
         $env = new Twig_Environment($this->getMock('Twig_LoaderInterface'), array('cache' => false, 'autoescape' => false));
         $parser = new Twig_Parser($env);
 
-        $parser->parse($env->tokenize($template, 'index'));
+        $parser->parse($env->tokenize($theme_url, 'index'));
     }
 
     public function getFailingTestsForArray()
@@ -164,10 +164,10 @@ class Twig_Tests_ExpressionParserTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getTestsForString
      */
-    public function testStringExpression($template, $expected)
+    public function testStringExpression($theme_url, $expected)
     {
         $env = new Twig_Environment($this->getMock('Twig_LoaderInterface'), array('cache' => false, 'autoescape' => false, 'optimizations' => 0));
-        $stream = $env->tokenize($template, 'index');
+        $stream = $env->tokenize($theme_url, 'index');
         $parser = new Twig_Parser($env);
 
         $this->assertEquals($expected, $parser->parse($stream)->getNode('body')->getNode(0)->getNode('expr'));
@@ -259,12 +259,12 @@ class Twig_Tests_ExpressionParserTest extends PHPUnit_Framework_TestCase
      * @expectedExceptionMessage A default value for an argument must be a constant (a boolean, a string, a number, or an array) in "index" at line 1
      * @dataProvider             getMacroDefinitionDoesNotSupportNonConstantDefaultValues
      */
-    public function testMacroDefinitionDoesNotSupportNonConstantDefaultValues($template)
+    public function testMacroDefinitionDoesNotSupportNonConstantDefaultValues($theme_url)
     {
         $env = new Twig_Environment($this->getMock('Twig_LoaderInterface'), array('cache' => false, 'autoescape' => false));
         $parser = new Twig_Parser($env);
 
-        $parser->parse($env->tokenize($template, 'index'));
+        $parser->parse($env->tokenize($theme_url, 'index'));
     }
 
     public function getMacroDefinitionDoesNotSupportNonConstantDefaultValues()
@@ -278,12 +278,12 @@ class Twig_Tests_ExpressionParserTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getMacroDefinitionSupportsConstantDefaultValues
      */
-    public function testMacroDefinitionSupportsConstantDefaultValues($template)
+    public function testMacroDefinitionSupportsConstantDefaultValues($theme_url)
     {
         $env = new Twig_Environment($this->getMock('Twig_LoaderInterface'), array('cache' => false, 'autoescape' => false));
         $parser = new Twig_Parser($env);
 
-        $parser->parse($env->tokenize($template, 'index'));
+        $parser->parse($env->tokenize($theme_url, 'index'));
     }
 
     public function getMacroDefinitionSupportsConstantDefaultValues()

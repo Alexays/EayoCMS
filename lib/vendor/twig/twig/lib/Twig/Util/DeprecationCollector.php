@@ -23,10 +23,10 @@ class Twig_Util_DeprecationCollector
     }
 
     /**
-     * Returns deprecations for templates contained in a directory.
+     * Returns deprecations for theme_urls contained in a directory.
      *
-     * @param string $dir A directory where templates are stored
-     * @param string $ext Limit the loaded templates by extension
+     * @param string $dir A directory where theme_urls are stored
+     * @param string $ext Limit the loaded theme_urls by extension
      *
      * @return array() An array of deprecations
      */
@@ -42,9 +42,9 @@ class Twig_Util_DeprecationCollector
     }
 
     /**
-     * Returns deprecations for passed templates.
+     * Returns deprecations for passed theme_urls.
      *
-     * @param Iterator $iterator An iterator of templates (where keys are template names and values the contents of the template)
+     * @param Iterator $iterator An iterator of theme_urls (where keys are theme_url names and values the contents of the theme_url)
      *
      * @return array() An array of deprecations
      */
@@ -58,7 +58,7 @@ class Twig_Util_DeprecationCollector
             try {
                 $this->twig->parse($this->twig->tokenize($contents, $name));
             } catch (Twig_Error_Syntax $e) {
-                // ignore templates containing syntax errors
+                // ignore theme_urls containing syntax errors
             }
         }
 

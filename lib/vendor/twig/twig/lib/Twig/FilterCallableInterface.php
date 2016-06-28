@@ -10,7 +10,7 @@
  */
 
 /**
- * Represents a callable template filter.
+ * Represents a callable theme_url filter.
  *
  * Use Twig_SimpleFilter instead.
  *

@@ -10,7 +10,7 @@
  */
 
 /**
- * Loads templates from other loaders.
+ * Loads theme_urls from other loaders.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */

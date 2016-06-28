@@ -10,7 +10,7 @@
  */
 
 /**
- * Represents a template filter.
+ * Represents a theme_url filter.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */

@@ -1,5 +1,5 @@
 --TEST--
-Exception for an undefined template in a child template
+Exception for an undefined theme_url in a child theme_url
 --TEMPLATE--
 {% extends 'base.twig' %}
 

@@ -9,7 +9,7 @@
     The ability to define custom escapers was added in Twig 1.14.0.
 
 The ``escape`` filter escapes a string for safe insertion into the final
-output. It supports different escaping strategies depending on the template
+output. It supports different escaping strategies depending on the theme_url
 context.
 
 By default, it uses the HTML escaping strategy:

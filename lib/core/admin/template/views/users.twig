@@ -1,6 +1,26 @@
-<div class="panel panel-default">
-  <div class="panel-body">
-    Panel content
-  </div>
-  <div class="panel-footer">Panel footer</div>
+<div class="container-fluid users-list">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Dâte d'enregistrement</th>
+                <th>E-mail</th>
+            </tr>
+        </thead>
+        <tbody>
+           {% for user in ctrl.userList %}
+            <tr>
+                <th>
+                    <img width="45" height="45" src="{{base_url}}{{user.avatar}}" alt="My profile" class="img-circle avatar">
+                    <a href="user-profile.html" class="name">{{ user.username }}</a>
+                    <span class="subtext">Développeur</span>
+                </th>
+                <th>{{ user.signup | date }}</th>
+                <th>{{ user.email }}</th>
+            </tr>
+            {% else %}
+            <span>Un problèmes est survenue.</span>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>

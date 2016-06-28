@@ -1,19 +1,19 @@
-``template_from_string``
+``theme_url_from_string``
 ========================
 
 .. versionadded:: 1.11
-    The ``template_from_string`` function was added in Twig 1.11.
+    The ``theme_url_from_string`` function was added in Twig 1.11.
 
-The ``template_from_string`` function loads a template from a string:
+The ``theme_url_from_string`` function loads a theme_url from a string:
 
 .. code-block:: jinja
 
-    {{ include(template_from_string("Hello {{ name }}")) }}
-    {{ include(template_from_string(page.template)) }}
+    {{ include(theme_url_from_string("Hello {{ name }}")) }}
+    {{ include(theme_url_from_string(page.theme_url)) }}
 
 .. note::
 
-    The ``template_from_string`` function is not available by default. You
+    The ``theme_url_from_string`` function is not available by default. You
     must add the ``Twig_Extension_StringLoader`` extension explicitly when
     creating your Twig environment::
 
@@ -22,11 +22,11 @@ The ``template_from_string`` function loads a template from a string:
 
 .. note::
 
-    Even if you will probably always use the ``template_from_string`` function
+    Even if you will probably always use the ``theme_url_from_string`` function
     with the ``include`` function, you can use it with any tag or function that
-    takes a template as an argument (like the ``embed`` or ``extends`` tags).
+    takes a theme_url as an argument (like the ``embed`` or ``extends`` tags).
 
 Arguments
 ---------
 
-* ``template``: The template
+* ``theme_url``: The theme_url

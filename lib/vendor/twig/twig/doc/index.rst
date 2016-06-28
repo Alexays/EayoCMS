@@ -6,7 +6,7 @@ Twig
 
     intro
     installation
-    templates
+    theme_urls
     api
     advanced
     internals

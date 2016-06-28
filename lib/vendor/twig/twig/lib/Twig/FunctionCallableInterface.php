@@ -10,7 +10,7 @@
  */
 
 /**
- * Represents a callable template function.
+ * Represents a callable theme_url function.
  *
  * Use Twig_SimpleFunction instead.
  *

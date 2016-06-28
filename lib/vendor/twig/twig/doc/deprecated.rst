@@ -8,7 +8,7 @@ feature that was deprecated in Twig 1.x is removed in Twig 2.0).
 Deprecation Notices
 -------------------
 
-As of Twig 1.21, Twig generates deprecation notices when a template uses
+As of Twig 1.21, Twig generates deprecation notices when a theme_url uses
 deprecated features. See :ref:`deprecation-notices` for more information.
 
 Token Parsers
@@ -146,8 +146,8 @@ Globals
 
 * As of Twig 1.x, using the ``_self`` global variable to get access to the
   current ``Twig_Template`` instance is deprecated; most usages only need the
-  current template name, which will continue to work in Twig 2.0. In Twig 2.0,
-  ``_self`` returns the current template name instead of the current
+  current theme_url name, which will continue to work in Twig 2.0. In Twig 2.0,
+  ``_self`` returns the current theme_url name instead of the current
   ``Twig_Template`` instance.
 
 Miscellaneous

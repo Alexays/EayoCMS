@@ -23,7 +23,7 @@ class Twig_Node_Module extends Twig_Node
 {
     public function __construct(Twig_NodeInterface $body, Twig_Node_Expression $parent = null, Twig_NodeInterface $blocks, Twig_NodeInterface $macros, Twig_NodeInterface $traits, $embeddedTemplates, $filename)
     {
-        // embedded templates are set as attributes so that they are only visited once by the visitors
+        // embedded theme_urls are set as attributes so that they are only visited once by the visitors
         parent::__construct(array(
             'parent' => $parent,
             'body' => $body,
@@ -38,7 +38,7 @@ class Twig_Node_Module extends Twig_Node
         ), array(
             'filename' => $filename,
             'index' => null,
-            'embedded_templates' => $embeddedTemplates,
+            'embedded_theme_urls' => $embeddedTemplates,
         ), 1);
     }
 
@@ -51,8 +51,8 @@ class Twig_Node_Module extends Twig_Node
     {
         $this->compileTemplate($compiler);
 
-        foreach ($this->getAttribute('embedded_templates') as $template) {
-            $compiler->subcompile($template);
+        foreach ($this->getAttribute('embedded_theme_urls') as $theme_url) {
+            $compiler->subcompile($theme_url);
         }
     }
 
@@ -168,14 +168,14 @@ class Twig_Node_Module extends Twig_Node
         if ($countTraits) {
             // traits
             foreach ($this->getNode('traits') as $i => $trait) {
-                $this->compileLoadTemplate($compiler, $trait->getNode('template'), sprintf('$_trait_%s', $i));
+                $this->compileLoadTemplate($compiler, $trait->getNode('theme_url'), sprintf('$_trait_%s', $i));
 
                 $compiler
-                    ->addDebugInfo($trait->getNode('template'))
+                    ->addDebugInfo($trait->getNode('theme_url'))
                     ->write(sprintf("if (!\$_trait_%s->isTraitable()) {\n", $i))
                     ->indent()
                     ->write("throw new Twig_Error_Runtime('Template \"'.")
-                    ->subcompile($trait->getNode('template'))
+                    ->subcompile($trait->getNode('theme_url'))
                     ->raw(".'\" cannot be used as a trait.');\n")
                     ->outdent()
                     ->write("}\n")
@@ -191,7 +191,7 @@ class Twig_Node_Module extends Twig_Node
                         ->write("throw new Twig_Error_Runtime(sprintf('Block ")
                         ->string($key)
                         ->raw(' is not defined in trait ')
-                        ->subcompile($trait->getNode('template'))
+                        ->subcompile($trait->getNode('theme_url'))
                         ->raw(".'));\n")
                         ->outdent()
                         ->write("}\n\n")
@@ -323,12 +323,12 @@ class Twig_Node_Module extends Twig_Node
 
     protected function compileIsTraitable(Twig_Compiler $compiler)
     {
-        // A template can be used as a trait if:
+        // A theme_url can be used as a trait if:
         //   * it has no parent
         //   * it has no macros
         //   * it has no body
         //
-        // Put another way, a template can be used as a trait if it
+        // Put another way, a theme_url can be used as a trait if it
         // only contains blocks and use statements.
         $traitable = null === $this->getNode('parent') && 0 === count($this->getNode('macros'));
         if ($traitable) {
@@ -397,7 +397,7 @@ class Twig_Node_Module extends Twig_Node
                 ->raw(");\n")
             ;
         } else {
-            throw new LogicException('Trait templates can only be constant nodes');
+            throw new LogicException('Trait theme_urls can only be constant nodes');
         }
     }
 }

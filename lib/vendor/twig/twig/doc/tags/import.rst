@@ -2,9 +2,9 @@
 ==========
 
 Twig supports putting often used code into :doc:`macros<../tags/macro>`. These
-macros can go into different templates and get imported from there.
+macros can go into different theme_urls and get imported from there.
 
-There are two ways to import templates. You can import the complete template
+There are two ways to import theme_urls. You can import the complete theme_url
 into a variable or request specific macros from it.
 
 Imagine we have a helper module that renders forms (called ``forms.html``):
@@ -34,7 +34,7 @@ That way you can access the attributes:
     </dl>
     <p>{{ forms.textarea('comment') }}</p>
 
-Alternatively you can import names from the template into the current
+Alternatively you can import names from the theme_url into the current
 namespace:
 
 .. code-block:: jinja

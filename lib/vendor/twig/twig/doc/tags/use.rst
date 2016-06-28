@@ -7,12 +7,12 @@
 .. note::
 
     Horizontal reuse is an advanced Twig feature that is hardly ever needed in
-    regular templates. It is mainly used by projects that need to make
-    template blocks reusable without using inheritance.
+    regular theme_urls. It is mainly used by projects that need to make
+    theme_url blocks reusable without using inheritance.
 
 Template inheritance is one of the most powerful Twig's feature but it is
-limited to single inheritance; a template can only extend one other template.
-This limitation makes template inheritance simple to understand and easy to
+limited to single inheritance; a theme_url can only extend one other theme_url.
+This limitation makes theme_url inheritance simple to understand and easy to
 debug:
 
 .. code-block:: jinja
@@ -35,7 +35,7 @@ but without the associated complexity:
     {% block content %}{% endblock %}
 
 The ``use`` statement tells Twig to import the blocks defined in
-``blocks.html`` into the current template (it's like macros, but for blocks):
+``blocks.html`` into the current theme_url (it's like macros, but for blocks):
 
 .. code-block:: jinja
 
@@ -44,7 +44,7 @@ The ``use`` statement tells Twig to import the blocks defined in
     {% block sidebar %}{% endblock %}
 
 In this example, the ``use`` statement imports the ``sidebar`` block into the
-main template. The code is mostly equivalent to the following one (the
+main theme_url. The code is mostly equivalent to the following one (the
 imported blocks are not outputted automatically):
 
 .. code-block:: jinja
@@ -57,16 +57,16 @@ imported blocks are not outputted automatically):
 
 .. note::
 
-    The ``use`` tag only imports a template if it does not extend another
-    template, if it does not define macros, and if the body is empty. But it
-    can *use* other templates.
+    The ``use`` tag only imports a theme_url if it does not extend another
+    theme_url, if it does not define macros, and if the body is empty. But it
+    can *use* other theme_urls.
 
 .. note::
 
     Because ``use`` statements are resolved independently of the context
-    passed to the template, the template reference cannot be an expression.
+    passed to the theme_url, the theme_url reference cannot be an expression.
 
-The main template can also override any imported block. If the template
+The main theme_url can also override any imported block. If the theme_url
 already defines the ``sidebar`` block, then the one defined in ``blocks.html``
 is ignored. To avoid name conflicts, you can rename imported blocks:
 
@@ -85,7 +85,7 @@ is ignored. To avoid name conflicts, you can rename imported blocks:
 
 The ``parent()`` function automatically determines the correct inheritance
 tree, so it can be used when overriding a block defined in an imported
-template:
+theme_url:
 
 .. code-block:: jinja
 
@@ -101,7 +101,7 @@ template:
     {% block content %}{% endblock %}
 
 In this example, ``parent()`` will correctly call the ``sidebar`` block from
-the ``blocks.html`` template.
+the ``blocks.html`` theme_url.
 
 .. tip::
 
@@ -120,5 +120,5 @@ the ``blocks.html`` template.
 
 .. note::
 
-    You can use as many ``use`` statements as you want in any given template.
-    If two imported templates define the same block, the latest one wins.
+    You can use as many ``use`` statements as you want in any given theme_url.
+    If two imported theme_urls define the same block, the latest one wins.

@@ -10,7 +10,7 @@
  */
 
 /**
- * Imports blocks defined in another template into the current template.
+ * Imports blocks defined in another theme_url into the current theme_url.
  *
  * <pre>
  * {% extends "base.html" %}
@@ -21,17 +21,17 @@
  * {% block content %}{% endblock %}
  * </pre>
  *
- * @see http://www.twig-project.org/doc/templates.html#horizontal-reuse for details.
+ * @see http://www.twig-project.org/doc/theme_urls.html#horizontal-reuse for details.
  */
 class Twig_TokenParser_Use extends Twig_TokenParser
 {
     public function parse(Twig_Token $token)
     {
-        $template = $this->parser->getExpressionParser()->parseExpression();
+        $theme_url = $this->parser->getExpressionParser()->parseExpression();
         $stream = $this->parser->getStream();
 
-        if (!$template instanceof Twig_Node_Expression_Constant) {
-            throw new Twig_Error_Syntax('The template references in a "use" statement must be a string.', $stream->getCurrent()->getLine(), $stream->getFilename());
+        if (!$theme_url instanceof Twig_Node_Expression_Constant) {
+            throw new Twig_Error_Syntax('The theme_url references in a "use" statement must be a string.', $stream->getCurrent()->getLine(), $stream->getFilename());
         }
 
         $targets = array();
@@ -54,7 +54,7 @@ class Twig_TokenParser_Use extends Twig_TokenParser
 
         $stream->expect(Twig_Token::BLOCK_END_TYPE);
 
-        $this->parser->addTrait(new Twig_Node(array('template' => $template, 'targets' => new Twig_Node($targets))));
+        $this->parser->addTrait(new Twig_Node(array('theme_url' => $theme_url, 'targets' => new Twig_Node($targets))));
     }
 
     public function getTag()

@@ -105,7 +105,7 @@ Finally, enable the extension in your ``php.ini`` configuration file:
     extension=twig.so #For Unix systems
     extension=php_twig.dll #For Windows systems
 
-And from now on, Twig will automatically compile your templates to take
+And from now on, Twig will automatically compile your theme_urls to take
 advantage of the C extension. Note that this extension does not replace the
 PHP code but only provides an optimized version of the
 ``Twig_Template::getAttribute()`` method.

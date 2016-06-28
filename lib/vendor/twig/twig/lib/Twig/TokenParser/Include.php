@@ -11,7 +11,7 @@
  */
 
 /**
- * Includes a template.
+ * Includes a theme_url.
  *
  * <pre>
  *   {% include 'header.html' %}

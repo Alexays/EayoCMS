@@ -57,18 +57,18 @@ abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getTests
      */
-    public function testIntegration($file, $message, $condition, $templates, $exception, $outputs)
+    public function testIntegration($file, $message, $condition, $theme_urls, $exception, $outputs)
     {
-        $this->doIntegrationTest($file, $message, $condition, $templates, $exception, $outputs);
+        $this->doIntegrationTest($file, $message, $condition, $theme_urls, $exception, $outputs);
     }
 
     /**
      * @dataProvider getLegacyTests
      * @group legacy
      */
-    public function testLegacyIntegration($file, $message, $condition, $templates, $exception, $outputs)
+    public function testLegacyIntegration($file, $message, $condition, $theme_urls, $exception, $outputs)
     {
-        $this->doIntegrationTest($file, $message, $condition, $templates, $exception, $outputs);
+        $this->doIntegrationTest($file, $message, $condition, $theme_urls, $exception, $outputs);
     }
 
     public function getTests($name, $legacyTests = false)
@@ -90,20 +90,20 @@ abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
             if (preg_match('/--TEST--\s*(.*?)\s*(?:--CONDITION--\s*(.*))?\s*((?:--TEMPLATE(?:\(.*?\))?--(?:.*?))+)\s*(?:--DATA--\s*(.*))?\s*--EXCEPTION--\s*(.*)/sx', $test, $match)) {
                 $message = $match[1];
                 $condition = $match[2];
-                $templates = self::parseTemplates($match[3]);
+                $theme_urls = self::parseTemplates($match[3]);
                 $exception = $match[5];
                 $outputs = array(array(null, $match[4], null, ''));
             } elseif (preg_match('/--TEST--\s*(.*?)\s*(?:--CONDITION--\s*(.*))?\s*((?:--TEMPLATE(?:\(.*?\))?--(?:.*?))+)--DATA--.*?--EXPECT--.*/s', $test, $match)) {
                 $message = $match[1];
                 $condition = $match[2];
-                $templates = self::parseTemplates($match[3]);
+                $theme_urls = self::parseTemplates($match[3]);
                 $exception = false;
                 preg_match_all('/--DATA--(.*?)(?:--CONFIG--(.*?))?--EXPECT--(.*?)(?=\-\-DATA\-\-|$)/s', $test, $outputs, PREG_SET_ORDER);
             } else {
                 throw new InvalidArgumentException(sprintf('Test "%s" is not valid.', str_replace($fixturesDir.'/', '', $file)));
             }
 
-            $tests[] = array(str_replace($fixturesDir.'/', '', $file), $message, $condition, $templates, $exception, $outputs);
+            $tests[] = array(str_replace($fixturesDir.'/', '', $file), $message, $condition, $theme_urls, $exception, $outputs);
         }
 
         if ($legacyTests && empty($tests)) {
@@ -119,7 +119,7 @@ abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
         return $this->getTests('testLegacyIntegration', true);
     }
 
-    protected function doIntegrationTest($file, $message, $condition, $templates, $exception, $outputs)
+    protected function doIntegrationTest($file, $message, $condition, $theme_urls, $exception, $outputs)
     {
         if ($condition) {
             eval('$ret = '.$condition.';');
@@ -128,7 +128,7 @@ abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
             }
         }
 
-        $loader = new Twig_Loader_Array($templates);
+        $loader = new Twig_Loader_Array($theme_urls);
 
         foreach ($outputs as $i => $match) {
             $config = array_merge(array(
@@ -156,13 +156,13 @@ abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
             // avoid using the same PHP class name for different cases
             // only for PHP 5.2+
             if (PHP_VERSION_ID >= 50300) {
-                $p = new ReflectionProperty($twig, 'templateClassPrefix');
+                $p = new ReflectionProperty($twig, 'theme_urlClassPrefix');
                 $p->setAccessible(true);
                 $p->setValue($twig, '__TwigTemplate_'.hash('sha256', uniqid(mt_rand(), true), false).'_');
             }
 
             try {
-                $template = $twig->loadTemplate('index.twig');
+                $theme_url = $twig->loadTemplate('index.twig');
             } catch (Exception $e) {
                 if (false !== $exception) {
                     $message = $e->getMessage();
@@ -182,7 +182,7 @@ abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
             }
 
             try {
-                $output = trim($template->render(eval($match[1].';')), "\n ");
+                $output = trim($theme_url->render(eval($match[1].';')), "\n ");
             } catch (Exception $e) {
                 if (false !== $exception) {
                     $this->assertSame(trim($exception), trim(sprintf('%s: %s', get_class($e), $e->getMessage())));
@@ -207,9 +207,9 @@ abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
             $expected = trim($match[3], "\n ");
 
             if ($expected !== $output) {
-                printf("Compiled templates that failed on case %d:\n", $i + 1);
+                printf("Compiled theme_urls that failed on case %d:\n", $i + 1);
 
-                foreach (array_keys($templates) as $name) {
+                foreach (array_keys($theme_urls) as $name) {
                     echo "Template: $name\n";
                     $source = $loader->getSource($name);
                     echo $twig->compile($twig->parse($twig->tokenize($source, $name)));
@@ -221,12 +221,12 @@ abstract class Twig_Test_IntegrationTestCase extends PHPUnit_Framework_TestCase
 
     protected static function parseTemplates($test)
     {
-        $templates = array();
+        $theme_urls = array();
         preg_match_all('/--TEMPLATE(?:\((.*?)\))?--(.*?)(?=\-\-TEMPLATE|$)/s', $test, $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
-            $templates[($match[1] ? $match[1] : 'index.twig')] = $match[2];
+            $theme_urls[($match[1] ? $match[1] : 'index.twig')] = $match[2];
         }
 
-        return $templates;
+        return $theme_urls;
     }
 }

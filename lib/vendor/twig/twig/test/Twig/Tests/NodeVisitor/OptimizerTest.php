@@ -52,11 +52,11 @@ class Twig_Tests_NodeVisitor_OptimizerTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider getTestsForForOptimizer
      */
-    public function testForOptimizer($template, $expected)
+    public function testForOptimizer($theme_url, $expected)
     {
         $env = new Twig_Environment($this->getMock('Twig_LoaderInterface'), array('cache' => false));
 
-        $stream = $env->parse($env->tokenize($template, 'index'));
+        $stream = $env->parse($env->tokenize($theme_url, 'index'));
 
         foreach ($expected as $target => $withLoop) {
             $this->assertTrue($this->checkForConfiguration($stream, $target, $withLoop), sprintf('variable %s is %soptimized', $target, $withLoop ? 'not ' : ''));

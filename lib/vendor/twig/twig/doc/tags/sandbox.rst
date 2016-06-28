@@ -2,7 +2,7 @@
 ===========
 
 The ``sandbox`` tag can be used to enable the sandboxing mode for an included
-template, when sandboxing is not enabled globally for the Twig environment:
+theme_url, when sandboxing is not enabled globally for the Twig environment:
 
 .. code-block:: jinja
 
@@ -18,7 +18,7 @@ template, when sandboxing is not enabled globally for the Twig environment:
 .. note::
 
     The ``sandbox`` tag can only be used to sandbox an include tag and it
-    cannot be used to sandbox a section of a template. The following example
+    cannot be used to sandbox a section of a theme_url. The following example
     won't work:
 
     .. code-block:: jinja

@@ -17,7 +17,7 @@ class Twig_Profiler_Dumper_Html extends Twig_Profiler_Dumper_Text
     private static $colors = array(
         'block' => '#dfd',
         'macro' => '#ddf',
-        'template' => '#ffd',
+        'theme_url' => '#ffd',
         'big' => '#d44',
     );
 
@@ -28,7 +28,7 @@ class Twig_Profiler_Dumper_Html extends Twig_Profiler_Dumper_Text
 
     protected function formatTemplate(Twig_Profiler_Profile $profile, $prefix)
     {
-        return sprintf('%s└ <span style="background-color: %s">%s</span>', $prefix, self::$colors['template'], $profile->getTemplate());
+        return sprintf('%s└ <span style="background-color: %s">%s</span>', $prefix, self::$colors['theme_url'], $profile->getTemplate());
     }
 
     protected function formatNonTemplate(Twig_Profiler_Profile $profile, $prefix)

@@ -1,7 +1,7 @@
 ``filter``
 ==========
 
-Filter sections allow you to apply regular Twig filters on a block of template
+Filter sections allow you to apply regular Twig filters on a block of theme_url
 data. Just wrap the code in the special ``filter`` section:
 
 .. code-block:: jinja

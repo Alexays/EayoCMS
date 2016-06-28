@@ -1,7 +1,7 @@
 ``block``
 =========
 
-When a template uses inheritance and if you want to print a block multiple
+When a theme_url uses inheritance and if you want to print a block multiple
 times, use the ``block`` function:
 
 .. code-block:: jinja

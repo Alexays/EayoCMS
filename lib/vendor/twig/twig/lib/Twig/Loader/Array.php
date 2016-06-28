@@ -10,11 +10,11 @@
  */
 
 /**
- * Loads a template from an array.
+ * Loads a theme_url from an array.
  *
  * When using this loader with a cache mechanism, you should know that a new cache
- * key is generated each time a template content "changes" (the cache key being the
- * source code of the template). If you don't want to see your cache grows out of
+ * key is generated each time a theme_url content "changes" (the cache key being the
+ * source code of the theme_url). If you don't want to see your cache grows out of
  * control, you need to take care of clearing the old cache file by yourself.
  *
  * This loader should only be used for unit testing.
@@ -23,27 +23,27 @@
  */
 class Twig_Loader_Array implements Twig_LoaderInterface, Twig_ExistsLoaderInterface
 {
-    protected $templates = array();
+    protected $theme_urls = array();
 
     /**
      * Constructor.
      *
-     * @param array $templates An array of templates (keys are the names, and values are the source code)
+     * @param array $theme_urls An array of theme_urls (keys are the names, and values are the source code)
      */
-    public function __construct(array $templates)
+    public function __construct(array $theme_urls)
     {
-        $this->templates = $templates;
+        $this->theme_urls = $theme_urls;
     }
 
     /**
-     * Adds or overrides a template.
+     * Adds or overrides a theme_url.
      *
-     * @param string $name     The template name
-     * @param string $template The template source
+     * @param string $name     The theme_url name
+     * @param string $theme_url The theme_url source
      */
-    public function setTemplate($name, $template)
+    public function setTemplate($name, $theme_url)
     {
-        $this->templates[(string) $name] = $template;
+        $this->theme_urls[(string) $name] = $theme_url;
     }
 
     /**
@@ -52,11 +52,11 @@ class Twig_Loader_Array implements Twig_LoaderInterface, Twig_ExistsLoaderInterf
     public function getSource($name)
     {
         $name = (string) $name;
-        if (!isset($this->templates[$name])) {
+        if (!isset($this->theme_urls[$name])) {
             throw new Twig_Error_Loader(sprintf('Template "%s" is not defined.', $name));
         }
 
-        return $this->templates[$name];
+        return $this->theme_urls[$name];
     }
 
     /**
@@ -64,7 +64,7 @@ class Twig_Loader_Array implements Twig_LoaderInterface, Twig_ExistsLoaderInterf
      */
     public function exists($name)
     {
-        return isset($this->templates[(string) $name]);
+        return isset($this->theme_urls[(string) $name]);
     }
 
     /**
@@ -73,11 +73,11 @@ class Twig_Loader_Array implements Twig_LoaderInterface, Twig_ExistsLoaderInterf
     public function getCacheKey($name)
     {
         $name = (string) $name;
-        if (!isset($this->templates[$name])) {
+        if (!isset($this->theme_urls[$name])) {
             throw new Twig_Error_Loader(sprintf('Template "%s" is not defined.', $name));
         }
 
-        return $this->templates[$name];
+        return $this->theme_urls[$name];
     }
 
     /**
@@ -86,7 +86,7 @@ class Twig_Loader_Array implements Twig_LoaderInterface, Twig_ExistsLoaderInterf
     public function isFresh($name, $time)
     {
         $name = (string) $name;
-        if (!isset($this->templates[$name])) {
+        if (!isset($this->theme_urls[$name])) {
             throw new Twig_Error_Loader(sprintf('Template "%s" is not defined.', $name));
         }
 

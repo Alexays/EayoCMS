@@ -23,7 +23,7 @@ Macros differs from native PHP functions in a few ways:
 * If extra positional arguments are passed to a macro, they end up in the
   special ``varargs`` variable as a list of values.
 
-But as with PHP functions, macros don't have access to the current template
+But as with PHP functions, macros don't have access to the current theme_url
 variables.
 
 .. tip::
@@ -31,7 +31,7 @@ variables.
     You can pass the whole context as an argument by using the special
     ``_context`` variable.
 
-Macros can be defined in any template, and need to be "imported" before being
+Macros can be defined in any theme_url, and need to be "imported" before being
 used (see the documentation for the :doc:`import<../tags/import>` tag for more
 information):
 
@@ -40,7 +40,7 @@ information):
     {% import "forms.html" as forms %}
 
 The above ``import`` call imports the "forms.html" file (which can contain only
-macros, or a template and some macros), and import the functions as items of
+macros, or a theme_url and some macros), and import the functions as items of
 the ``forms`` variable.
 
 The macro can then be called at will:
@@ -50,7 +50,7 @@ The macro can then be called at will:
     <p>{{ forms.input('username') }}</p>
     <p>{{ forms.input('password', null, 'password') }}</p>
 
-If macros are defined and used in the same template, you can use the
+If macros are defined and used in the same theme_url, you can use the
 special ``_self`` variable to import them:
 
 .. code-block:: jinja
@@ -61,7 +61,7 @@ special ``_self`` variable to import them:
 
 .. warning::
 
-    When you define a macro in the template where you are going to use it, you
+    When you define a macro in the theme_url where you are going to use it, you
     might be tempted to call the macro directly via ``_self.input()`` instead
     of importing it; even if seems to work, this is just a side-effect of the
     current implementation and it won't work anymore in Twig 2.x.

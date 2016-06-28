@@ -40,7 +40,7 @@ class Twig_Environment
     protected $strictVariables;
     protected $unaryOperators;
     protected $binaryOperators;
-    protected $templateClassPrefix = '__TwigTemplate_';
+    protected $theme_urlClassPrefix = '__TwigTemplate_';
     protected $functionCallbacks = array();
     protected $filterCallbacks = array();
     protected $staging;
@@ -58,28 +58,28 @@ class Twig_Environment
      *  * debug: When set to true, it automatically set "auto_reload" to true as
      *           well (default to false).
      *
-     *  * charset: The charset used by the templates (default to UTF-8).
+     *  * charset: The charset used by the theme_urls (default to UTF-8).
      *
-     *  * base_template_class: The base template class to use for generated
-     *                         templates (default to Twig_Template).
+     *  * base_theme_url_class: The base theme_url class to use for generated
+     *                         theme_urls (default to Twig_Template).
      *
-     *  * cache: An absolute path where to store the compiled templates,
+     *  * cache: An absolute path where to store the compiled theme_urls,
      *           a Twig_Cache_Interface implementation,
      *           or false to disable compilation cache (default).
      *
-     *  * auto_reload: Whether to reload the template if the original source changed.
+     *  * auto_reload: Whether to reload the theme_url if the original source changed.
      *                 If you don't provide the auto_reload option, it will be
      *                 determined automatically based on the debug value.
      *
-     *  * strict_variables: Whether to ignore invalid variables in templates
+     *  * strict_variables: Whether to ignore invalid variables in theme_urls
      *                      (default to false).
      *
      *  * autoescape: Whether to enable auto-escaping (default to html):
      *                  * false: disable auto-escaping
      *                  * true: equivalent to html
      *                  * html, js: set the autoescaping to one of the supported strategies
-     *                  * filename: set the autoescaping strategy based on the template filename extension
-     *                  * PHP callback: a PHP callback that returns an escaping strategy based on the template "filename"
+     *                  * filename: set the autoescaping strategy based on the theme_url filename extension
+     *                  * PHP callback: a PHP callback that returns an escaping strategy based on the theme_url "filename"
      *
      *  * optimizations: A flag that indicates which optimizations to apply
      *                   (default to -1 which means that all optimizations are enabled;
@@ -99,7 +99,7 @@ class Twig_Environment
         $options = array_merge(array(
             'debug' => false,
             'charset' => 'UTF-8',
-            'base_template_class' => 'Twig_Template',
+            'base_theme_url_class' => 'Twig_Template',
             'strict_variables' => false,
             'autoescape' => 'html',
             'cache' => false,
@@ -109,7 +109,7 @@ class Twig_Environment
 
         $this->debug = (bool) $options['debug'];
         $this->charset = strtoupper($options['charset']);
-        $this->baseTemplateClass = $options['base_template_class'];
+        $this->baseTemplateClass = $options['base_theme_url_class'];
         $this->autoReload = null === $options['auto_reload'] ? $this->debug : (bool) $options['auto_reload'];
         $this->strictVariables = (bool) $options['strict_variables'];
         $this->setCache($options['cache']);
@@ -138,9 +138,9 @@ class Twig_Environment
     }
 
     /**
-     * Gets the base template class for compiled templates.
+     * Gets the base theme_url class for compiled theme_urls.
      *
-     * @return string The base template class name
+     * @return string The base theme_url class name
      */
     public function getBaseTemplateClass()
     {
@@ -148,9 +148,9 @@ class Twig_Environment
     }
 
     /**
-     * Sets the base template class for compiled templates.
+     * Sets the base theme_url class for compiled theme_urls.
      *
-     * @param string $class The base template class name
+     * @param string $class The base theme_url class name
      */
     public function setBaseTemplateClass($class)
     {
@@ -241,7 +241,7 @@ class Twig_Environment
      * @param bool $original Whether to return the original cache option or the real cache instance
      *
      * @return Twig_CacheInterface|string|false A Twig_CacheInterface implementation,
-     *                                          an absolute path to the compiled templates,
+     *                                          an absolute path to the compiled theme_urls,
      *                                          or false to disable cache
      */
     public function getCache($original = true)
@@ -253,7 +253,7 @@ class Twig_Environment
      * Sets the current cache implementation.
      *
      * @param Twig_CacheInterface|string|false $cache A Twig_CacheInterface implementation,
-     *                                                an absolute path to the compiled templates,
+     *                                                an absolute path to the compiled theme_urls,
      *                                                or false to disable cache
      */
     public function setCache($cache)
@@ -276,9 +276,9 @@ class Twig_Environment
     }
 
     /**
-     * Gets the cache filename for a given template.
+     * Gets the cache filename for a given theme_url.
      *
-     * @param string $name The template name
+     * @param string $name The theme_url name
      *
      * @return string|false The cache file name or false when caching is disabled
      *
@@ -294,32 +294,32 @@ class Twig_Environment
     }
 
     /**
-     * Gets the template class associated with the given string.
+     * Gets the theme_url class associated with the given string.
      *
-     * The generated template class is based on the following parameters:
+     * The generated theme_url class is based on the following parameters:
      *
-     *  * The cache key for the given template;
+     *  * The cache key for the given theme_url;
      *  * The currently enabled extensions;
      *  * Whether the Twig C extension is available or not.
      *
-     * @param string   $name  The name for which to calculate the template class name
-     * @param int|null $index The index if it is an embedded template
+     * @param string   $name  The name for which to calculate the theme_url class name
+     * @param int|null $index The index if it is an embedded theme_url
      *
-     * @return string The template class name
+     * @return string The theme_url class name
      */
     public function getTemplateClass($name, $index = null)
     {
         $key = $this->getLoader()->getCacheKey($name);
         $key .= json_encode(array_keys($this->extensions));
-        $key .= function_exists('twig_template_get_attributes');
+        $key .= function_exists('twig_theme_url_get_attributes');
 
-        return $this->templateClassPrefix.hash('sha256', $key).(null === $index ? '' : '_'.$index);
+        return $this->theme_urlClassPrefix.hash('sha256', $key).(null === $index ? '' : '_'.$index);
     }
 
     /**
-     * Gets the template class prefix.
+     * Gets the theme_url class prefix.
      *
-     * @return string The template class prefix
+     * @return string The theme_url class prefix
      *
      * @deprecated since 1.22 (to be removed in 2.0)
      */
@@ -327,18 +327,18 @@ class Twig_Environment
     {
         @trigger_error(sprintf('The %s method is deprecated since version 1.22 and will be removed in Twig 2.0.', __METHOD__), E_USER_DEPRECATED);
 
-        return $this->templateClassPrefix;
+        return $this->theme_urlClassPrefix;
     }
 
     /**
-     * Renders a template.
+     * Renders a theme_url.
      *
-     * @param string $name    The template name
-     * @param array  $context An array of parameters to pass to the template
+     * @param string $name    The theme_url name
+     * @param array  $context An array of parameters to pass to the theme_url
      *
-     * @return string The rendered template
+     * @return string The rendered theme_url
      *
-     * @throws Twig_Error_Loader  When the template cannot be found
+     * @throws Twig_Error_Loader  When the theme_url cannot be found
      * @throws Twig_Error_Syntax  When an error occurred during compilation
      * @throws Twig_Error_Runtime When an error occurred during rendering
      */
@@ -348,12 +348,12 @@ class Twig_Environment
     }
 
     /**
-     * Displays a template.
+     * Displays a theme_url.
      *
-     * @param string $name    The template name
-     * @param array  $context An array of parameters to pass to the template
+     * @param string $name    The theme_url name
+     * @param array  $context An array of parameters to pass to the theme_url
      *
-     * @throws Twig_Error_Loader  When the template cannot be found
+     * @throws Twig_Error_Loader  When the theme_url cannot be found
      * @throws Twig_Error_Syntax  When an error occurred during compilation
      * @throws Twig_Error_Runtime When an error occurred during rendering
      */
@@ -363,14 +363,14 @@ class Twig_Environment
     }
 
     /**
-     * Loads a template by name.
+     * Loads a theme_url by name.
      *
-     * @param string $name  The template name
-     * @param int    $index The index if it is an embedded template
+     * @param string $name  The theme_url name
+     * @param int    $index The index if it is an embedded theme_url
      *
-     * @return Twig_TemplateInterface A template instance representing the given template name
+     * @return Twig_TemplateInterface A theme_url instance representing the given theme_url name
      *
-     * @throws Twig_Error_Loader When the template cannot be found
+     * @throws Twig_Error_Loader When the theme_url cannot be found
      * @throws Twig_Error_Syntax When an error occurred during compilation
      */
     public function loadTemplate($name, $index = null)
@@ -412,29 +412,29 @@ class Twig_Environment
     }
 
     /**
-     * Creates a template from source.
+     * Creates a theme_url from source.
      *
-     * This method should not be used as a generic way to load templates.
+     * This method should not be used as a generic way to load theme_urls.
      *
-     * @param string $template The template name
+     * @param string $theme_url The theme_url name
      *
-     * @return Twig_Template A template instance representing the given template name
+     * @return Twig_Template A theme_url instance representing the given theme_url name
      *
-     * @throws Twig_Error_Loader When the template cannot be found
+     * @throws Twig_Error_Loader When the theme_url cannot be found
      * @throws Twig_Error_Syntax When an error occurred during compilation
      */
-    public function createTemplate($template)
+    public function createTemplate($theme_url)
     {
-        $name = sprintf('__string_template__%s', hash('sha256', uniqid(mt_rand(), true), false));
+        $name = sprintf('__string_theme_url__%s', hash('sha256', uniqid(mt_rand(), true), false));
 
         $loader = new Twig_Loader_Chain(array(
-            new Twig_Loader_Array(array($name => $template)),
+            new Twig_Loader_Array(array($name => $theme_url)),
             $current = $this->getLoader(),
         ));
 
         $this->setLoader($loader);
         try {
-            $template = $this->loadTemplate($name);
+            $theme_url = $this->loadTemplate($name);
         } catch (Exception $e) {
             $this->setLoader($current);
 
@@ -446,20 +446,20 @@ class Twig_Environment
         }
         $this->setLoader($current);
 
-        return $template;
+        return $theme_url;
     }
 
     /**
-     * Returns true if the template is still fresh.
+     * Returns true if the theme_url is still fresh.
      *
      * Besides checking the loader for freshness information,
      * this method also checks if the enabled extensions have
      * not changed.
      *
-     * @param string $name The template name
-     * @param int    $time The last modification time of the cached template
+     * @param string $name The theme_url name
+     * @param int    $time The last modification time of the cached theme_url
      *
-     * @return bool true if the template is fresh, false otherwise
+     * @return bool true if the theme_url is fresh, false otherwise
      */
     public function isTemplateFresh($name, $time)
     {
@@ -476,16 +476,16 @@ class Twig_Environment
     }
 
     /**
-     * Tries to load a template consecutively from an array.
+     * Tries to load a theme_url consecutively from an array.
      *
      * Similar to loadTemplate() but it also accepts Twig_TemplateInterface instances and an array
-     * of templates where each is tried to be loaded.
+     * of theme_urls where each is tried to be loaded.
      *
-     * @param string|Twig_Template|array $names A template or an array of templates to try consecutively
+     * @param string|Twig_Template|array $names A theme_url or an array of theme_urls to try consecutively
      *
      * @return Twig_Template
      *
-     * @throws Twig_Error_Loader When none of the templates can be found
+     * @throws Twig_Error_Loader When none of the theme_urls can be found
      * @throws Twig_Error_Syntax When an error occurred during compilation
      */
     public function resolveTemplate($names)
@@ -509,11 +509,11 @@ class Twig_Environment
             throw $e;
         }
 
-        throw new Twig_Error_Loader(sprintf('Unable to find one of the following templates: "%s".', implode('", "', $names)));
+        throw new Twig_Error_Loader(sprintf('Unable to find one of the following theme_urls: "%s".', implode('", "', $names)));
     }
 
     /**
-     * Clears the internal template cache.
+     * Clears the internal theme_url cache.
      *
      * @deprecated since 1.18.3 (to be removed in 2.0)
      */
@@ -525,7 +525,7 @@ class Twig_Environment
     }
 
     /**
-     * Clears the template cache files on the filesystem.
+     * Clears the theme_url cache files on the filesystem.
      *
      * @deprecated since 1.22 (to be removed in 2.0)
      */
@@ -569,8 +569,8 @@ class Twig_Environment
     /**
      * Tokenizes a source code.
      *
-     * @param string $source The template source code
-     * @param string $name   The template name
+     * @param string $source The theme_url source code
+     * @param string $name   The theme_url name
      *
      * @return Twig_TokenStream A Twig_TokenStream instance
      *
@@ -656,10 +656,10 @@ class Twig_Environment
     }
 
     /**
-     * Compiles a template source code.
+     * Compiles a theme_url source code.
      *
-     * @param string $source The template source code
-     * @param string $name   The template name
+     * @param string $source The theme_url source code
+     * @param string $name   The theme_url name
      *
      * @return string The compiled PHP source code
      *
@@ -679,7 +679,7 @@ class Twig_Environment
             $e->setTemplateFile($name);
             throw $e;
         } catch (Exception $e) {
-            throw new Twig_Error_Syntax(sprintf('An exception has been thrown during the compilation of a template ("%s").', $e->getMessage()), -1, $name, $e);
+            throw new Twig_Error_Syntax(sprintf('An exception has been thrown during the compilation of a theme_url ("%s").', $e->getMessage()), -1, $name, $e);
         }
     }
 
@@ -708,7 +708,7 @@ class Twig_Environment
     }
 
     /**
-     * Sets the default template charset.
+     * Sets the default theme_url charset.
      *
      * @param string $charset The default charset
      */
@@ -718,7 +718,7 @@ class Twig_Environment
     }
 
     /**
-     * Gets the default template charset.
+     * Gets the default theme_url charset.
      *
      * @return string The default charset
      */
@@ -1179,7 +1179,7 @@ class Twig_Environment
     /**
      * Registers a Global.
      *
-     * New globals can be added before compiling or rendering a template;
+     * New globals can be added before compiling or rendering a theme_url;
      * but after, you can only update existing globals.
      *
      * @param string $name  The global name

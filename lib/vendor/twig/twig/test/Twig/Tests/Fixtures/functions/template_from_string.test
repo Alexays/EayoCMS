@@ -1,14 +1,14 @@
 --TEST--
-"template_from_string" function
+"theme_url_from_string" function
 --TEMPLATE--
-{% include template_from_string(template) %}
+{% include theme_url_from_string(theme_url) %}
 
-{% include template_from_string("Hello {{ name }}") %}
-{% include template_from_string('{% extends "parent.twig" %}{% block content %}Hello {{ name }}{% endblock %}') %}
+{% include theme_url_from_string("Hello {{ name }}") %}
+{% include theme_url_from_string('{% extends "parent.twig" %}{% block content %}Hello {{ name }}{% endblock %}') %}
 --TEMPLATE(parent.twig)--
 {% block content %}{% endblock %}
 --DATA--
-return array('name' => 'Fabien', 'template' => "Hello {{ name }}")
+return array('name' => 'Fabien', 'theme_url' => "Hello {{ name }}")
 --EXPECT--
 Hello Fabien
 Hello Fabien
