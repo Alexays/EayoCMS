@@ -30,22 +30,22 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
         <!-- CDN  -->
         <link href=\"";
         // line 13
-        echo (isset($context["theme_url"]) ? $context["theme_url"] : null);
-        echo "assets/css/bootstrap.min.css\" rel=\"stylesheet\" type=\"text/css\" />
+        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
+        echo "css/bootstrap.min.css\" rel=\"stylesheet\" type=\"text/css\" />
         <!-- CUSTOM STYLE  -->
         <link href=\"http://fonts.googleapis.com/css?family=Lato|Montserrat\" rel=\"stylesheet\" type=\"text/css\" />
         <link href=\"";
         // line 16
-        echo (isset($context["theme_url"]) ? $context["theme_url"] : null);
-        echo "assets/css/style.css\" rel=\"stylesheet\" type=\"text/css\" />
+        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
+        echo "css/style.css\" rel=\"stylesheet\" type=\"text/css\" />
         <link href=\"";
         // line 17
-        echo (isset($context["theme_url"]) ? $context["theme_url"] : null);
-        echo "assets/css/font-awesome.min.css\" rel=\"stylesheet\" type=\"text/css\" />
+        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
+        echo "css/font-awesome.min.css\" rel=\"stylesheet\" type=\"text/css\" />
         <link href=\"";
         // line 18
-        echo (isset($context["theme_url"]) ? $context["theme_url"] : null);
-        echo "assets/css/waves.min.css\" rel=\"stylesheet\" type=\"text/css\" />
+        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
+        echo "css/waves.min.css\" rel=\"stylesheet\" type=\"text/css\" />
         <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -67,11 +67,11 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
                         <a class=\"navbar-brand\" href=\"";
         // line 37
         echo (isset($context["base_url"]) ? $context["base_url"] : null);
-        echo "/admin/\">
+        echo "admin/\">
                             <img alt=\"Logo EayoCMS\" src=\"";
         // line 38
-        echo (isset($context["theme_url"]) ? $context["theme_url"] : null);
-        echo "/assets/img/logo.png\" height=\"75\" width=\"384\">
+        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
+        echo "img/logo.png\" height=\"75\" width=\"384\">
                             <p id=\"version\">";
         // line 39
         echo (isset($context["version"]) ? $context["version"] : null);
@@ -95,7 +95,7 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
                             <li class=\"active\"><a href=\"";
         // line 53
         echo (isset($context["base_url"]) ? $context["base_url"] : null);
-        echo "/admin/\">Tableaux de bord</a></li>
+        echo "admin/\">Tableaux de bord</a></li>
                             <li class=\"dropdown\">
                                 <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Pages</a>
                                 <ul class=\"dropdown-menu\">
@@ -111,7 +111,7 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
                             <li><a href=\"";
         // line 66
         echo (isset($context["base_url"]) ? $context["base_url"] : null);
-        echo "/admin/users\">Utilisateurs</a></li>
+        echo "admin/users\">Utilisateurs</a></li>
                             <li><a href=\"forms.html\">Plugins</a></li>
                             <li><a href=\"login.html\">Paramètres</a></li>
                             <li class=\"profile\">
@@ -175,12 +175,12 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
         <!-- Admin SCRIPTS  -->
         <script src=\"";
         // line 107
-        echo (isset($context["theme_url"]) ? $context["theme_url"] : null);
-        echo "assets/js/waves.min.js\"></script>
+        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
+        echo "js/waves.min.js\"></script>
         <script src=\"";
         // line 108
-        echo (isset($context["theme_url"]) ? $context["theme_url"] : null);
-        echo "assets/js/admin.js\"></script>
+        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
+        echo "js/admin.js\"></script>
     </body>
 </html>
 ";
@@ -213,12 +213,12 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
 /*         <![endif]-->*/
 /*         <title>Admin</title>*/
 /*         <!-- CDN  -->*/
-/*         <link href="{{theme_url}}assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />*/
+/*         <link href="{{assets_url}}css/bootstrap.min.css" rel="stylesheet" type="text/css" />*/
 /*         <!-- CUSTOM STYLE  -->*/
 /*         <link href="http://fonts.googleapis.com/css?family=Lato|Montserrat" rel="stylesheet" type="text/css" />*/
-/*         <link href="{{theme_url}}assets/css/style.css" rel="stylesheet" type="text/css" />*/
-/*         <link href="{{theme_url}}assets/css/font-awesome.min.css" rel="stylesheet" type="text/css" />*/
-/*         <link href="{{theme_url}}assets/css/waves.min.css" rel="stylesheet" type="text/css" />*/
+/*         <link href="{{assets_url}}css/style.css" rel="stylesheet" type="text/css" />*/
+/*         <link href="{{assets_url}}css/font-awesome.min.css" rel="stylesheet" type="text/css" />*/
+/*         <link href="{{assets_url}}css/waves.min.css" rel="stylesheet" type="text/css" />*/
 /*         <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->*/
 /*         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->*/
 /*         <!--[if lt IE 9]>*/
@@ -237,8 +237,8 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
 /*                             <span class="icon-bar"></span>*/
 /*                             <span class="icon-bar"></span>*/
 /*                         </button>*/
-/*                         <a class="navbar-brand" href="{{base_url}}/admin/">*/
-/*                             <img alt="Logo EayoCMS" src="{{theme_url}}/assets/img/logo.png" height="75" width="384">*/
+/*                         <a class="navbar-brand" href="{{base_url}}admin/">*/
+/*                             <img alt="Logo EayoCMS" src="{{assets_url}}img/logo.png" height="75" width="384">*/
 /*                             <p id="version">{{version}}</p>*/
 /*                             <p id="sub">Administration</p>*/
 /*                         </a>*/
@@ -253,7 +253,7 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
 /*                     </div>*/
 /*                     <div class="navbar-collapse collapse">*/
 /*                         <ul id="menu-top" class="nav navbar-nav navbar-right">*/
-/*                             <li class="active"><a href="{{base_url}}/admin/">Tableaux de bord</a></li>*/
+/*                             <li class="active"><a href="{{base_url}}admin/">Tableaux de bord</a></li>*/
 /*                             <li class="dropdown">*/
 /*                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>*/
 /*                                 <ul class="dropdown-menu">*/
@@ -266,7 +266,7 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
 /*                                     <li><a href="#">One more separated link</a></li>*/
 /*                                 </ul>*/
 /*                             </li>*/
-/*                             <li><a href="{{base_url}}/admin/users">Utilisateurs</a></li>*/
+/*                             <li><a href="{{base_url}}admin/users">Utilisateurs</a></li>*/
 /*                             <li><a href="forms.html">Plugins</a></li>*/
 /*                             <li><a href="login.html">Paramètres</a></li>*/
 /*                             <li class="profile">*/
@@ -307,8 +307,8 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
 /*         <!-- BOOTSTRAP SCRIPTS  -->*/
 /*         <script src="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"></script>*/
 /*         <!-- Admin SCRIPTS  -->*/
-/*         <script src="{{theme_url}}assets/js/waves.min.js"></script>*/
-/*         <script src="{{theme_url}}assets/js/admin.js"></script>*/
+/*         <script src="{{assets_url}}js/waves.min.js"></script>*/
+/*         <script src="{{assets_url}}js/admin.js"></script>*/
 /*     </body>*/
 /* </html>*/
 /* */

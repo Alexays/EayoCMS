@@ -257,7 +257,8 @@ class Eayo
             $is_markdown = $fileExt === 'md' ? true : false;
         }
         $this->twig_vars = array_merge($this->twig_vars, array(
-            'theme_url' => $this->tools->rooturl.'/'.str_replace(DS, '/', str_replace(ROOT_DIR, '', $template.DS)),
+            'theme_url' => $this->tools->rooturl.$this->tools->SanitizeURL(str_replace(ROOT_DIR, '', $template.DS)),
+            'assets_url' => $this->tools->rooturl.$this->tools->SanitizeURL(dirname(str_replace(ROOT_DIR, '', $template)).DS.'assets'.DS),
             'ctrl' => $controller,
             'is_markdown' => $is_markdown,
             'load_time' => number_format(microtime(true) - PERF_START, 3)

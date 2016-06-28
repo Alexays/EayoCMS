@@ -35,18 +35,18 @@ class __TwigTemplate_b5c1d5094c1a38923051e0791f9e0d7e4be96560d84d4ab9f3ec57ae189
         <!-- CDN  -->
         <link href=\"";
         // line 13
-        echo (isset($context["theme_url"]) ? $context["theme_url"] : null);
-        echo "assets/css/bootstrap.min.css\" rel=\"stylesheet\" type=\"text/css\" />
+        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
+        echo "css/bootstrap.min.css\" rel=\"stylesheet\" type=\"text/css\" />
         <!-- CUSTOM STYLE  -->
         <link href=\"http://fonts.googleapis.com/css?family=Lato|Montserrat\" rel=\"stylesheet\" type=\"text/css\" />
         <link href=\"";
         // line 16
-        echo (isset($context["theme_url"]) ? $context["theme_url"] : null);
-        echo "assets/css/style.css\" rel=\"stylesheet\" type=\"text/css\" />
+        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
+        echo "css/style.css\" rel=\"stylesheet\" type=\"text/css\" />
         <link href=\"";
         // line 17
-        echo (isset($context["theme_url"]) ? $context["theme_url"] : null);
-        echo "assets/css/font-awesome.min.css\" rel=\"stylesheet\" type=\"text/css\" />
+        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
+        echo "css/font-awesome.min.css\" rel=\"stylesheet\" type=\"text/css\" />
         <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -129,11 +129,11 @@ class __TwigTemplate_b5c1d5094c1a38923051e0791f9e0d7e4be96560d84d4ab9f3ec57ae189
 /*         <![endif]-->*/
 /*         <title>{{title}}</title>*/
 /*         <!-- CDN  -->*/
-/*         <link href="{{theme_url}}assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />*/
+/*         <link href="{{assets_url}}css/bootstrap.min.css" rel="stylesheet" type="text/css" />*/
 /*         <!-- CUSTOM STYLE  -->*/
 /*         <link href="http://fonts.googleapis.com/css?family=Lato|Montserrat" rel="stylesheet" type="text/css" />*/
-/*         <link href="{{theme_url}}assets/css/style.css" rel="stylesheet" type="text/css" />*/
-/*         <link href="{{theme_url}}assets/css/font-awesome.min.css" rel="stylesheet" type="text/css" />*/
+/*         <link href="{{assets_url}}css/style.css" rel="stylesheet" type="text/css" />*/
+/*         <link href="{{assets_url}}css/font-awesome.min.css" rel="stylesheet" type="text/css" />*/
 /*         <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->*/
 /*         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->*/
 /*         <!--[if lt IE 9]>*/

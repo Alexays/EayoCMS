@@ -106,13 +106,13 @@ class Tools
     }
 
     /**
-     * Return the Root url like http://127.0.0.1/cms
+     * Return the Root url like http://127.0.0.1/cms/
      *
      * @return string rooturl
      */
     private function GetRootUrl()
     {
-        return $this->scheme . $this->name . $this->rootpath;
+        return $this->scheme . $this->name . $this->rootpath . '/';
     }
 
     /**
@@ -186,6 +186,7 @@ class Tools
     {
         $_url = trim($_url === '' ? $this->name.$this->uri : $_url);
         $_url = rawurldecode($_url);
+        $_url = str_replace(DS, '/', $_url);
         $_url = str_replace(array('--', '&quot;', '!', '@', '#', '$', '%', '^', '*', '(', ')', '+', '{', '}', '|', ':', '"', '<', '>',
                                   '[', ']', '\\', ';', "'", ',', '*', '+', '~', '`', 'laquo', 'raquo', ']>', '&#8216;', '&#8217;', '&#8220;', '&#8221;', '&#8211;', '&#8212;'),
                             array('-', '-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
