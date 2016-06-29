@@ -24,15 +24,6 @@ body {
 /*    --------------------------------------------------
 :: Header
 -------------------------------------------------- */
-.header {
-    min-height: auto;
-    padding: 10px;
-}
-
-header {
-    /*padding-bottom: 50px;*/
-}
-
 header .navbar-brand {
     height: auto;
     display: flex;

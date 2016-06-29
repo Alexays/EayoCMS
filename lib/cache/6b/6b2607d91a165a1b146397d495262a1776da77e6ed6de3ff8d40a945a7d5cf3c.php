@@ -42,10 +42,6 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
         // line 17
         echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
         echo "css/font-awesome.min.css\" rel=\"stylesheet\" type=\"text/css\" />
-        <link href=\"";
-        // line 18
-        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
-        echo "css/waves.min.css\" rel=\"stylesheet\" type=\"text/css\" />
         <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -56,22 +52,6 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
     <body>
         <section class=\"wrapper\">
             <!-- HEADER -->
-            <div class=\"navbar navbar-static-top header\">
-                <div class=\"container\">
-                   <div class=\"row pull-left\">
-                       <div class=\"col-md-12\">
-                            Eayo
-                        </div>
-                   </div>
-                    <div class=\"row pull-right\">
-                        <div class=\"col-md-12\">
-                            <strong>Email: </strong>info@yourdomain.com
-                            &nbsp;&nbsp;
-                            <strong>Support: </strong>+90-897-678-44
-                        </div>
-                    </div>
-                </div>
-            </div>
             <header class=\"navbar navbar-inverse navbar-static-top\">
                 <div class=\"container\">
                     <div class=\"navbar-header\">
@@ -81,15 +61,15 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
                             <span class=\"icon-bar\"></span>
                         </button>
                         <a class=\"navbar-brand\" href=\"";
-        // line 53
+        // line 36
         echo (isset($context["base_url"]) ? $context["base_url"] : null);
         echo "admin/\">
                             <img alt=\"Logo EayoCMS\" src=\"";
-        // line 54
+        // line 37
         echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
         echo "img/logo.png\" height=\"75\" width=\"384\">
                             <p id=\"version\">";
-        // line 55
+        // line 38
         echo (isset($context["version"]) ? $context["version"] : null);
         echo "</p>
                             <p id=\"sub\">Administration</p>
@@ -102,14 +82,14 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
                 <div class=\"container\">
                     <div class=\"navbar-header\">
                         <span class=\"navbar-brand page-title\">";
-        // line 65
+        // line 48
         echo (isset($context["title"]) ? $context["title"] : null);
         echo "</span>
                     </div>
                     <div class=\"navbar-collapse collapse\">
                         <ul id=\"menu-top\" class=\"nav navbar-nav navbar-right\">
                             <li class=\"active\"><a href=\"";
-        // line 69
+        // line 52
         echo (isset($context["base_url"]) ? $context["base_url"] : null);
         echo "admin/\">Tableaux de bord</a></li>
                             <li class=\"dropdown\">
@@ -125,7 +105,7 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
                                 </ul>
                             </li>
                             <li><a href=\"";
-        // line 82
+        // line 65
         echo (isset($context["base_url"]) ? $context["base_url"] : null);
         echo "admin/users\">Utilisateurs</a></li>
                             <li><a href=\"forms.html\">Plugins</a></li>
@@ -133,12 +113,12 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
                             <li class=\"profile\">
                                 <a href=\"blank.html\">
                                     <img width=\"40\" height=\"40\" src=\"";
-        // line 87
+        // line 70
         echo (isset($context["base_url"]) ? $context["base_url"] : null);
         echo $this->getAttribute((isset($context["user"]) ? $context["user"] : null), "avatar", array());
         echo "\" alt=\"My profile\" class=\"img-circle\">
                                     ";
-        // line 88
+        // line 71
         echo $this->getAttribute((isset($context["user"]) ? $context["user"] : null), "firstname", array());
         echo " ";
         echo twig_first($this->env, $this->getAttribute((isset($context["user"]) ? $context["user"] : null), "surname", array()));
@@ -153,21 +133,21 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
             <div class=\"content-wrapper\">
                 <div class=\"container-fluid\">
                     ";
-        // line 98
+        // line 81
         if ((isset($context["is_markdown"]) ? $context["is_markdown"] : null)) {
-            // line 99
+            // line 82
             echo "                    ";
             echo $this->env->getExtension('markdown')->parseMarkdown((isset($context["content"]) ? $context["content"] : null));
             echo "
                     ";
         } else {
-            // line 101
+            // line 84
             echo "                    ";
             echo (isset($context["content"]) ? $context["content"] : null);
             echo "
                     ";
         }
-        // line 103
+        // line 86
         echo "                </div>
             </div>
         </section>
@@ -177,7 +157,7 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
                 <div class=\"row\">
                     <div class=\"col-md-12\">
                         <strong>Eayo</strong>CMS crée avec <i class=\"fa fa-heart\" aria-hidden=\"true\"></i> par Alexis Rouillard<br><sub>Effectuée en ";
-        // line 111
+        // line 94
         echo (isset($context["load_time"]) ? $context["load_time"] : null);
         echo " secondes</sub>
                     </div>
@@ -192,11 +172,7 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
         <script src=\"http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js\"></script>
         <!-- Admin SCRIPTS  -->
         <script src=\"";
-        // line 123
-        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
-        echo "js/waves.min.js\"></script>
-        <script src=\"";
-        // line 124
+        // line 106
         echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
         echo "js/admin.js\"></script>
     </body>
@@ -216,7 +192,7 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
 
     public function getDebugInfo()
     {
-        return array (  200 => 124,  196 => 123,  181 => 111,  171 => 103,  165 => 101,  159 => 99,  157 => 98,  142 => 88,  137 => 87,  129 => 82,  113 => 69,  106 => 65,  93 => 55,  89 => 54,  85 => 53,  47 => 18,  43 => 17,  39 => 16,  33 => 13,  19 => 1,);
+        return array (  176 => 106,  161 => 94,  151 => 86,  145 => 84,  139 => 82,  137 => 81,  122 => 71,  117 => 70,  109 => 65,  93 => 52,  86 => 48,  73 => 38,  69 => 37,  65 => 36,  43 => 17,  39 => 16,  33 => 13,  19 => 1,);
     }
 }
 /* <!DOCTYPE html>*/
@@ -236,7 +212,6 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
 /*         <link href="http://fonts.googleapis.com/css?family=Lato|Montserrat" rel="stylesheet" type="text/css" />*/
 /*         <link href="{{assets_url}}css/style.css" rel="stylesheet" type="text/css" />*/
 /*         <link href="{{assets_url}}css/font-awesome.min.css" rel="stylesheet" type="text/css" />*/
-/*         <link href="{{assets_url}}css/waves.min.css" rel="stylesheet" type="text/css" />*/
 /*         <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->*/
 /*         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->*/
 /*         <!--[if lt IE 9]>*/
@@ -247,22 +222,6 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
 /*     <body>*/
 /*         <section class="wrapper">*/
 /*             <!-- HEADER -->*/
-/*             <div class="navbar navbar-static-top header">*/
-/*                 <div class="container">*/
-/*                    <div class="row pull-left">*/
-/*                        <div class="col-md-12">*/
-/*                             Eayo*/
-/*                         </div>*/
-/*                    </div>*/
-/*                     <div class="row pull-right">*/
-/*                         <div class="col-md-12">*/
-/*                             <strong>Email: </strong>info@yourdomain.com*/
-/*                             &nbsp;&nbsp;*/
-/*                             <strong>Support: </strong>+90-897-678-44*/
-/*                         </div>*/
-/*                     </div>*/
-/*                 </div>*/
-/*             </div>*/
 /*             <header class="navbar navbar-inverse navbar-static-top">*/
 /*                 <div class="container">*/
 /*                     <div class="navbar-header">*/
@@ -341,7 +300,6 @@ class __TwigTemplate_c8e5d353c1a889aea7e283d99bf1e3b840eca1227852fce1c8f3957becd
 /*         <!-- BOOTSTRAP SCRIPTS  -->*/
 /*         <script src="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"></script>*/
 /*         <!-- Admin SCRIPTS  -->*/
-/*         <script src="{{assets_url}}js/waves.min.js"></script>*/
 /*         <script src="{{assets_url}}js/admin.js"></script>*/
 /*     </body>*/
 /* </html>*/

@@ -26,7 +26,7 @@ class __TwigTemplate_5115adb54b851a2c53f20a612c0c5c714456e6b27177118381c5b0031c0
             </tr>
         </thead>
         <tbody>
-           ";
+            ";
         // line 11
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["ctrl"]) ? $context["ctrl"] : null), "userList", array()));
@@ -35,12 +35,10 @@ class __TwigTemplate_5115adb54b851a2c53f20a612c0c5c714456e6b27177118381c5b0031c0
             // line 12
             echo "            <tr>
                 <th>
-                    <img width=\"45\" height=\"45\" src=\"";
+                    <img src=\"";
             // line 14
             echo (isset($context["uploads_url"]) ? $context["uploads_url"] : null);
-            echo "avatar/";
-            echo $context["key"];
-            echo ".png\" alt=\"My profile\" class=\"img-circle avatar\">
+            echo "avatar/default-0.png\" width=45 height=45 class=\"img-circle avatar\">
                     <a href=\"user-profile.html\" class=\"name\">";
             // line 15
             echo $this->getAttribute($context["user"], "username", array());
@@ -88,7 +86,7 @@ class __TwigTemplate_5115adb54b851a2c53f20a612c0c5c714456e6b27177118381c5b0031c0
 
     public function getDebugInfo()
     {
-        return array (  73 => 24,  66 => 22,  58 => 19,  54 => 18,  46 => 15,  40 => 14,  36 => 12,  31 => 11,  19 => 1,);
+        return array (  71 => 24,  64 => 22,  56 => 19,  52 => 18,  44 => 15,  40 => 14,  36 => 12,  31 => 11,  19 => 1,);
     }
 }
 /* <div class="container-fluid users-list">*/
@@ -101,10 +99,10 @@ class __TwigTemplate_5115adb54b851a2c53f20a612c0c5c714456e6b27177118381c5b0031c0
 /*             </tr>*/
 /*         </thead>*/
 /*         <tbody>*/
-/*            {% for key, user in ctrl.userList %}*/
+/*             {% for key, user in ctrl.userList %}*/
 /*             <tr>*/
 /*                 <th>*/
-/*                     <img width="45" height="45" src="{{uploads_url}}avatar/{{ key }}.png" alt="My profile" class="img-circle avatar">*/
+/*                     <img src="{{uploads_url}}avatar/default-0.png" width=45 height=45 class="img-circle avatar">*/
 /*                     <a href="user-profile.html" class="name">{{ user.username }} <span>#{{ key }}</span></a>*/
 /*                     <span class="subtext">Développeur</span>*/
 /*                 </th>*/
