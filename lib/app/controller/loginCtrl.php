@@ -40,7 +40,6 @@ class loginCtrl extends Controller
                     $wanted_user = $key;
                     if (password_verify($pass, $this->config->getAccount($wanted_user)['pass_hash'])) {
                         $self_user = $this->config->getAccount($wanted_user);
-                        unset($self_user['pass_hash']);
                         $_SESSION['user_id'] = preg_replace("/[^0-9]+/", "", $wanted_user);
                         $_SESSION['username'] = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $self_user['username']);
                         $_SESSION['email'] = $self_user['email']; //make regex

@@ -171,20 +171,28 @@ class Eayo
                 $content_file .= 'index';
             }
         }
-        $content_file_any = glob($content_file.'.{md,html,htm,twig,php}', GLOB_BRACE);
-        $content_file_without = glob(rtrim($content_file, '\/').'.{md,html,htm,twig,php}', GLOB_BRACE);
+        //$content_file_any = glob($content_file.'.{md,html,htm,twig,php}', GLOB_BRACE);
+        //$content_file_without = glob(rtrim($content_file, '\/').'.{md,html,htm,twig,php}', GLOB_BRACE);
+        //$content_file_temp = $content_file;
+        $content_file_tmp = $content_file;
+        $count = count($queryPart);
         $page_404 = glob(CONTENT_DIR.'404.{md,html,htm,php}', GLOB_BRACE);
-        if (!empty($content_file_any)) {
-            $content_file = $content_file_any[0];
-        } elseif (!empty($content_file_without)) {
-            $content_file = $content_file_without[0];
-        } elseif(!empty($page_404)) {
-            $content_file = $page_404[0];
-        } else {
-            throw new \Exception('There is no 404 Page.', 164);
+        for($i = 0; $i < $count; $i++) {
+            if (empty(glob($content_file_tmp.'.{md,html,htm,twig,php}', GLOB_BRACE))) {
+                unset($queryPart[$count - $i]);
+                $main_query = implode($queryPart, DS);
+                $content_file_tmp = $content_dir.$main_query;
+            } elseif (!empty(glob($content_file_tmp.'.{md,html,htm,twig,php}', GLOB_BRACE))) {
+                $content_file = glob($content_file_tmp.'.{md,html,htm,twig,php}', GLOB_BRACE)[0];
+                break;
+            } elseif (!empty($page_404)) {
+                $content_file = $page_404[0];
+            } else {
+                throw new \Exception('There is no 404 Page.', 164);
+            }
         }
 
-        return [$index, $content_file, $namespace, $template];
+        return [$index, $content_file, $namespace, $template, str_replace($main_query, '', $query)];
     }
 
     /**
@@ -233,6 +241,7 @@ class Eayo
         $content_file = $router[1];
         $namespace = ltrim($router[2], '@');
         $template = $router[3];
+        $query = $router[4];
         $ctrlArray = ['php', 'twig'];
         $fileExt = pathinfo($content_file)['extension'];
         $is_markdown = false;

@@ -23,4 +23,5 @@ class Controller
         $this->config = \Core\Config::init();
         $this->tools = \Core\Tools::init();
     }
+
 }
