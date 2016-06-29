@@ -16,13 +16,9 @@ defined('EAYO_ACCESS') || exit('No direct script access.');
 
 use Core\Controller\Controller;
 
-class adminCtrl extends Controller
+class usersCtrl extends Controller
 {
-    public function __construct() {
-        parent::__construct();
-        /* Check Login Status */
-        if (!isset($_SESSION['login_str'])) {
-            header('location: '.$this->tools->rooturl.'login/');
-        }
+    public function userList() {
+        return \Core\Config::init()->getAllAccounts();
     }
 }

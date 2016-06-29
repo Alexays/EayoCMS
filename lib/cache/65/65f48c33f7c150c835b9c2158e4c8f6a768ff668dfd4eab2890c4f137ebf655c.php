@@ -1,7 +1,7 @@
 <?php
 
-/* @admin/\views\index.twig */
-class __TwigTemplate_088e1649b425bc5fad5cd5dac698795ee2fcf6d110da3409cdae389b26cf28ca extends Twig_Template
+/* @admin/\views\users\edit.twig */
+class __TwigTemplate_088e6fc13861cc02ead230f53583f7a565787121b782d1117677c027028b3029 extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {
@@ -16,15 +16,12 @@ class __TwigTemplate_088e1649b425bc5fad5cd5dac698795ee2fcf6d110da3409cdae389b26c
     protected function doDisplay(array $context, array $blocks = array())
     {
         // line 1
-        echo "<div class=\"container\">
-    test
-</div>
-";
+        echo "tests";
     }
 
     public function getTemplateName()
     {
-        return "@admin/\\views\\index.twig";
+        return "@admin/\\views\\users\\edit.twig";
     }
 
     public function getDebugInfo()
@@ -32,7 +29,4 @@ class __TwigTemplate_088e1649b425bc5fad5cd5dac698795ee2fcf6d110da3409cdae389b26c
         return array (  19 => 1,);
     }
 }
-/* <div class="container">*/
-/*     test*/
-/* </div>*/
-/* */
+/* tests*/

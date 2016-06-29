@@ -12,7 +12,7 @@
 
 namespace App\Controller;
 
-defined('EAYO_ACCESS') OR exit('No direct script access.');
+defined('EAYO_ACCESS') || exit('No direct script access.');
 
 use Core\Controller\Controller;
 

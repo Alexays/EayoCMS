@@ -1,14 +1,16 @@
 <div class="container-fluid users-list">
+   <!-- USER TABLE -->
     <table class="table table-hover">
         <thead>
             <tr>
                 <th>Nom</th>
                 <th>Dâte d'enregistrement</th>
                 <th>E-mail</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            {% for key, user in ctrl.userList %}
+            {% for key, user in mainCtrl.userList %}
             <tr>
                 <th>
                     <img src="{{uploads_url}}avatar/default-0.png" width=45 height=45 class="img-circle avatar">
@@ -17,10 +19,24 @@
                 </th>
                 <th>{{ user.signup | date }}</th>
                 <th>{{ user.email }}</th>
+                <th>
+                    <div class="btn-group" role="group" aria-label="Action">
+                        <button type="button" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </div>
+                </th>
             </tr>
             {% else %}
             <span>Un problèmes est survenue.</span>
             {% endfor %}
         </tbody>
     </table>
+    <!-- USER MODAL (EDIT) -->
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                ...
+            </div>
+        </div>
+    </div>
 </div>

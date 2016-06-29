@@ -12,10 +12,11 @@
 
 namespace Core;
 
-defined('EAYO_ACCESS') OR exit('No direct script access.');
+defined('EAYO_ACCESS') || exit('No direct script access.');
 
 class Eayo
 {
+
     /** @var core An instance of the Eayo class */
     protected static $_instance = null;
 
@@ -72,6 +73,18 @@ class Eayo
         /** Load Core file */
         $this->__autoload();
 
+        /* Init Config API */
+        $this->config = Config::init();
+
+        /* Init Tools API*/
+        $this->tools = Tools::init();
+
+        /* Init Admin */
+        new Admin\Core();
+
+        /* Init Plugins API*/
+        $this->initPlugins();
+
         /* Init default Route */
         $this->initRoute();
     }
@@ -79,7 +92,7 @@ class Eayo
     /** Initialize the autoloader */
     protected function __autoload()
     {
-        spl_autoload_extensions(".php");
+        //spl_autoload_extensions(".php");
         spl_autoload_register(
             function ($className) {
                 $fileName = LIB_DIR . str_replace("\\", DS, $className) . '.php';
@@ -95,18 +108,6 @@ class Eayo
         } else {
             throw new \Exception('Cannot find `lib/vendor/autoload.php`. Run `composer install`.', 1568);
         }
-
-        /* Init Config API */
-        $this->config = Config::init();
-
-        /* Init Tools API*/
-        $this->tools = Tools::init();
-
-        /* Init Admin */
-        new Admin\Core();
-
-        /* Init Plugins API*/
-        $this->initPlugins();
     }
 
     /**
@@ -161,38 +162,35 @@ class Eayo
 
         if ($namespace === '@default' && !$routing) {
             $content_file = $content_dir.$query;
-            if (is_dir($content_dir.$query)) {
-                $content_file .= DS.'index';
-            }
         } else {
             $content_dir = rtrim($template, '\/').DS.'views'.DS;
             $content_file = $content_dir.$query;
-            if (is_dir($content_dir.$query)) {
-                $content_file .= 'index';
-            }
-        }
-        //$content_file_any = glob($content_file.'.{md,html,htm,twig,php}', GLOB_BRACE);
-        //$content_file_without = glob(rtrim($content_file, '\/').'.{md,html,htm,twig,php}', GLOB_BRACE);
-        //$content_file_temp = $content_file;
-        $content_file_tmp = $content_file;
-        $count = count($queryPart);
-        $page_404 = glob(CONTENT_DIR.'404.{md,html,htm,php}', GLOB_BRACE);
-        for($i = 0; $i < $count; $i++) {
-            if (empty(glob($content_file_tmp.'.{md,html,htm,twig,php}', GLOB_BRACE))) {
-                unset($queryPart[$count - $i]);
-                $main_query = implode($queryPart, DS);
-                $content_file_tmp = $content_dir.$main_query;
-            } elseif (!empty(glob($content_file_tmp.'.{md,html,htm,twig,php}', GLOB_BRACE))) {
-                $content_file = glob($content_file_tmp.'.{md,html,htm,twig,php}', GLOB_BRACE)[0];
-                break;
-            } elseif (!empty($page_404)) {
-                $content_file = $page_404[0];
-            } else {
-                throw new \Exception('There is no 404 Page.', 164);
-            }
         }
 
-        return [$index, $content_file, $namespace, $template, str_replace($main_query, '', $query)];
+        $count = count($queryPart);
+        for($i = 0; $i <= $count; $i++) {
+            if (!empty(glob($content_file.'.{md,html,htm,twig,php}', GLOB_BRACE))) {
+                $content_file = glob($content_file.'.{md,html,htm,twig,php}', GLOB_BRACE)[0];
+                break;
+            } else {
+                unset($queryPart[$count - $i]);
+                $main_query = implode($queryPart, DS);
+                $content_file = $content_dir.$main_query;
+            }
+        }
+        $index_file = glob(rtrim($content_file, '\/').DS.'index.{md,html,htm,twig,php}', GLOB_BRACE);
+        $page_404 = glob(CONTENT_DIR.'404.{md,html,htm,php}', GLOB_BRACE);
+        if (is_dir($content_dir.$query) && !empty($index_file)) {
+            $content_file = $index_file[0];
+        } elseif (!empty($page_404) && file_exists($content_file) === false) {
+            $content_file = $page_404[0];
+        } elseif (empty($page_404)) {
+            throw new \Exception('There is no 404 Page.', 164);
+        }
+
+        isset($main_query) ? $main_query = explode(DS, $main_query) : null;
+
+        return [['index' => $index, 'main_query' => isset($main_query) ? end($main_query) : '', 'query' => $query], $content_file, $namespace, $template];
     }
 
     /**
@@ -237,11 +235,13 @@ class Eayo
      */
     public function Process($router)
     {
-        $index = $router[0];
+        $index = $router[0]['index'];
         $content_file = $router[1];
         $namespace = ltrim($router[2], '@');
         $template = $router[3];
-        $query = $router[4];
+        $query = $router[0]['query'];
+        $main_query = $router[0]['main_query'];
+
         $ctrlArray = ['php', 'twig'];
         $fileExt = pathinfo($content_file)['extension'];
         $is_markdown = false;
@@ -252,13 +252,23 @@ class Eayo
         if (in_array($fileExt, $ctrlArray)) {
             if ($namespace === 'default') {
                 $controller = "\\App\\Controller\\".$index."Ctrl";
+                $maincontroller = "\\App\\Controller\\".$main_query."Ctrl";
             } else {
                 $classRoot = explode('\\', Eayo::$router[$index]);
                 unset($classRoot[count($classRoot) - 1]);
                 $classRoot = implode('\\', $classRoot);
                 $controller = DS.$classRoot."\\Controller\\".$index."Ctrl";
+                $maincontroller = DS.$classRoot."\\Controller\\".$main_query."Ctrl";
             }
-            $controller = new $controller();
+
+            if (class_exists($controller)) {
+                $controller = new $controller();
+            }
+
+            if (class_exists($maincontroller)) {
+                $maincontroller = new $maincontroller();
+            }
+
             if ($fileExt === 'php') {
                 $content_file = include $content_file;
             } else {
@@ -271,6 +281,7 @@ class Eayo
         $this->twig_vars = array_merge($this->twig_vars, array(
             'theme_url' => $this->tools->rooturl.$this->tools->SanitizeURL(str_replace(ROOT_DIR, '', $template.DS)),
             'assets_url' => $this->tools->rooturl.$this->tools->SanitizeURL(dirname(str_replace(ROOT_DIR, '', $template)).DS.'assets'.DS),
+            'mainCtrl' => isset($maincontroller) ? $maincontroller : null,
             'ctrl' => $controller,
             'is_markdown' => $is_markdown,
             'load_time' => number_format(microtime(true) - PERF_START, 3)

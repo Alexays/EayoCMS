@@ -12,7 +12,7 @@
 
 namespace Core;
 
-defined('EAYO_ACCESS') OR exit('No direct script access.');
+defined('EAYO_ACCESS') || exit('No direct script access.');
 
 class ErrorHandler extends \Exception
 {
