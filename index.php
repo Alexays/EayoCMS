@@ -19,13 +19,13 @@ defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 defined('ROOT_DIR') || define('ROOT_DIR', realpath(__DIR__ . DS) . DS);
 
 //Include Eayo Class
-require ROOT_DIR.'lib/core/Eayo.php';
+require ROOT_DIR.'apps/App.php';
 
 substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') ? ob_start("ob_gzhandler") : ob_start();
 
 //Init Eayo
 try {
-    $core = \Core\Eayo::start();
+    $core = \Apps\App::start();
     $router = $core->Router();
     echo $core->Process($router);
 } catch (\Exception $e) {

@@ -1,0 +1,4 @@
+desc: Frontend
+default: true
+theme: default
+template: themes
