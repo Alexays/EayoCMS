@@ -86,7 +86,7 @@ class Config
      */
     public function getAccount($k)
     {
-        $account = Yaml::parse(file_get_contents(APP_DIR.'accounts'.DS.$k.'.yml'));
+        $account = Yaml::parse(file_get_contents(DATA_DIR.'accounts'.DS.$k.'.yml'));
         if (!isset($account))
         {
             return null;

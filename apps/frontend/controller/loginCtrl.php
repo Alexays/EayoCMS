@@ -10,7 +10,7 @@
   * file that was distributed with this source code.
   */
 
-namespace App\Frontend\Controller;
+namespace Apps\Frontend\Controller;
 
 defined('EAYO_ACCESS') || exit('No direct script access.');
 

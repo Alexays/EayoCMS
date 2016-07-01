@@ -122,45 +122,22 @@ class Tools
      */
     public function findTemplate($namespace)
     {
-        $apps = \Apps\App::$apps;
-        $default_apps = [];
-        $template_dir = APP_DIR;
-        $namespace === true ? $namespace = 'default' : '';
-        if (array_key_exists($namespace, $apps)) {
-            $template_dir .= $namespace.DS;
-            if (isset($apps[$namespace]['template'])) {
-                $template = $apps[$namespace]['template'].DS;
+        $template;
+        $templates = \Apps\App::$templates;
+        if ($namespace === 'default') {
+            if (isset($templates['default'])) {
+                $namespace = $templates['default'];
             } else {
-                $template = 'template'.DS;
+                throw new \Exception('Aucun template n\'est définie par défaut', 87);
             }
-            if (isset($apps[$namespace]['theme'])) {
-                $template .= $apps[$namespace]['theme'].DS;
-            }
-        } elseif ($namespace === 'default') {
-            foreach($apps as $key => $val) {
-                if (isset($val['default']) && $val['default'] === true) {
-                    $default_apps = array_merge($default_apps, [$key]);
-                }
-            }
-            if (count(array_count_values($default_apps)) === 1) {
-                $namespace = $default_apps[0];
-                $template_dir .= $namespace.DS;
-                if (isset($apps[$namespace]['template'])) {
-                    $template = $apps[$namespace]['template'].DS;
-                } else {
-                    $template = 'template'.DS;
-                }
-                if (isset($apps[$namespace]['theme'])) {
-                    $template .= $apps[$namespace]['theme'].DS;
-                }
-            } else {
-                throw new \Exception('Plusieurs templates sont activées merci d\'en laisser qu\'un seul d\'activer.', 187);
-            }
-        } else {
-            throw new \Exception('Impossible de trouver le template', 745);
         }
-
-        return $template_dir.$this->SanitizeURL($template.DS);
+        unset($templates['default']);
+        foreach($templates as $key => $val) {
+            if (isset($templates[$key][$namespace])) {
+                $template = [$key, $namespace, rtrim($templates[$key][$namespace], '\/').DS];
+            }
+        }
+        return ($template);
     }
 
     /**
