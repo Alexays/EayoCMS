@@ -93,6 +93,9 @@ class App
         /* Init App */
         $this->initApp();
 
+        /* Init Twig */
+        $this->InitTwig();
+
         /* Init default Route */
         //$this->initRoute();
     }
@@ -301,15 +304,11 @@ class App
      */
     public function Process($router)
     {
-        /* Init Twig */
-        $this->InitTwig();
-
         list($content_file, $namespace, $index, $template_path, $view_path, $main_query, $rest_query, $is_template) = $router;
 
         $ctrlArray = ['php', 'twig'];
         $fileExt = pathinfo($content_file)['extension'];
         $modular_twig = false;
-        $template_file = 'default.twig';
 
         if (in_array($fileExt, $ctrlArray)) {
             $classRoot = str_replace(ROOT_DIR, '', dirname($view_path));
@@ -323,7 +322,6 @@ class App
             } elseif ($fileExt === 'twig') {
                 $modular_twig = true;
                 if ($is_template) {
-                    //$template_file = str_replace($template_path, '', $content_file);
                     $content_file = '@'.$namespace.'/'.str_replace($template_path, '', $content_file);
                 } else {
                     $modular_twig = true;
