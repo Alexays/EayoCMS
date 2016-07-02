@@ -111,7 +111,7 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
                             <li><a href=\"forms.html\">Plugins</a></li>
                             <li><a href=\"login.html\">Paramètres</a></li>
                             <li class=\"profile\">
-                                <a href=\"blank.html\">
+                                <a href=\"#\">
                                     <img width=\"40\" height=\"40\" src=\"";
         // line 70
         echo (isset($context["base_url"]) ? $context["base_url"] : null);
@@ -263,7 +263,7 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
 /*                             <li><a href="forms.html">Plugins</a></li>*/
 /*                             <li><a href="login.html">Paramètres</a></li>*/
 /*                             <li class="profile">*/
-/*                                 <a href="blank.html">*/
+/*                                 <a href="#">*/
 /*                                     <img width="40" height="40" src="{{base_url}}{{user.avatar}}" alt="My profile" class="img-circle">*/
 /*                                     {{user.firstname}} {{user.surname | first}}.*/
 /*                                 </a>*/

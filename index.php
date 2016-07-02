@@ -26,7 +26,7 @@ substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') ? ob_start("ob_gzhandler"
 //Init Eayo
 try {
     $core = \Apps\App::start();
-    $router = $core->Router();
+    $router = \Core\Router::Analyse($core);
     echo $core->Process($router);
 } catch (\Exception $e) {
     if (class_exists('\Core\ErrorHandler')) {
