@@ -50,114 +50,91 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
 <![endif]-->
     </head>
     <body>
-        <section class=\"wrapper\">
-            <!-- HEADER -->
-            <header class=\"navbar navbar-inverse navbar-static-top\">
+        <main class=\"app-main\">
+            <nav class=\"app-nav-top navbar navbar-default navbar-static-top\">
                 <div class=\"container\">
                     <div class=\"navbar-header\">
-                        <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">
-                            <span class=\"icon-bar\"></span>
-                            <span class=\"icon-bar\"></span>
-                            <span class=\"icon-bar\"></span>
-                        </button>
-                        <a class=\"navbar-brand\" href=\"";
-        // line 36
-        echo (isset($context["base_url"]) ? $context["base_url"] : null);
-        echo "admin/\">
-                            <img alt=\"Logo EayoCMS\" src=\"";
-        // line 37
+                        <div class=\"navbar-brand\">
+                            <img src=\"";
+        // line 31
         echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
-        echo "img/logo.png\" height=\"75\" width=\"384\">
-                            <p id=\"version\">";
+        echo "img/logo.png\" width=\"250\" height=\"49\" />
+                        </div>
+                    </div>
+                    <ul class=\"nav navbar-nav navbar-right\">
+
+                        <li class=\"profile\">
+                            <a href=\"#\">
+                                <img width=\"40\" height=\"40\" src=\"";
         // line 38
-        echo (isset($context["version"]) ? $context["version"] : null);
-        echo "</p>
-                            <p id=\"sub\">Administration</p>
-                        </a>
-                    </div>
-                </div>
-            </header>
-            <!-- HEADER END-->
-            <nav class=\"navbar navbar-default\">
-                <div class=\"container\">
-                    <div class=\"navbar-header\">
-                        <span class=\"navbar-brand page-title\">";
-        // line 48
-        echo (isset($context["title"]) ? $context["title"] : null);
-        echo "</span>
-                    </div>
-                    <div class=\"navbar-collapse collapse\">
-                        <ul id=\"menu-top\" class=\"nav navbar-nav navbar-right\">
-                            <li class=\"active\"><a href=\"";
-        // line 52
-        echo (isset($context["base_url"]) ? $context["base_url"] : null);
-        echo "admin/\">Tableaux de bord</a></li>
-                            <li class=\"dropdown\">
-                                <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Pages</a>
-                                <ul class=\"dropdown-menu\">
-                                    <li><a href=\"#\">Action</a></li>
-                                    <li><a href=\"#\">Another action</a></li>
-                                    <li><a href=\"#\">Something else here</a></li>
-                                    <li role=\"separator\" class=\"divider\"></li>
-                                    <li><a href=\"#\">Separated link</a></li>
-                                    <li role=\"separator\" class=\"divider\"></li>
-                                    <li><a href=\"#\">One more separated link</a></li>
-                                </ul>
-                            </li>
-                            <li><a href=\"";
-        // line 65
-        echo (isset($context["base_url"]) ? $context["base_url"] : null);
-        echo "admin/users\">Utilisateurs</a></li>
-                            <li><a href=\"forms.html\">Plugins</a></li>
-                            <li><a href=\"login.html\">Paramètres</a></li>
-                            <li class=\"profile\">
-                                <a href=\"#\">
-                                    <img width=\"40\" height=\"40\" src=\"";
-        // line 70
         echo (isset($context["base_url"]) ? $context["base_url"] : null);
         echo $this->getAttribute((isset($context["user"]) ? $context["user"] : null), "avatar", array());
         echo "\" alt=\"My profile\" class=\"img-circle\">
-                                    ";
-        // line 71
+                                ";
+        // line 39
         echo $this->getAttribute((isset($context["user"]) ? $context["user"] : null), "firstname", array());
         echo " ";
         echo twig_first($this->env, $this->getAttribute((isset($context["user"]) ? $context["user"] : null), "surname", array()));
         echo ".
-                                </a>
-                            </li>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <nav class=\"app-nav navbar navbar-inverse navbar-static-top\">
+                <div class=\"container\">
+                    <div class=\"navbar-header\">
+                        <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#app-nav\" aria-expanded=\"false\">
+                            <span class=\"sr-only\">Toggle navigation</span>
+                            <span class=\"icon-bar\"></span>
+                            <span class=\"icon-bar\"></span>
+                            <span class=\"icon-bar\"></span>
+                        </button>
+                        <span class=\"navbar-brand page-title\">Tableaux de bord</span>
+                    </div>
+                    <div class=\"navbar-collapse collapse\" id=\"app-nav\">
+                        <ul class=\"nav navbar-nav navbar-right\">
+                            <li class=\"active\"><a href=\"";
+        // line 58
+        echo (isset($context["base_url"]) ? $context["base_url"] : null);
+        echo "admin/\">Tableaux de bord</a></li>
+                            <li><a href=\"";
+        // line 59
+        echo (isset($context["base_url"]) ? $context["base_url"] : null);
+        echo "admin/users\">Utilisateurs</a></li>
+                            <li><a href=\"forms.html\">Plugins</a></li>
+                            <li><a href=\"login.html\">Paramètres</a></li>
                         </ul>
                     </div>
                 </div>
             </nav>
             <!-- MENU SECTION END-->
-            <div class=\"content-wrapper\">
-                <div class=\"container-fluid\">
-                    ";
-        // line 81
+            <div class=\"container-fluid\">
+                ";
+        // line 68
         if ((isset($context["is_markdown"]) ? $context["is_markdown"] : null)) {
-            // line 82
-            echo "                    ";
+            // line 69
+            echo "                ";
             echo $this->env->getExtension('markdown')->parseMarkdown((isset($context["content"]) ? $context["content"] : null));
             echo "
-                    ";
+                ";
         } else {
-            // line 84
-            echo "                    ";
+            // line 71
+            echo "                ";
             echo (isset($context["content"]) ? $context["content"] : null);
             echo "
-                    ";
+                ";
         }
-        // line 86
-        echo "                </div>
-            </div>
-        </section>
+        // line 73
+        echo "            </div>
+        </main>
         <!-- CONTENT-WRAPPER SECTION END-->
         <footer>
             <div class=\"container\">
                 <div class=\"row\">
                     <div class=\"col-md-12\">
                         <strong>Eayo</strong>CMS crée avec <i class=\"fa fa-heart\" aria-hidden=\"true\"></i> par Alexis Rouillard<br><sub>Effectuée en ";
-        // line 94
+        // line 80
         echo (isset($context["load_time"]) ? $context["load_time"] : null);
         echo " secondes</sub>
                     </div>
@@ -172,12 +149,11 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
         <script src=\"http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js\"></script>
         <!-- Admin SCRIPTS  -->
         <script src=\"";
-        // line 106
+        // line 92
         echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
         echo "js/admin.js\"></script>
     </body>
-</html>
-";
+</html>";
     }
 
     public function getTemplateName()
@@ -192,7 +168,7 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
 
     public function getDebugInfo()
     {
-        return array (  176 => 106,  161 => 94,  151 => 86,  145 => 84,  139 => 82,  137 => 81,  122 => 71,  117 => 70,  109 => 65,  93 => 52,  86 => 48,  73 => 38,  69 => 37,  65 => 36,  43 => 17,  39 => 16,  33 => 13,  19 => 1,);
+        return array (  153 => 92,  138 => 80,  129 => 73,  123 => 71,  117 => 69,  115 => 68,  103 => 59,  99 => 58,  75 => 39,  70 => 38,  60 => 31,  43 => 17,  39 => 16,  33 => 13,  19 => 1,);
     }
 }
 /* <!DOCTYPE html>*/
@@ -220,69 +196,55 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
 /* <![endif]-->*/
 /*     </head>*/
 /*     <body>*/
-/*         <section class="wrapper">*/
-/*             <!-- HEADER -->*/
-/*             <header class="navbar navbar-inverse navbar-static-top">*/
+/*         <main class="app-main">*/
+/*             <nav class="app-nav-top navbar navbar-default navbar-static-top">*/
 /*                 <div class="container">*/
 /*                     <div class="navbar-header">*/
-/*                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">*/
+/*                         <div class="navbar-brand">*/
+/*                             <img src="{{assets_url}}img/logo.png" width="250" height="49" />*/
+/*                         </div>*/
+/*                     </div>*/
+/*                     <ul class="nav navbar-nav navbar-right">*/
+/*                         */
+/*                         <li class="profile">*/
+/*                             <a href="#">*/
+/*                                 <img width="40" height="40" src="{{base_url}}{{user.avatar}}" alt="My profile" class="img-circle">*/
+/*                                 {{user.firstname}} {{user.surname | first}}.*/
+/*                             </a>*/
+/*                         </li>*/
+/*                     </ul>*/
+/*                 </div>*/
+/*             </nav>*/
+/*             <nav class="app-nav navbar navbar-inverse navbar-static-top">*/
+/*                 <div class="container">*/
+/*                     <div class="navbar-header">*/
+/*                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-nav" aria-expanded="false">*/
+/*                             <span class="sr-only">Toggle navigation</span>*/
 /*                             <span class="icon-bar"></span>*/
 /*                             <span class="icon-bar"></span>*/
 /*                             <span class="icon-bar"></span>*/
 /*                         </button>*/
-/*                         <a class="navbar-brand" href="{{base_url}}admin/">*/
-/*                             <img alt="Logo EayoCMS" src="{{assets_url}}img/logo.png" height="75" width="384">*/
-/*                             <p id="version">{{version}}</p>*/
-/*                             <p id="sub">Administration</p>*/
-/*                         </a>*/
+/*                         <span class="navbar-brand page-title">Tableaux de bord</span>*/
 /*                     </div>*/
-/*                 </div>*/
-/*             </header>*/
-/*             <!-- HEADER END-->*/
-/*             <nav class="navbar navbar-default">*/
-/*                 <div class="container">*/
-/*                     <div class="navbar-header">*/
-/*                         <span class="navbar-brand page-title">{{ title }}</span>*/
-/*                     </div>*/
-/*                     <div class="navbar-collapse collapse">*/
-/*                         <ul id="menu-top" class="nav navbar-nav navbar-right">*/
+/*                     <div class="navbar-collapse collapse" id="app-nav">*/
+/*                         <ul class="nav navbar-nav navbar-right">*/
 /*                             <li class="active"><a href="{{base_url}}admin/">Tableaux de bord</a></li>*/
-/*                             <li class="dropdown">*/
-/*                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>*/
-/*                                 <ul class="dropdown-menu">*/
-/*                                     <li><a href="#">Action</a></li>*/
-/*                                     <li><a href="#">Another action</a></li>*/
-/*                                     <li><a href="#">Something else here</a></li>*/
-/*                                     <li role="separator" class="divider"></li>*/
-/*                                     <li><a href="#">Separated link</a></li>*/
-/*                                     <li role="separator" class="divider"></li>*/
-/*                                     <li><a href="#">One more separated link</a></li>*/
-/*                                 </ul>*/
-/*                             </li>*/
 /*                             <li><a href="{{base_url}}admin/users">Utilisateurs</a></li>*/
 /*                             <li><a href="forms.html">Plugins</a></li>*/
 /*                             <li><a href="login.html">Paramètres</a></li>*/
-/*                             <li class="profile">*/
-/*                                 <a href="#">*/
-/*                                     <img width="40" height="40" src="{{base_url}}{{user.avatar}}" alt="My profile" class="img-circle">*/
-/*                                     {{user.firstname}} {{user.surname | first}}.*/
-/*                                 </a>*/
-/*                             </li>*/
 /*                         </ul>*/
 /*                     </div>*/
 /*                 </div>*/
 /*             </nav>*/
 /*             <!-- MENU SECTION END-->*/
-/*             <div class="content-wrapper">*/
-/*                 <div class="container-fluid">*/
-/*                     {% if is_markdown %}*/
-/*                     {{markdown(content)}}*/
-/*                     {% else %}*/
-/*                     {{content}}*/
-/*                     {% endif %}*/
-/*                 </div>*/
+/*             <div class="container-fluid">*/
+/*                 {% if is_markdown %}*/
+/*                 {{markdown(content)}}*/
+/*                 {% else %}*/
+/*                 {{content}}*/
+/*                 {% endif %}*/
 /*             </div>*/
-/*         </section>*/
+/*         </main>*/
 /*         <!-- CONTENT-WRAPPER SECTION END-->*/
 /*         <footer>*/
 /*             <div class="container">*/
@@ -303,4 +265,3 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
 /*         <script src="{{assets_url}}js/admin.js"></script>*/
 /*     </body>*/
 /* </html>*/
-/* */

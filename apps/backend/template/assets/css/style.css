@@ -10,83 +10,40 @@ body {
     font-weight: 400;
 }
 
-.wrapper {
+.app-main {
     min-height: 100%;
     margin: 0 auto -60px;
 }
 
-.content-wrapper {
-    overflow:auto;
-    margin-top: 40px;
-    padding-bottom: 60px;
-}
-
 /*    --------------------------------------------------
-:: Header
+:: App-nav
 -------------------------------------------------- */
-header .navbar-brand {
-    height: auto;
-    display: flex;
-    align-items: center;
-    opacity: 0.8;
-    transition: opacity 0.2 ease;
-}
-
-header .navbar-brand > img {
-    -webkit-filter: drop-shadow(0.65px 0.65px 0.5px #222)
-    filter: drop-shadow(0.65px 0.65px 0.5px #222)
-}
-
-header .navbar-brand:hover {
-    opacity: 1;
-}
-
-header p {
-    font: smaller "Lato","Helvetica","Tahoma","Geneva","Arial",sans-serif;
-    -webkit-filter: drop-shadow(1px 1px 1px #222);
-    filter: drop-shadow(1px 1px 1px #222);
+.app-nav-top {
     margin: 0;
-    position: relative;
+}
+.app-nav-top .navbar-brand > img {
+    margin: -5%;
+    -webkit-filter: drop-shadow(0px 0px 2px rgba(0,0,0,0.5));
+    filter: drop-shadow(2px 0px 1px rgba(0,0,0,0.5));
+}
+.app-nav, .app-nav-top {
+    font-family: "Montserrat","Helvetica","Tahoma","Geneva","Arial",sans-serif;
 }
 
-header #version {
-    left: -125px;
-    top: -5px;
-    width: 67px;
-    text-align: center;
+.app-nav ul a {
+    text-decoration: none;
+    font-weight: 500;
+    text-transform: uppercase;
 }
 
-header #sub {
-    top: 30px;
-    left: -285px;
-    font-size: medium;
+nav .profile img {
+    margin: -20px 5px;
 }
 
 .page-title {
     font-weight: 900;
     text-transform: uppercase;
     font-size: 15px;
-}
-
-/*    --------------------------------------------------
-:: Menu
--------------------------------------------------- */
-#menu-top li {
-    font-family: "Montserrat","Helvetica","Tahoma","Geneva","Arial",sans-serif;
-}
-
-#menu-top a {
-    text-decoration: none;
-    font-weight: 500;
-    text-transform: uppercase;
-}
-
-.navbar {
-    margin-bottom: 0px;
-}
-
-nav .profile img {
-    margin: -20px 5px;
 }
 
 /*    --------------------------------------------------

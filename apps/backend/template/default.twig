@@ -23,69 +23,55 @@
 <![endif]-->
     </head>
     <body>
-        <section class="wrapper">
-            <!-- HEADER -->
-            <header class="navbar navbar-inverse navbar-static-top">
+        <main class="app-main">
+            <nav class="app-nav-top navbar navbar-default navbar-static-top">
                 <div class="container">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <div class="navbar-brand">
+                            <img src="{{assets_url}}img/logo.png" width="250" height="49" />
+                        </div>
+                    </div>
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li class="profile">
+                            <a href="#">
+                                <img width="40" height="40" src="{{base_url}}{{user.avatar}}" alt="My profile" class="img-circle">
+                                {{user.firstname}} {{user.surname | first}}.
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <nav class="app-nav navbar navbar-inverse navbar-static-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-nav" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="{{base_url}}admin/">
-                            <img alt="Logo EayoCMS" src="{{assets_url}}img/logo.png" height="75" width="384">
-                            <p id="version">{{version}}</p>
-                            <p id="sub">Administration</p>
-                        </a>
+                        <span class="navbar-brand page-title">Tableaux de bord</span>
                     </div>
-                </div>
-            </header>
-            <!-- HEADER END-->
-            <nav class="navbar navbar-default">
-                <div class="container">
-                    <div class="navbar-header">
-                        <span class="navbar-brand page-title">{{ title }}</span>
-                    </div>
-                    <div class="navbar-collapse collapse">
-                        <ul id="menu-top" class="nav navbar-nav navbar-right">
+                    <div class="navbar-collapse collapse" id="app-nav">
+                        <ul class="nav navbar-nav navbar-right">
                             <li class="active"><a href="{{base_url}}admin/">Tableaux de bord</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#">Separated link</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#">One more separated link</a></li>
-                                </ul>
-                            </li>
                             <li><a href="{{base_url}}admin/users">Utilisateurs</a></li>
                             <li><a href="forms.html">Plugins</a></li>
                             <li><a href="login.html">Paramètres</a></li>
-                            <li class="profile">
-                                <a href="#">
-                                    <img width="40" height="40" src="{{base_url}}{{user.avatar}}" alt="My profile" class="img-circle">
-                                    {{user.firstname}} {{user.surname | first}}.
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </div>
             </nav>
             <!-- MENU SECTION END-->
-            <div class="content-wrapper">
-                <div class="container-fluid">
-                    {% if is_markdown %}
-                    {{markdown(content)}}
-                    {% else %}
-                    {{content}}
-                    {% endif %}
-                </div>
+            <div class="container-fluid">
+                {% if is_markdown %}
+                {{markdown(content)}}
+                {% else %}
+                {{content}}
+                {% endif %}
             </div>
-        </section>
+        </main>
         <!-- CONTENT-WRAPPER SECTION END-->
         <footer>
             <div class="container">
