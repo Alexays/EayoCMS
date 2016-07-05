@@ -5,6 +5,7 @@ jQuery(function ($) {
     var eayo = window.eayo || {};
     $(document).ready(function () {
         eayo.modal_ajax();
+        $('nav.app-nav li > a[href="' + document.location.href + '"]').parent('li').addClass('active');
     });
     $(window).load(function () {
         eayo.init();

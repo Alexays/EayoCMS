@@ -1,31 +1,18 @@
 <div class="container-fluid">
-    {% for key, app in mainCtrl.AppsList %}
-    <div class="masonry-layout">
-        <div class="masonry-panel">
-            <img src="//placehold.it/180x150">
+    <div class="row masonry-layout">
+        {% for key, app in mainCtrl.AppsList %}
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=350×150&w=350&h=150" />
+                </div>
+                <div class="panel-footer">{{key}}</div>
+            </div>
         </div>
-        <div class="masonry-panel">
-            <img src="//placehold.it/180x150">
-        </div>
-        <div class="masonry-panel">
-            <img src="//placehold.it/180x150">
-        </div>
-        <div class="masonry-panel">
-            <img src="//placehold.it/180x150">
-        </div>
-        <div class="masonry-panel">
-            <img src="//placehold.it/180x150">
-        </div>
-        <div class="masonry-panel">
-            <img src="//placehold.it/180x150">
-        </div>
-        <div class="masonry-panel">
-            <img src="//placehold.it/180x150">
-        </div>
+        {% else %}
+        <span>Un problèmes est survenue.</span>
+        {% endfor %}
     </div>
-    {% else %}
-    <span>Un problèmes est survenue.</span>
-    {% endfor %}
     <!-- MODAL (EDIT) -->
     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
         <div class="modal-dialog modal-lg">

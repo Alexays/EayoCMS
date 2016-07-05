@@ -32,9 +32,6 @@ class Tools
         $this->uri = $this->GetUri();
         $this->rootpath = $this->GetRootPath();
         $this->rooturl = $this->GetRootUrl();
-
-        /* Sanitize URL to prevent XSS */
-        $this->SanitizeURL();
     }
 
     /**
@@ -116,31 +113,6 @@ class Tools
     }
 
     /**
-     * Return the theme_url
-     *
-     * @return string rooturl
-     */
-    public function findTemplate($namespace)
-    {
-        $template;
-        $templates = \Apps\App::$templates;
-        if ($namespace === 'default') {
-            if (isset($templates['default'])) {
-                $namespace = $templates['default'];
-            } else {
-                throw new \Exception('Aucun template n\'est définie par défaut', 87);
-            }
-        }
-        unset($templates['default']);
-        foreach($templates as $key => $val) {
-            if (isset($templates[$key][$namespace])) {
-                $template = [$key, $namespace, rtrim($templates[$key][$namespace], '\/').DS];
-            }
-        }
-        return ($template);
-    }
-
-    /**
      * Returns the substring of a string up to a specified needle.  if not found, return the whole haytack
      *
      * @param $haystack
@@ -193,30 +165,50 @@ class Tools
     }
 
     /**
-     * Return the safe url
+     * Return the theme_url
      *
-     * @return string url
+     * @return string rooturl
      */
-    public function SanitizeURL($_url = '')
+    public function findTemplate($namespace)
     {
-        $_url = trim($_url === '' ? $this->name.$this->uri : $_url);
-        $_url = rawurldecode($_url);
-        $_url = str_replace(DS, '/', $_url);
-        $_url = str_replace(array('--', '&quot;', '!', '@', '#', '$', '%', '^', '*', '(', ')', '+', '{', '}', '|', ':', '"', '<', '>',
-                                  '[', ']', '\\', ';', "'", ',', '*', '+', '~', '`', 'laquo', 'raquo', ']>', '&#8216;', '&#8217;', '&#8220;', '&#8221;', '&#8211;', '&#8212;'),
-                            array('-', '-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-                            $_url);
-        $_url = str_replace('--', '-', $_url);
-        $_url = rtrim($_url, "-");
-        $_url = str_replace('..', '', $_url);
-        $_url = str_replace('//', '/', $_url);
-        //$_url = preg_replace('/^/', '', $_url);
-        $_url = preg_replace('/^\./', '', $_url);
-
-        if (!isset($this->url))
-        {
-            $this->url = $this->scheme.$_url;
+        $template;
+        $templates = \Apps\App::$templates;
+        if ($namespace === 'default') {
+            if (isset($templates['default'])) {
+                $namespace = $templates['default'];
+            } else {
+                throw new \Exception('Aucun template n\'est définie par défaut', 87);
+            }
         }
+        unset($templates['default']);
+        foreach($templates as $key => $val) {
+            if (isset($templates[$key][$namespace])) {
+                $template = [$key, $namespace, rtrim($templates[$key][$namespace], '\/').DS];
+            }
+        }
+        $template[2] = $this->SanitizeURL($template[2], true);
+
+        return $template;
+    }
+
+    /**
+     * Make clean url
+     * @param  string $_url 'the url u want make clean'
+     * @param  boolean $is_path 'if is path or not'
+     * @return string 'clean url or path'
+     */
+    public function SanitizeURL($_url, $is_path = false)
+    {
+        if ($is_path) {
+            //Convert any slash to os directory separator
+            $_url = str_replace(['\\', '/'], DS, $_url);
+        } else {
+            //replace unwanted slash
+            $_url = str_replace('\\', '/', $_url);
+            //Remove multiple slash except http://
+            $_url = preg_replace('~(^|[^:])//+~', '\\1/', $_url);
+        }
+
         return $_url;
     }
 
@@ -237,11 +229,6 @@ class Tools
         } elseif(pathinfo($file, PATHINFO_EXTENSION) === 'html') {
             return ['html' => $file];
         }
-    }
-
-    public function getMetaFile($file)
-    {
-
     }
 
     /** @return Return instance of Eayo class as singleton */
