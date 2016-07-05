@@ -1,7 +1,7 @@
 <?php
 
 /* @backend/default.twig */
-class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1dde7cd extends Twig_Template
+class __TwigTemplate_901bc9377ee439bb576c130834895e8c4d8e5cfa1b64367beb29d708b30d12bb extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {
@@ -24,8 +24,8 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
         <meta name=\"description\" content=\"\" />
         <meta name=\"author\" content=\"\" />
         <!--[if IE]>
-<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">
-<![endif]-->
+        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">
+        <![endif]-->
         <title>Admin</title>
         <!-- CDN  -->
         <link href=\"";
@@ -45,9 +45,9 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
         <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
-<script src=\"https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js\"></script>
-<script src=\"https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js\"></script>
-<![endif]-->
+        <script src=\"https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js\"></script>
+        <script src=\"https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js\"></script>
+        <![endif]-->
     </head>
     <body>
         <main class=\"app-main\">
@@ -62,16 +62,15 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
                         </div>
                     </div>
                     <ul class=\"nav navbar-nav navbar-right\">
-
                         <li class=\"profile\">
                             <a href=\"#\">
                                 <img width=\"40\" height=\"40\" src=\"";
-        // line 38
+        // line 37
         echo (isset($context["base_url"]) ? $context["base_url"] : null);
         echo $this->getAttribute((isset($context["user"]) ? $context["user"] : null), "avatar", array());
         echo "\" alt=\"My profile\" class=\"img-circle\">
                                 ";
-        // line 39
+        // line 38
         echo $this->getAttribute((isset($context["user"]) ? $context["user"] : null), "firstname", array());
         echo " ";
         echo twig_first($this->env, $this->getAttribute((isset($context["user"]) ? $context["user"] : null), "surname", array()));
@@ -94,9 +93,13 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
                     <div class=\"navbar-collapse collapse\" id=\"app-nav\">
                         <ul class=\"nav navbar-nav\">
                             <li class=\"active\"><a href=\"";
-        // line 57
+        // line 56
         echo (isset($context["base_url"]) ? $context["base_url"] : null);
         echo "admin/\">Tableaux de bord</a></li>
+                            <li><a href=\"";
+        // line 57
+        echo (isset($context["base_url"]) ? $context["base_url"] : null);
+        echo "admin/apps\">Applications</a></li>
                             <li><a href=\"";
         // line 58
         echo (isset($context["base_url"]) ? $context["base_url"] : null);
@@ -168,7 +171,7 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
 
     public function getDebugInfo()
     {
-        return array (  152 => 91,  137 => 79,  128 => 72,  122 => 70,  116 => 68,  114 => 67,  102 => 58,  98 => 57,  75 => 39,  70 => 38,  60 => 31,  43 => 17,  39 => 16,  33 => 13,  19 => 1,);
+        return array (  155 => 91,  140 => 79,  131 => 72,  125 => 70,  119 => 68,  117 => 67,  105 => 58,  101 => 57,  97 => 56,  74 => 38,  69 => 37,  60 => 31,  43 => 17,  39 => 16,  33 => 13,  19 => 1,);
     }
 }
 /* <!DOCTYPE html>*/
@@ -179,8 +182,8 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
 /*         <meta name="description" content="" />*/
 /*         <meta name="author" content="" />*/
 /*         <!--[if IE]>*/
-/* <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">*/
-/* <![endif]-->*/
+/*         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">*/
+/*         <![endif]-->*/
 /*         <title>Admin</title>*/
 /*         <!-- CDN  -->*/
 /*         <link href="{{assets_url}}css/bootstrap.min.css" rel="stylesheet" type="text/css" />*/
@@ -191,9 +194,9 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
 /*         <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->*/
 /*         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->*/
 /*         <!--[if lt IE 9]>*/
-/* <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>*/
-/* <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>*/
-/* <![endif]-->*/
+/*         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>*/
+/*         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>*/
+/*         <![endif]-->*/
 /*     </head>*/
 /*     <body>*/
 /*         <main class="app-main">*/
@@ -205,7 +208,6 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
 /*                         </div>*/
 /*                     </div>*/
 /*                     <ul class="nav navbar-nav navbar-right">*/
-/* */
 /*                         <li class="profile">*/
 /*                             <a href="#">*/
 /*                                 <img width="40" height="40" src="{{base_url}}{{user.avatar}}" alt="My profile" class="img-circle">*/
@@ -228,6 +230,7 @@ class __TwigTemplate_06b1f2e33b72c57e8ab4b7d395f2485f672aa0d53a34c2a72d69c6d1a1d
 /*                     <div class="navbar-collapse collapse" id="app-nav">*/
 /*                         <ul class="nav navbar-nav">*/
 /*                             <li class="active"><a href="{{base_url}}admin/">Tableaux de bord</a></li>*/
+/*                             <li><a href="{{base_url}}admin/apps">Applications</a></li>*/
 /*                             <li><a href="{{base_url}}admin/users">Utilisateurs</a></li>*/
 /*                             <li><a href="forms.html">Plugins</a></li>*/
 /*                             <li><a href="login.html">Paramètres</a></li>*/

@@ -52,12 +52,19 @@ class App
 
     public $twig_vars = [];
 
-    /** @access  protected clone method */
+    /**
+     * Clone function
+     * @private
+     */
     protected function __clone()
     {
         // Nothing here.
     }
 
+    /**
+     * Construct function
+     * @private
+     */
     protected function __construct()
     {
         /* Define App */
@@ -100,7 +107,10 @@ class App
         //$this->initRoute();
     }
 
-    /** Initialize the autoloader */
+    /**
+     * Autoloader function
+     * @private
+     */
     protected function __autoload()
     {
         //spl_autoload_extensions(".php");
@@ -122,7 +132,7 @@ class App
     }
 
     /**
-     * Init Apps
+     * Init App function
      */
     protected function initApp()
     {
@@ -167,7 +177,7 @@ class App
     }
 
     /**
-     * Init plugins
+     * Init Plugins function
      */
     protected function initPlugins()
     {
@@ -218,9 +228,9 @@ class App
     }
 
     /**
-     * Return template and content
-     *
-     * @return $output
+     * Process request
+     * @param  array $router Router return
+     * @return string return the content
      */
     public function Process($router)
     {

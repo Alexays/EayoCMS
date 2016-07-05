@@ -16,9 +16,9 @@ defined('EAYO_ACCESS') || exit('No direct script access.');
 
 use Core\Controller;
 
-class usersCtrl extends Controller
+class appsCtrl extends Controller
 {
-    public function getUserList() {
-        return \Core\Config::init()->getAllAccounts();
+    public function getAppsList() {
+        return \Apps\App::$apps;
     }
 }

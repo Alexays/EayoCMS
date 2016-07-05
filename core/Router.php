@@ -49,26 +49,29 @@ class Router
             throw new \Exception('Orgine du template inconnue.', 894);
         }
         $view_path = $app_path.DS.'views'.DS;
-        $content_path = $view_path.$query;
+        $content_path = rtrim($view_path, '\/').DS.$query;
         $file_finded = $is_template = false;
         //Detect query
-        $qPart = $queryPart;
         for($i = 0; $i < $queryLength; $i++) {
-            if(!empty($q = glob($content_path.'.{md,html,htm,twig,php}', GLOB_BRACE))) {
+            $qPart = $queryPart;
+            $content_path_tmp = $content_path;
+            if(!empty($q = glob($content_path_tmp.'.{md,html,htm,twig,php}', GLOB_BRACE))) {
                 $content_file = $q[0];
                 $main_query = $qPart[count($qPart) - 1];
                 $rest_query = str_replace(implode($qPart, DS), '', implode($queryPart, DS));
+                $content_path = $content_path_tmp;
                 $file_finded = true;
                 break;
             } else {
+                $main_query = $qPart[count($qPart) - 1];
                 unset($qPart[$queryLength - $i]);
-                $content_path = $view_path.str_replace($index, '', implode($qPart, DS));
+                $content_path_tmp = $view_path.str_replace($index, '', implode($qPart, DS));
             }
         }
         //try in template dir
         if ($file_finded === false && isset($core::$router) && array_key_exists($index, $core::$router)) {
-            $content_path = $template_path.implode($qPart, DS);
-            $template_content = glob($content_path.'.{php,twig}', GLOB_BRACE);
+            $content_path_tempalte = $template_path.implode($queryPart, DS);
+            $template_content = glob($content_path_tempalte.'.{php,twig}', GLOB_BRACE);
             if (!empty($template_content)) {
                 $content_file = $template_content[0];
                 $file_finded = $is_template = true;
@@ -82,6 +85,7 @@ class Router
                 $file_finded = true;
             }
         }
+
         //else content = 404 error page
         if ($file_finded === false) {
             $template_path_404 = isset($template_name) && $template_name === 'default' ? $template_path : array_values($core->tools->findTemplate('default'))[2];

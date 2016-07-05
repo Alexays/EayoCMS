@@ -1,0 +1,37 @@
+<div class="container-fluid">
+    {% for key, app in mainCtrl.AppsList %}
+    <div class="masonry-layout">
+        <div class="masonry-panel">
+            <img src="//placehold.it/180x150">
+        </div>
+        <div class="masonry-panel">
+            <img src="//placehold.it/180x150">
+        </div>
+        <div class="masonry-panel">
+            <img src="//placehold.it/180x150">
+        </div>
+        <div class="masonry-panel">
+            <img src="//placehold.it/180x150">
+        </div>
+        <div class="masonry-panel">
+            <img src="//placehold.it/180x150">
+        </div>
+        <div class="masonry-panel">
+            <img src="//placehold.it/180x150">
+        </div>
+        <div class="masonry-panel">
+            <img src="//placehold.it/180x150">
+        </div>
+    </div>
+    {% else %}
+    <span>Un problèmes est survenue.</span>
+    {% endfor %}
+    <!-- MODAL (EDIT) -->
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                ...
+            </div>
+        </div>
+    </div>
+</div>
