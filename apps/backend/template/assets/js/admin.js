@@ -25,10 +25,14 @@ jQuery(function ($) {
 
     /* Retrieve content to Modal (Boostrap) */
     eayo.modal_ajax = function () {
-        // Check if jQuery was initialized and if not (CDN was down for example), then
-        // load jQuery from a local source.
-        if(typeof jQuery === 'undefined'){
-            document.write(unescape("%3Cscript src='lib/core/admin/assets/js/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
-        }
+        $('[data-toggle="modal"]').click(function () {
+            var url = $(this).attr('href');
+            $.get(url, function (data) {
+                var modal = $('<div id="clue-modal" class="modal fade" tabindex="-1" role="dialog"><div class="modal-dialog"><div class="modal-content">' + data + '</div></div></div>').modal();
+                modal.on("hidden.bs.modal", function () {
+                    $(this).remove();
+                });
+            });
+        });
     };
 });

@@ -25,4 +25,12 @@ class adminCtrl extends Controller
             header('location: '.$this->tools->rooturl.'login/');
         }
     }
+
+    public function getAppsCount() {
+        return count(\Apps\App::$apps);
+    }
+
+    public function getUsersCount() {
+        return count($this->config->getAllAccounts());
+    }
 }

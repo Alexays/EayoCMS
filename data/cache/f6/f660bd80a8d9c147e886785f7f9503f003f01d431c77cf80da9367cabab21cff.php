@@ -17,7 +17,7 @@ class __TwigTemplate_fe9df1c1ca5e8019767595b7e8c4dddec596c3313642c511777807b80c2
     {
         // line 1
         echo "<div class=\"container-fluid\">
-    <div class=\"row masonry-layout\">
+    <div class=\"row\">
         ";
         // line 3
         $context['_parent'] = $context;
@@ -25,29 +25,65 @@ class __TwigTemplate_fe9df1c1ca5e8019767595b7e8c4dddec596c3313642c511777807b80c2
         $context['_iterated'] = false;
         foreach ($context['_seq'] as $context["key"] => $context["app"]) {
             // line 4
-            echo "        <div class=\"col-md-4\">
-            <div class=\"panel panel-default\">
-                <div class=\"panel-body\">
-                    <img src=\"https://placeholdit.imgix.net/~text?txtsize=33&txt=350×150&w=350&h=150\" />
+            echo "        <div class=\"col-lg-3 col-sm-3\">
+            <div class=\"thumbnail\">
+                <div class=\"thumb\">
+                    <img src=\"http://placehold.it/150x100\" alt=\"\">
+                    <div class=\"caption-overflow\">
+                        <p>
+                            ";
+            // line 10
+            if ($this->getAttribute($context["app"], "desc", array())) {
+                // line 11
+                echo "                            ";
+                echo $this->getAttribute($context["app"], "desc", array());
+                echo "
+                            ";
+            }
+            // line 13
+            echo "                        </p>
+                    </div>
                 </div>
-                <div class=\"panel-footer\">";
-            // line 9
-            echo $context["key"];
-            echo "</div>
+
+                <div class=\"caption text-center\">
+                    <h6>
+                        <a href=\"gallery.htm#\">
+                            ";
+            // line 20
+            if ($this->getAttribute($context["app"], "name", array())) {
+                // line 21
+                echo "                            ";
+                echo $this->getAttribute($context["app"], "name", array());
+                echo "
+                            ";
+            } else {
+                // line 23
+                echo "                            ";
+                echo twig_capitalize_string_filter($this->env, $context["key"]);
+                echo "
+                            ";
+            }
+            // line 25
+            echo "                        </a>
+                        <a href=\"#\">
+                            <i class=\"fa fa-bars pull-right\"></i>
+                        </a>
+                    </h6>
+                </div>
             </div>
         </div>
         ";
             $context['_iterated'] = true;
         }
         if (!$context['_iterated']) {
-            // line 13
+            // line 34
             echo "        <span>Un problèmes est survenue.</span>
         ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['key'], $context['app'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 15
+        // line 36
         echo "    </div>
     <!-- MODAL (EDIT) -->
     <div class=\"modal fade bs-example-modal-lg\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myLargeModalLabel\">
@@ -73,18 +109,39 @@ class __TwigTemplate_fe9df1c1ca5e8019767595b7e8c4dddec596c3313642c511777807b80c2
 
     public function getDebugInfo()
     {
-        return array (  51 => 15,  44 => 13,  35 => 9,  28 => 4,  23 => 3,  19 => 1,);
+        return array (  87 => 36,  80 => 34,  67 => 25,  61 => 23,  55 => 21,  53 => 20,  44 => 13,  38 => 11,  36 => 10,  28 => 4,  23 => 3,  19 => 1,);
     }
 }
 /* <div class="container-fluid">*/
-/*     <div class="row masonry-layout">*/
+/*     <div class="row">*/
 /*         {% for key, app in mainCtrl.AppsList %}*/
-/*         <div class="col-md-4">*/
-/*             <div class="panel panel-default">*/
-/*                 <div class="panel-body">*/
-/*                     <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=350×150&w=350&h=150" />*/
+/*         <div class="col-lg-3 col-sm-3">*/
+/*             <div class="thumbnail">*/
+/*                 <div class="thumb">*/
+/*                     <img src="http://placehold.it/150x100" alt="">*/
+/*                     <div class="caption-overflow">*/
+/*                         <p>*/
+/*                             {% if app.desc %}*/
+/*                             {{app.desc}}*/
+/*                             {% endif %}*/
+/*                         </p>*/
+/*                     </div>*/
 /*                 </div>*/
-/*                 <div class="panel-footer">{{key}}</div>*/
+/* */
+/*                 <div class="caption text-center">*/
+/*                     <h6>*/
+/*                         <a href="gallery.htm#">*/
+/*                             {% if app.name %}*/
+/*                             {{app.name}}*/
+/*                             {% else %}*/
+/*                             {{key | capitalize}}*/
+/*                             {% endif %}*/
+/*                         </a>*/
+/*                         <a href="#">*/
+/*                             <i class="fa fa-bars pull-right"></i>*/
+/*                         </a>*/
+/*                     </h6>*/
+/*                 </div>*/
 /*             </div>*/
 /*         </div>*/
 /*         {% else %}*/

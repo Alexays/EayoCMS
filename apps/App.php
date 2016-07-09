@@ -234,7 +234,7 @@ class App
      */
     public function Process($router)
     {
-        list($content_file, $namespace, $index, $template_path, $view_path, $main_query, $rest_query, $is_template) = $router;
+        list($content_file, $namespace, $index, $template_path, $view_path, $main_query, $is_template, $is_assets) = $router;
 
         $ctrlArray = ['php', 'twig'];
         $fileExt = pathinfo($content_file)['extension'];
@@ -280,7 +280,11 @@ class App
                 $this->twig_vars['content'] = $this::$content;
             }
             //Process page twig
-            $output = $this->twig->render('@'.$namespace.'/'.'default.twig', $this->twig_vars);
+            if ($is_assets) {
+                $output = $this->twig_vars['content'];
+            } else {
+                $output = $this->twig->render('@'.$namespace.'/'.'default.twig', $this->twig_vars);
+            }
         } catch (\Twig_Error_Loader $e) {
             throw new \RuntimeException($e->getRawMessage(), 4054, $e);
         }

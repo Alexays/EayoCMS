@@ -59,7 +59,10 @@ class __TwigTemplate_26badf8c8a29b60f90525a21423d19d9d4cb3bb6b4ff63ac86428cef746
             echo "</th>
                 <th>
                     <div class=\"btn-group\" role=\"group\" aria-label=\"Action\">
-                        <button type=\"button\" class=\"btn btn-primary\"><i class=\"fa fa-pencil\" aria-hidden=\"true\"></i></button>
+                        <button href=\"";
+            // line 24
+            echo (isset($context["base_url"]) ? $context["base_url"] : null);
+            echo "assets/admin/users/edit\" type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#\"><i class=\"fa fa-pencil\" aria-hidden=\"true\"></i></button>
                         <button type=\"button\" class=\"btn btn-danger\"><i class=\"fa fa-trash\" aria-hidden=\"true\"></i></button>
                     </div>
                 </th>
@@ -78,14 +81,6 @@ class __TwigTemplate_26badf8c8a29b60f90525a21423d19d9d4cb3bb6b4ff63ac86428cef746
         // line 32
         echo "        </tbody>
     </table>
-    <!-- USER MODAL (EDIT) -->
-    <div class=\"modal fade bs-example-modal-lg\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myLargeModalLabel\">
-        <div class=\"modal-dialog modal-lg\">
-            <div class=\"modal-content\">
-                ...
-            </div>
-        </div>
-    </div>
 </div>
 ";
     }
@@ -102,7 +97,7 @@ class __TwigTemplate_26badf8c8a29b60f90525a21423d19d9d4cb3bb6b4ff63ac86428cef746
 
     public function getDebugInfo()
     {
-        return array (  79 => 32,  72 => 30,  58 => 21,  54 => 20,  46 => 17,  42 => 16,  38 => 14,  33 => 13,  19 => 1,);
+        return array (  82 => 32,  75 => 30,  64 => 24,  58 => 21,  54 => 20,  46 => 17,  42 => 16,  38 => 14,  33 => 13,  19 => 1,);
     }
 }
 /* <div class="container-fluid users-list">*/
@@ -128,7 +123,7 @@ class __TwigTemplate_26badf8c8a29b60f90525a21423d19d9d4cb3bb6b4ff63ac86428cef746
 /*                 <th>{{ user.email }}</th>*/
 /*                 <th>*/
 /*                     <div class="btn-group" role="group" aria-label="Action">*/
-/*                         <button type="button" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></button>*/
+/*                         <button href="{{base_url}}assets/admin/users/edit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#"><i class="fa fa-pencil" aria-hidden="true"></i></button>*/
 /*                         <button type="button" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>*/
 /*                     </div>*/
 /*                 </th>*/
@@ -138,13 +133,5 @@ class __TwigTemplate_26badf8c8a29b60f90525a21423d19d9d4cb3bb6b4ff63ac86428cef746
 /*             {% endfor %}*/
 /*         </tbody>*/
 /*     </table>*/
-/*     <!-- USER MODAL (EDIT) -->*/
-/*     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">*/
-/*         <div class="modal-dialog modal-lg">*/
-/*             <div class="modal-content">*/
-/*                 ...*/
-/*             </div>*/
-/*         </div>*/
-/*     </div>*/
 /* </div>*/
 /* */

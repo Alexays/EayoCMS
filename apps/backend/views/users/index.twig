@@ -21,7 +21,7 @@
                 <th>{{ user.email }}</th>
                 <th>
                     <div class="btn-group" role="group" aria-label="Action">
-                        <button type="button" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                        <button href="{{base_url}}assets/admin/users/edit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                         <button type="button" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
                     </div>
                 </th>
@@ -31,12 +31,4 @@
             {% endfor %}
         </tbody>
     </table>
-    <!-- USER MODAL (EDIT) -->
-    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                ...
-            </div>
-        </div>
-    </div>
 </div>

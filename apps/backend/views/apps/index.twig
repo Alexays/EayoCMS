@@ -1,12 +1,33 @@
 <div class="container-fluid">
-    <div class="row masonry-layout">
+    <div class="row">
         {% for key, app in mainCtrl.AppsList %}
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <img src="https://placeholdit.imgix.net/~text?txtsize=33&txt=350×150&w=350&h=150" />
+        <div class="col-lg-3 col-sm-3">
+            <div class="thumbnail">
+                <div class="thumb">
+                    <img src="http://placehold.it/150x100" alt="">
+                    <div class="caption-overflow">
+                        <p>
+                            {% if app.desc %}
+                            {{app.desc}}
+                            {% endif %}
+                        </p>
+                    </div>
                 </div>
-                <div class="panel-footer">{{key}}</div>
+
+                <div class="caption text-center">
+                    <h6>
+                        <a href="gallery.htm#">
+                            {% if app.name %}
+                            {{app.name}}
+                            {% else %}
+                            {{key | capitalize}}
+                            {% endif %}
+                        </a>
+                        <a href="#">
+                            <i class="fa fa-bars pull-right"></i>
+                        </a>
+                    </h6>
+                </div>
             </div>
         </div>
         {% else %}
