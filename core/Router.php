@@ -27,7 +27,7 @@ class Router
         $queryPart = explode('/', rtrim($query, '\/'));
 
         if ($queryPart[0] === 'assets') {
-            ($queryPart[0]);
+            unset($queryPart[0]);
             $queryPart = array_values($queryPart);
             $is_assets = true;
         }
