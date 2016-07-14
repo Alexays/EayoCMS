@@ -27,13 +27,15 @@ class Router
         $queryPart = explode('/', rtrim($query, '\/'));
 
         if ($queryPart[0] === 'assets') {
-            unset($queryPart[0]);
+            ($queryPart[0]);
             $queryPart = array_values($queryPart);
             $is_assets = true;
         }
 
         $queryLength = count($queryPart);
         $index = empty($queryPart[0]) ? null : $queryPart[0];
+        $main = $queryPart[count($queryPart) - 1];
+        $main = $main === $index ? 'index' : $main;
         $query = implode($queryPart, DS);
 
         if (isset($core::$router) && array_key_exists($index, $core::$router)) {
@@ -76,6 +78,6 @@ class Router
             }
         }
 
-        return [$content_file, $template_name, $index, $template_path, $view_path, $queryPart[count($queryPart) - 1], $is_template, $is_assets];
+        return [$content_file, $template_name, $index, $template_path, $view_path, $main, $is_template, $is_assets];
     }
 }

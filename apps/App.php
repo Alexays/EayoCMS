@@ -241,9 +241,9 @@ class App
         $modular_twig = false;
 
         if (in_array($fileExt, $ctrlArray)) {
-            $classRoot = str_replace(ROOT_DIR, '', dirname($view_path));
-            $controller = DS.$classRoot."\\Controller\\".$index."Ctrl";
-            $maincontroller = DS.$classRoot."\\Controller\\".$main_query."Ctrl";
+            $classRoot = str_replace('/', '\\', str_replace(ROOT_DIR, '', dirname($view_path)));
+            $controller = '\\'.$classRoot."\\Controller\\".$index."Ctrl";
+            $maincontroller = '\\'.$classRoot."\\Controller\\".$main_query."Ctrl";
             $controller = class_exists($controller) ? new $controller() : null;
             $maincontroller = class_exists($maincontroller) ? new $maincontroller(): null;
 

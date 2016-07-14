@@ -1,6 +1,6 @@
 theme: default
 twig:
-    cache: true
+    cache: false
     autoescape: false
     debug: true
 plugins:

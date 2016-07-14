@@ -7,42 +7,42 @@ namespace Composer\Autoload;
 class ComposerStaticInit10681162e7d736b4d8feb24723628dc7
 {
     public static $prefixLengthsPsr4 = array (
-        'S' =>
+        'S' => 
         array (
             'Symfony\\Component\\Yaml\\' => 23,
         ),
-        'J' =>
+        'J' => 
         array (
             'Jralph\\Twig\\Markdown\\' => 21,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Symfony\\Component\\Yaml\\' =>
+        'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
-        'Jralph\\Twig\\Markdown\\' =>
+        'Jralph\\Twig\\Markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/jralph/twig-markdown/src',
         ),
     );
 
     public static $prefixesPsr0 = array (
-        'T' =>
+        'T' => 
         array (
-            'Twig_' =>
+            'Twig_' => 
             array (
                 0 => __DIR__ . '/..' . '/twig/twig/lib',
             ),
         ),
-        'P' =>
+        'P' => 
         array (
-            'ParsedownExtra' =>
+            'ParsedownExtra' => 
             array (
                 0 => __DIR__ . '/..' . '/erusev/parsedown-extra',
             ),
-            'Parsedown' =>
+            'Parsedown' => 
             array (
                 0 => __DIR__ . '/..' . '/erusev/parsedown',
             ),
