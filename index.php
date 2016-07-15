@@ -16,16 +16,16 @@ version_compare(PHP_VERSION, "5.5.0", "<") and exit("PHP 5.5.0+ required.");
 defined('EAYO_ACCESS') || define('EAYO_ACCESS', true);
 defined('PERF_START') || define('PERF_START', microtime(true));
 defined('DS') || define('DS', DIRECTORY_SEPARATOR);
-defined('ROOT_DIR') || define('ROOT_DIR', realpath(__DIR__ . DS) . DS);
+defined('ROOT_DIR') || define('ROOT_DIR', realpath(__DIR__) . DS);
 
 //Include Eayo Class
-require ROOT_DIR.'apps/App.php';
+require ROOT_DIR.'lib/Eayo.php';
 
 substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') ? ob_start("ob_gzhandler") : ob_start();
 
 //Init Eayo
 try {
-    $core = \Apps\App::start();
+    $core = \Eayo::start();
     $router = \Core\Router::Analyse($core);
     echo $core->Process($router);
 } catch (\Exception $e) {

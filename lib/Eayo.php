@@ -10,14 +10,12 @@
   * file that was distributed with this source code.
   */
 
-namespace Apps;
-
 defined('EAYO_ACCESS') || exit('No direct script access.');
 
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
-class App
+class Eayo
 {
 
     /** @var core An instance of the Eayo class */
@@ -30,25 +28,23 @@ class App
     const PRODUCTION  = 1;
     const DEVELOPMENT = 2;
 
-    /** @var string Contenu de la page */
-    public static $content = '';
-
     /** @var string Eayo environment */
-    public static $environment = App::PRODUCTION;
+    public static $environment = Eayo::PRODUCTION;
 
     /** @var array Eayo environment names */
     public static $environment_names = array(
-        App::PRODUCTION  => 'production',
-        App::DEVELOPMENT => 'development',
+        Eayo::PRODUCTION  => 'production',
+        Eayo::DEVELOPMENT => 'development',
     );
+    
+    /** @var string Contenu de la page */
+    public static $content;
 
     public static $router = [];
 
     public static $apps = [];
 
     public static $templates = [];
-
-    public $twig;
 
     public $twig_vars = [];
 
@@ -80,7 +76,7 @@ class App
         defined('STORAGE_DIR') || define('STORAGE_DIR', LIB_DIR . 'datastorage' . DS);
 
         /** Set Eayo Environment */
-        App::$environment = App::DEVELOPMENT;
+        Eayo::$environment = Eayo::DEVELOPMENT;
 
         /* Init Session */
         $this->sessionStart();
@@ -89,10 +85,10 @@ class App
         $this->__autoload();
 
         /* Init Config API */
-        $this->config = \Core\Config::init();
+        $this->config = Core\Config::init();
 
         /* Init Tools API*/
-        $this->tools = \Core\Tools::init();
+        $this->tools = Core\Tools::init();
 
         /* Init Plugins API*/
         $this->initPlugins();
@@ -113,17 +109,21 @@ class App
      */
     protected function __autoload()
     {
-        //spl_autoload_extensions(".php");
         spl_autoload_register(
             function ($className) {
-                $fileName = ROOT_DIR . str_replace("\\", DS, $className) . '.php';
-                if (file_exists($fileName)) {
-                    include $fileName;
+                $fileName = str_replace("\\", DS, $className) . '.php';
+                if (is_file(LIB_DIR.$fileName)) {
+                    //Register Core File
+                    include LIB_DIR.$fileName;
+                } elseif (is_file(ROOT_DIR.$fileName)) {
+                    //Register Apps/Plugins
+                    include ROOT_DIR.$fileName;
                 }
             }
         );
+        //Register Plugins
         spl_autoload_register('\Core\Plugin::autoload');
-        $vendor = LIB_DIR . 'vendor' . DS . 'autoload.php';
+        $vendor = LIB_DIR.'vendor'.DS .'autoload.php';
         if(is_file($vendor)) {
             include $vendor;
         } else {
@@ -139,8 +139,11 @@ class App
         //ROUTER
         foreach(glob(APP_DIR.'*', GLOB_ONLYDIR) as $app_dir) {
             $app = str_replace(APP_DIR, '', $app_dir);
-            $app_conf = Yaml::parse(file_get_contents($app_dir.DS.'config.yml'));
-            $this::$apps = array_merge($this::$apps, [$app => $app_conf]);
+            $app_conf_file = $app_dir.DS.'config.yml';
+            if (file_exists($app_conf_file)) {
+                $app_conf = Yaml::parse(file_get_contents($app_conf_file));
+            }
+            $this::$apps = array_merge($this::$apps, [$app => isset($app_conf) ? $app_conf : null]);
             $this::$router = array_merge($this::$router, [isset($app_conf['route']) ? $app_conf['route'] : null => $app]);
         }
         $this::$router = array_merge($this::$router, ['login' => 'default']);
@@ -313,7 +316,7 @@ class App
     public static function start()
     {
         if (is_null(static::$_instance)) {
-            self::$_instance = new App();
+            self::$_instance = new Eayo();
         }
         return static::$_instance;
     }

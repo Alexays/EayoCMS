@@ -10,19 +10,18 @@
   * file that was distributed with this source code.
   */
 
-namespace Apps\Backend\Controller;
+namespace Core;
 
 defined('EAYO_ACCESS') || exit('No direct script access.');
 
-use Core\Controller;
-
-class adminCtrl extends Controller
+class Controller
 {
+    protected $config = null;
+    protected $tools = null;
+
     public function __construct() {
-        parent::__construct();
-        /* Check Login Status */
-        if (!isset($_SESSION['login_str'])) {
-            header('location: '.$this->tools->rooturl.'login/');
-        }
+        $this->config = \Core\Config::init();
+        $this->tools = \Core\Tools::init();
     }
+
 }

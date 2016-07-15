@@ -16,13 +16,13 @@ defined('EAYO_ACCESS') || exit('No direct script access.');
 
 use Core\Controller;
 
-class adminCtrl extends Controller
+class indexCtrl extends Controller
 {
-    public function __construct() {
-        parent::__construct();
-        /* Check Login Status */
-        if (!isset($_SESSION['login_str'])) {
-            header('location: '.$this->tools->rooturl.'login/');
-        }
+    public function getAppsCount() {
+        return count(\Eayo::$apps);
+    }
+
+    public function getUsersCount() {
+        return count($this->config->getAllAccounts());
     }
 }
