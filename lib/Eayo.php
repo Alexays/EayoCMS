@@ -269,8 +269,8 @@ class Eayo
         $this->twig_vars = array_merge($this->twig_vars, array(
             'theme_url' => $this->tools->SanitizeURL($this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path).'/'),
             'assets_url' => $this->tools->SanitizeURL($this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path).'/assets/'),
-            'mainCtrl' => isset($maincontroller) ? $maincontroller : null,
-            'ctrl' => isset($controller) ? $controller : null,
+            $main_query => isset($maincontroller) ? $maincontroller : null,
+            $index => isset($controller) ? $controller : null,
             'is_markdown' => isset($is_markdown) ? $is_markdown : false,
             'load_time' => number_format(microtime(true) - PERF_START, 3)
         ));

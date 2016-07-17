@@ -16,9 +16,9 @@ defined('EAYO_ACCESS') || exit('No direct script access.');
 
 use Core\Controller;
 
-class appsCtrl extends Controller
+class editCtrl extends Controller
 {
-    public function getAppsList() {
-        return \Eayo::$apps;
+    public function test() {
+        return 'test';
     }
 }

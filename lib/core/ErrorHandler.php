@@ -53,13 +53,13 @@ class ErrorHandler extends \Exception
      */
     public function handleException(\Exception $exception)
     {
-        if (\Apps\App::$environment == \Apps\App::PRODUCTION) {
+        if (\Eayo::$environment == \Eayo::PRODUCTION) {
             $code = $exception->getCode();
             $message = $exception->getMessage();
             $file = $exception->getFile();
             $line = $exception->getLine();
             error_log("[{$code}] {$message} in {$file} on line {$line}");
-        } elseif (\Apps\App::$environment == \Apps\App::DEVELOPMENT) {
+        } elseif (\Eayo::$environment == \Eayo::DEVELOPMENT) {
             $this->displayDeveloperOutput(
                 $exception->getCode(),
                 $exception->getMessage(),

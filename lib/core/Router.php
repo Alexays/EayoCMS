@@ -18,12 +18,20 @@ class Router
 {
     public static function Analyse(\Eayo $core)
     {
-        $_query = [];
+        $params = '';
         $content_file;
         $template_file;
         $is_assets = false;
 
         $query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : null;
+        
+        if (($pos = strpos($query, ':')) !== FALSE) { 
+            $params = substr($query, $pos+1);
+            $query = strtok($query, ':');
+        }
+        
+        var_dump($query);
+        
         $queryPart = explode('/', rtrim($query, '\/'));
 
         if ($queryPart[0] === 'assets') {
@@ -78,6 +86,6 @@ class Router
             }
         }
 
-        return [$content_file, $template_name, $index, $template_path, $view_path, $main, $is_template, $is_assets];
+        return [$content_file, $template_name, $index, $template_path, $view_path, $main, $is_template, $is_assets, $params];
     }
 }
