@@ -167,7 +167,7 @@ class Tools
     /**
      * Return the theme_url
      *
-     * @return string rooturl
+     * @return string theme_url
      */
     public function findTemplate($namespace)
     {
@@ -186,7 +186,7 @@ class Tools
                 $template = [$key, $namespace, rtrim($templates[$key][$namespace], '\/').DS];
             }
         }
-        $template[2] = $this->SanitizeURL($template[2], true);
+        $template[2] = $this->Sanitize($template[2], true);
 
         return $template;
     }
@@ -197,7 +197,7 @@ class Tools
      * @param  boolean $is_path 'if is path or not'
      * @return string 'clean url or path'
      */
-    public function SanitizeURL($_url, $is_path = false)
+    public function Sanitize($_url, $is_path = false)
     {
         if ($is_path) {
             //Convert any slash to os directory separator

@@ -28,7 +28,8 @@ jQuery(function ($) {
         $('[data-toggle="modal"]').click(function () {
             var url = $(this).attr('href');
             $.get(url, function (data) {
-                var modal = $('<div id="clue-modal" class="modal fade" tabindex="-1" role="dialog"><div class="modal-dialog"><div class="modal-content">' + data + '</div></div></div>').modal();
+                var modal = $('<div id="modal-ajax">' + data + '</div>');
+                $('#modal-ajax .modal').modal();
                 modal.on("hidden.bs.modal", function () {
                     $(this).remove();
                 });

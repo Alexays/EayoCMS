@@ -32,7 +32,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="profile">
                             <a href="#">
-                                <img width="40" height="40" src="{{base_url}}{{user.avatar}}" alt="My profile" class="img-circle">
+                                <img width="40" height="40" src="{{url(user.avatar)}}" alt="My profile" class="img-circle">
                                 {{user.firstname}} {{user.surname | first}}.
                             </a>
                         </li>
@@ -51,9 +51,9 @@
                     </div>
                     <div class="navbar-collapse collapse" id="app-nav">
                         <ul class="nav navbar-nav">
-                            <li><a href="{{base_url}}admin/">Tableaux de bord</a></li>
-                            <li><a href="{{base_url}}admin/apps">Applications</a></li>
-                            <li><a href="{{base_url}}admin/users">Utilisateurs</a></li>
+                            <li><a href="{{url('admin/')}}">Tableaux de bord</a></li>
+                            <li><a href="{{url('admin/apps')}}">Applications</a></li>
+                            <li><a href="{{url('admin/users')}}">Utilisateurs</a></li>
                             <li><a href="forms.html">Plugins</a></li>
                             <li><a href="login.html">Paramètres</a></li>
                         </ul>
@@ -62,11 +62,7 @@
             </nav>
             <!-- MENU SECTION END-->
             <div class="container-fluid">
-                {% if is_markdown %}
-                {{markdown(content)}}
-                {% else %}
                 {{content}}
-                {% endif %}
             </div>
         </main>
         <!-- CONTENT-WRAPPER SECTION END-->

@@ -20,8 +20,6 @@ class loginCtrl extends Controller
 {
     public function __construct() {
         parent::__construct();
-        var_dump($_POST);
-        var_dump($_SESSION);
         if(isset($_POST['login'])) {
             $emailid = $_POST['emailid'];
             $password = $_POST['password'];
@@ -44,7 +42,7 @@ class loginCtrl extends Controller
                         $_SESSION['username'] = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $self_user['username']);
                         $_SESSION['email'] = $self_user['email']; //make regex
                         $_SESSION['firstname'] = preg_replace("/[^a-zA-Z\-]+/", "", $self_user['firstname']);
-                        $_SESSION['surname'] = preg_replace("/[^a-zA-Z\-]+/", "", $self_user['surname']);
+                        $_SESSION['lastname'] = preg_replace("/[^a-zA-Z\-]+/", "", $self_user['lastname']);
                         $_SESSION['avatar'] = $self_user['avatar'];
                         $_SESSION['login_str'] = hash('sha512', $self_user['pass_hash'].$_SERVER['HTTP_USER_AGENT']);
                         return true;

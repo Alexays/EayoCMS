@@ -18,7 +18,7 @@ use Core\Controller;
 
 class editCtrl extends Controller
 {
-    public function test() {
-        return 'test';
+    public function getUser($user_id) {
+        return $this->config->getAccount($user_id);
     }
 }

@@ -30,8 +30,6 @@ class Router
             $query = strtok($query, ':');
         }
         
-        var_dump($query);
-        
         $queryPart = explode('/', rtrim($query, '\/'));
 
         if ($queryPart[0] === 'assets') {

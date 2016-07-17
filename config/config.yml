@@ -4,5 +4,3 @@ twig:
     autoescape: false
     debug: true
 plugins:
-    Admin@EayoCMS:
-        active: true

@@ -36,7 +36,7 @@ class Eayo
         Eayo::PRODUCTION  => 'production',
         Eayo::DEVELOPMENT => 'development',
     );
-    
+
     /** @var string Contenu de la page */
     public static $content;
 
@@ -45,6 +45,8 @@ class Eayo
     public static $apps = [];
 
     public static $templates = [];
+
+    public $twig;
 
     public $twig_vars = [];
 
@@ -78,11 +80,11 @@ class Eayo
         /** Set Eayo Environment */
         Eayo::$environment = Eayo::DEVELOPMENT;
 
-        /* Init Session */
-        $this->sessionStart();
-
         /** Load Core file */
         $this->__autoload();
+
+        /* Init Session */
+        $this->sessionStart();
 
         /* Init Config API */
         $this->config = Core\Config::init();
@@ -98,9 +100,6 @@ class Eayo
 
         /* Init Twig */
         $this->InitTwig();
-
-        /* Init default Route */
-        //$this->initRoute();
     }
 
     /**
@@ -217,15 +216,13 @@ class Eayo
         $twigConf['cache'] = $twigConf['cache'] === true ? CACHE_DIR : false;
 
         $this->twig = new \Twig_Environment($loader, $twigConf);
-        $this->twig->addExtension(new \Jralph\Twig\Markdown\Extension(
-            new \Jralph\Twig\Markdown\Parsedown\ParsedownExtraMarkdown
-        ));
-        $this->twig->addExtension(new \Twig_Extension_Debug());
+        //$this->twig->addExtension(new \Twig_Extension_Debug());
+        $this->twig->addExtension(new Core\TwigExtension($this->tools));
+        $conf = $this->config->getAll();
+        unset($conf['twig']);
         $this->twig_vars = array_merge($this->twig_vars, array(
             'version' => $this::VERSION,
-            'config' => $this->config->getAll(),
-            'base_url' => $this->tools->rooturl,
-            'uploads_url' => $this->tools->rooturl.str_replace(ROOT_DIR, '', UPLOAD_DIR),
+            'config' => $conf,
             'user' => isset($_SESSION) ? $_SESSION : null
         ));
     }
@@ -237,61 +234,46 @@ class Eayo
      */
     public function Process($router)
     {
-        list($content_file, $namespace, $index, $template_path, $view_path, $main_query, $is_template, $is_assets) = $router;
-
-        $ctrlArray = ['php', 'twig'];
-        $fileExt = pathinfo($content_file)['extension'];
-        $modular_twig = false;
-
-        if (in_array($fileExt, $ctrlArray)) {
-            $classRoot = str_replace('/', '\\', str_replace(ROOT_DIR, '', dirname($view_path)));
-            $controller = '\\'.$classRoot."\\Controller\\".$index."Ctrl";
-            $maincontroller = '\\'.$classRoot."\\Controller\\".$main_query."Ctrl";
-            $controller = class_exists($controller) ? new $controller() : null;
-            $maincontroller = class_exists($maincontroller) ? new $maincontroller(): null;
-
-            if ($fileExt === 'php') {
-                $content_file = include $content_file;
-            } elseif ($fileExt === 'twig') {
-                $modular_twig = true;
-                if ($is_template) {
-                    $content_file = '@'.$namespace.'/'.str_replace($template_path, '', $content_file);
-                } else {
-                    $modular_twig = true;
-                    $content_file = '@'.$namespace.'_views/'.str_replace($view_path, '', $content_file);
-                }
-            } else {
-                throw new \Exception('Une erreur inconnue est survenue', 0);
-            }
-        } elseif ($content_file = file_get_contents($content_file)) {
-            $is_markdown = $fileExt === 'md' ? true : false;
-        }
+        list($content_file, $namespace, $index, $template_path, $view_path, $main_query, $is_template, $is_assets, $params) = $router;
         $this->twig_vars = array_merge($this->twig_vars, array(
-            'theme_url' => $this->tools->SanitizeURL($this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path).'/'),
-            'assets_url' => $this->tools->SanitizeURL($this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path).'/assets/'),
-            $main_query => isset($maincontroller) ? $maincontroller : null,
-            $index => isset($controller) ? $controller : null,
-            'is_markdown' => isset($is_markdown) ? $is_markdown : false,
-            'load_time' => number_format(microtime(true) - PERF_START, 3)
+            'theme_url' => $this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path),
+            'assets_url' => $this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path).'assets/'
         ));
-        $this::$content = $content_file;
+        $fileExt = pathinfo($content_file)['extension'];
+        switch ($fileExt) {
+            case "php":
+            case "twig":
+                $classRoot = str_replace('/', '\\', str_replace(ROOT_DIR, '', dirname($view_path)));
+                $classRoot = '\\'.$classRoot.'\\Controller\\';
+                $controller = $classRoot.$index.'Ctrl';
+                $maincontroller = $classRoot.$main_query.'Ctrl';
+                $this->twig_vars[$index] = $controller = class_exists($controller) ? new $controller() : null;
+                $this->twig_vars[$main_query] = $maincontroller = class_exists($maincontroller) ? new $maincontroller(): null;
+                if ($fileExt === 'php') {
+                    $content_file = include $content_file;
+                } else {
+                    $content_file = $is_template ? $namespace.'/'.ltrim(str_replace($template_path, '', $content_file), '\/') : $namespace.'_views/'.ltrim(str_replace($view_path, '', $content_file), '\/');
+                    $content_file = $this->twig->render('@'.$content_file, $this->twig_vars);
+                }
+                break;
+            case "html":
+                $content_file = file_get_contents($content_file);
+                break;
+            default:
+                throw new \Exception('Une erreur inconnue est survenue', 0);
+        }
         try {
-            //Process in-page tiwg
-            if ($modular_twig) {
-                $this->twig_vars['content'] = $this->twig->render($this::$content, $this->twig_vars);
-            } else {
-                $this->twig_vars['content'] = $this::$content;
-            }
-            //Process page twig
+            $this->twig_vars['content'] = $content_file;
             if ($is_assets) {
                 $output = $this->twig_vars['content'];
             } else {
-                $output = $this->twig->render('@'.$namespace.'/'.'default.twig', $this->twig_vars);
+                $this->twig_vars['load_time'] = number_format(microtime(true) - PERF_START, 3);
+                $output = $this->twig->render('@'.$namespace.'/'.'default.html.twig', $this->twig_vars);
             }
         } catch (\Twig_Error_Loader $e) {
             throw new \RuntimeException($e->getRawMessage(), 4054, $e);
         }
-
+        
         return $output;
     }
 

@@ -25,11 +25,7 @@
     <body>
         <div id="content">
             {% block content %}
-                {% if is_markdown %}
-                    {{markdown(content)}}
-                {% else %}
-                    {{content}}
-                {% endif %}
+                {{content}}
             {% endblock %}
         </div>
         <div id="footer">

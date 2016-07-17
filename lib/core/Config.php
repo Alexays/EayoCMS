@@ -29,7 +29,6 @@ class Config
         date_default_timezone_set('Europe/Paris');
         try {
             $this->settings = Yaml::parse(file_get_contents(CONF_DIR.'config.yml'));
-            $this->accounts = Yaml::parse(file_get_contents(CONF_DIR.'accounts.yml'));
         } catch (ParseException $e) {
             throw new  \Exception("Unable to parse the YAML string: ".$e->getMessage(), 150);
         }
@@ -74,7 +73,11 @@ class Config
      */
     public function getAllAccounts()
     {
-        return $this->accounts;
+        try {
+            return Yaml::parse(file_get_contents(CONF_DIR.'accounts.yml'));
+        } catch (ParseException $e) {
+            throw new  \Exception("Unable to parse the YAML string: ".$e->getMessage(), 150);
+        }
     }
 
     /**
