@@ -18,7 +18,26 @@ use Core\Controller;
 
 class editCtrl extends Controller
 {
+    public function __construct() {
+        parent::__construct();
+        if (!empty($_POST)) {
+            if (isset($_POST['username']) && isset($_POST['passwd']) && isset($_POST['passwd-2'])) {
+                if ($_POST['username'] !== '' || $_POST['passwd'] !== '' || $_POST['passwd-2'] !== '') {
+                    return 'true';
+                } else {
+                    echo 'L\'identifiant et le mot de passe ne doivent pas être vide.';
+                }
+            } else {
+                echo 'L\'identifiant et le mot de passe sont obligatoire.';
+            }
+        }
+    }
+
     public function getUser($user_id) {
-        return $this->config->getAccount($user_id);
+        if (!empty($q = $this->config->getAccount($user_id))) {
+            return $q;
+        } else {
+            throw new \Exception('Utilisateurs n\'ayant pas de données ou bloqué.', 56);
+        }
     }
 }

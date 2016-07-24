@@ -37,7 +37,7 @@ class TwigExtension extends \Twig_Extension {
     public function getFilters()
     {
         return [
-            'url' => new \Twig_Filter_Method($this, 'parseMarkdown', ['is_safe' => ['html']])
+            'url' => new \Twig_Filter_Method($this, 'getUrl')
         ];
     }
 
@@ -53,7 +53,14 @@ class TwigExtension extends \Twig_Extension {
         ];
     }
 
-    public function getUrl($url) {
-        return $this->tools->rooturl.ltrim($url, '\/');
+    public function getUrl($url, $type='URL') {
+        switch($type) {
+            case 'URL':
+                return $this->tools->rooturl.ltrim($url, '\/');
+                break;
+            case 'UPLOAD':
+                return $this->tools->rooturl.str_replace(ROOT_DIR, '', UPLOAD_DIR).ltrim($url, '\/');
+                break;
+        }
     }
 }

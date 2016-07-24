@@ -14,6 +14,9 @@ namespace Core;
 
 defined('EAYO_ACCESS') || exit('No direct script access.');
 
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
+
 class Controller
 {
     protected $config = null;

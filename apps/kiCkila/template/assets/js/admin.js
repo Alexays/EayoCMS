@@ -2,16 +2,17 @@
 /*global jQuery, Waves, alert*/
 jQuery(function ($) {
     'use strict';
+    const TabLoaded = Array();
     var eayo = window.eayo || {};
     $(document).ready(function () {
-        eayo.modal_ajax();
+        eayo.ajax_nav();
         eayo.form_ajax();
     });
     $(window).load(function () {
         eayo.init();
     });
     $(window).resize(function () {
-        /**/
+        //
     });
 
     /* Init Client system */
@@ -21,19 +22,32 @@ jQuery(function ($) {
         if(typeof jQuery === 'undefined'){
             document.write(unescape("%3Cscript src='lib/core/admin/assets/js/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
         }
-        $('nav.app-nav li > a[href="' + document.location.href + '"]').parent('li').addClass('active');
+        $('[data-toggle=offcanvas]').click(function () {
+            if ($('.sidebar-offcanvas').css('background-color') == 'rgb(255, 255, 255)') {
+                $('.list-group-item').attr('tabindex', '-1');
+            } else {
+                $('.list-group-item').attr('tabindex', '');
+            }
+            $('.row-offcanvas').toggleClass('active');
+        });
+        $('[data-toggle="tooltip"]').tooltip();
     };
 
     /* Retrieve content to Modal (Boostrap) */
-    eayo.modal_ajax = function () {
-        $('[data-toggle="modal"]').click(function () {
+    eayo.ajax_nav = function () {
+        $('[data-target="ajax"]').click(function (e) {
+            e.preventDefault();
             var url = $(this).attr('href');
+            var nameTab = $(this).attr('data-name');
             $.get(url, function (data) {
-                var modal = $('<div id="modal-ajax">' + data + '</div>');
-                $('#modal-ajax .modal').modal();
-                modal.on("hidden.bs.modal", function () {
-                    $(this).remove();
-                });
+                if ($.inArray(url, TabLoaded) === -1) {
+                    $.merge(TabLoaded, Array(url));
+                    $('<li><a href="#tab'+nameTab+'" data-toggle="tab">'+nameTab+'</a></li>').appendTo('#tab-container');
+                    $('<div class="tab-pane" id="tab'+nameTab+'">'+data+'</div>').appendTo('.tab-content');
+                    $('#tab-container a:last').tab('show');
+                } else {
+                    $('[href="#tab'+nameTab+'"]').parent('li').fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+                }
             });
         });
     };

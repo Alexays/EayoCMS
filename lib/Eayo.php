@@ -12,8 +12,9 @@
 
 defined('EAYO_ACCESS') || exit('No direct script access.');
 
-use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Yaml\Exception\ParseException;
+use \Symfony\Component\Yaml\Yaml;
+use \Symfony\Component\Yaml\Exception\ParseException;
+use \Jralph\Twig\Markdown\Contracts\MarkdownInterface as Markdown;
 
 class Eayo
 {
@@ -83,9 +84,6 @@ class Eayo
         /** Load Core file */
         $this->__autoload();
 
-        /* Init Session */
-        $this->sessionStart();
-
         /* Init Config API */
         $this->config = Core\Config::init();
 
@@ -135,15 +133,25 @@ class Eayo
      */
     protected function initApp()
     {
+        //SESSION
+        if (ini_set('session.use_only_cookies', 1) === '0') {
+            throw new \Exception('Could not initiate a safe session (ini_set)', 145);
+        }
+        session_name('eayo_Session');
+        session_set_cookie_params(0, '/', $_SERVER['SERVER_NAME'], isset($_SERVER['HTTPS']), true);
+        session_start();
+        session_regenerate_id(true);
         //ROUTER
         foreach(glob(APP_DIR.'*', GLOB_ONLYDIR) as $app_dir) {
             $app = str_replace(APP_DIR, '', $app_dir);
             $app_conf_file = $app_dir.DS.'config.yml';
             if (file_exists($app_conf_file)) {
                 $app_conf = Yaml::parse(file_get_contents($app_conf_file));
+            } else {
+                $app_conf = ['name' => $app];
             }
             $this::$apps = array_merge($this::$apps, [$app => isset($app_conf) ? $app_conf : null]);
-            $this::$router = array_merge($this::$router, [isset($app_conf['route']) ? $app_conf['route'] : null => $app]);
+            $this::$router = array_merge($this::$router, [isset($app_conf['route']) ? $app_conf['route'] : $app => $app]);
         }
         $this::$router = array_merge($this::$router, ['login' => 'default']);
 
@@ -236,6 +244,7 @@ class Eayo
     {
         list($content_file, $namespace, $index, $template_path, $view_path, $main_query, $is_template, $is_assets, $params) = $router;
         $this->twig_vars = array_merge($this->twig_vars, array(
+            'params' => $params,
             'theme_url' => $this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path),
             'assets_url' => $this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path).'assets/'
         ));
@@ -259,35 +268,27 @@ class Eayo
             case "html":
                 $content_file = file_get_contents($content_file);
                 break;
+            case "md":
+                $markdown = new \Jralph\Twig\Markdown\Parsedown\ParsedownExtraMarkdown;
+                $content_file = $markdown->parse(file_get_contents($content_file));
+                break;
             default:
                 throw new \Exception('Une erreur inconnue est survenue', 0);
         }
         try {
-            $this->twig_vars['content'] = $content_file;
-            if ($is_assets) {
-                $output = $this->twig_vars['content'];
-            } else {
-                $this->twig_vars['load_time'] = number_format(microtime(true) - PERF_START, 3);
-                $output = $this->twig->render('@'.$namespace.'/'.'default.html.twig', $this->twig_vars);
+            if (empty($_POST)) {
+                $this->twig_vars['content'] = $content_file;
+                if ($is_assets) {
+                    $output = $this->twig_vars['content'];
+                } else {
+                    $this->twig_vars['load_time'] = number_format(microtime(true) - PERF_START, 3);
+                    $output = $this->twig->render('@'.$namespace.'/'.'default.html.twig', $this->twig_vars);
+                }
+                return $output;
             }
         } catch (\Twig_Error_Loader $e) {
             throw new \RuntimeException($e->getRawMessage(), 4054, $e);
         }
-        
-        return $output;
-    }
-
-    /**
-     * Start Session
-     */
-    protected function sessionStart() {
-        if (ini_set('session.use_only_cookies', 1) === '0') {
-            throw new \Exception('Could not initiate a safe session (ini_set)', 145);
-        }
-        session_name('eayo_Session');
-        session_set_cookie_params(0, '/', $_SERVER['SERVER_NAME'], isset($_SERVER['HTTPS']), true);
-        session_start();
-        session_regenerate_id(true);
     }
 
     /**

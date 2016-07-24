@@ -13,7 +13,7 @@
             {% for key, user in users.UserList %}
             <tr>
                 <th>
-                    <img src="{{uploads_url}}avatar/default-0.png" width=45 height=45 class="img-circle avatar">
+                    <img src="{{url('avatar/default-0.png', 'UPLOAD')}}" width=45 height=45 class="img-circle avatar">
                     <a href="user-profile.html" class="name">{{ user.username }} <span>#{{ key }}</span></a>
                     <span class="subtext">Développeur</span>
                 </th>
@@ -21,8 +21,8 @@
                 <th>{{ user.email }}</th>
                 <th>
                     <div class="btn-group" role="group" aria-label="Action">
-                        <button href="{{base_url}}assets/admin/users/edit:{{key}}" type="button" class="btn btn-primary" data-toggle="modal" data-target="#"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        <a href="{{url('admin/users/edit:')}}{{key}}" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
                     </div>
                 </th>
             </tr>

@@ -1,32 +1,46 @@
-<div class="form-group">
-    <label for="username">Pseudo:</label>
-    <input type="text" class="form-control" id="username" value="{{user.username}}">
-</div>
-<div class="row">
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="firstname">Prénom:</label>
-            <input type="text" class="form-control" id="firstname" value="{{user.firstname}}">
+{% set e_user = edit.User(params) %}
+<form method="post" id="edit_user"> 
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="username">Pseudo:</label>
+                <input type="text" class="form-control" name="username" value="{{e_user.username}}" required>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <img class="img-circle" src="{{url(e_user.avatar)}}" width="60" height="60"/>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="lastname">Nom:</label>
-            <input type="text" class="form-control" id="lastname" value="{{user.lastname}}">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="firstname">Prénom:</label>
+                <input type="text" class="form-control" name="firstname" value="{{e_user.firstname}}">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="lastname">Nom:</label>
+                <input type="text" class="form-control" name="lastname" value="{{e_user.lastname}}">
+            </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="firstname">Mot de passe:</label>
-            <input type="password" class="form-control" id="passwd" value="password">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="firstname">Mot de passe:</label>
+                <input type="password" class="form-control" name="passwd" value="password" required>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="lastname">Confirmer le mot de passe:</label>
+                <input type="password" class="form-control" name="passwd-2" value="password" required>
+            </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            <label for="lastname">Confirmer le mot de passe:</label>
-            <input type="password" class="form-control" id="passwd-2" value="password">
-        </div>
+    <div class="form-group pull-right">
+        <input type="submit" name="user_edit" class="btn btn-primary" />
+        <button type="reset" class="btn btn-danger">Annuler</button>
     </div>
-</div>
+</form>
