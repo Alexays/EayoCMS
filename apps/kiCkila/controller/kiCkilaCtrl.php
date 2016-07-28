@@ -30,7 +30,11 @@ class kiCkilaCtrl extends Controller
     
     public function getMyItem() {
         $this->items = Yaml::parse(file_get_contents(ROOT_DIR.'apps'.DS.'kiCkila'.DS.'data'.DS.'items.yml'));
-        return $this->items[$_SESSION['user_id']]['lend'];
+        if (isset($this->items[$_SESSION['user_id']])){
+            return $this->items[$_SESSION['user_id']]['lend'];
+        }
+        return false;
+
     }
     
     public function getItem($items_id) {

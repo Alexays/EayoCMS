@@ -31,6 +31,7 @@ class loginCtrl extends Controller
 
     protected function login($emailid, $pass) {
         //$SessionArray = ['username','email','firstname','surname','avatar'];
+        $message = '';
         if (!isset($_SESSION['login_str'])) {
             $wanted_user;
             foreach ($this->config->getAllAccounts() as $key => $val){
@@ -45,14 +46,16 @@ class loginCtrl extends Controller
                         $_SESSION['lastname'] = preg_replace("/[^a-zA-Z\-]+/", "", $self_user['lastname']);
                         $_SESSION['avatar'] = $self_user['avatar'];
                         $_SESSION['login_str'] = hash('sha512', $self_user['pass_hash'].$_SERVER['HTTP_USER_AGENT']);
-                        return true;
+                        $message = '';
+                        header("location: ".$this->tools->rooturl.'kiCkila/');
                     } else {
-                        return "Mot de passe ou nom d'utilisateurs incorrect.";
+                        $message = "Mot de passe ou nom d'utilisateurs incorrect.";
                     }
                 } else {
-                    return "Mot de passe ou nom d'utilisateurs incorrect.";
+                    $message = "Mot de passe ou nom d'utilisateurs incorrect.";
                 }
             }
+            return $message;
         } else {
             return 'Vous ête déjà connecté.';
         }

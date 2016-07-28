@@ -24,8 +24,8 @@
     </head>
     <body>
         <main class="app-main">
-            <nav class="app-nav navbar navbar-inverse navbar-static-top">
-                <div class="container">
+            <nav class="app-nav navbar navbar-inverse navbar-static-top no-pm">
+                <div class="container-fluid">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed pull-left" data-toggle="offcanvas">
                             <span class="sr-only">Toggle sidebar</span>
@@ -51,115 +51,137 @@
                 </div>
             </nav>
             <!-- MENU SECTION END-->
-            <div class="container-fluid">
-                <div class="row row-offcanvas">
-                    <div class="col-xs-6 col-sm-3 sidebar-offcanvas">
-                        <div class="item text-center">
-                            <div class="btn-group" id="menuItem">
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                        Mes Objects
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Ajouter un objet</a></li>
-                                        <li><a href="#">Another action</a></li>
-                                        <li><a href="#">Something else here</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a></li>
-                                    </ul>
-                                </div>
-                                <div class="dropdown" id="option">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                        <i class="fa fa-cogs"></i>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="{{url('assets/kiCkila/view_item:')}}{{key}}" data-toggle="modal" data-target="#">En savoir plus</a></li>
-                                        <li><a href="#">Another action</a></li>
-                                        <li><a href="#">Something else here</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a></li>
-                                    </ul>
+            <div class="wrapper">
+                <aside class="sidebar left">
+                    <div class="item text-center">
+                        <div class="btn-group" id="menuItem">
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    Mes Objects
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a data-target="ajax" href="{{url('assets/kiCkila/lidak')}}">Ajouter un objet</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown" id="option">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-cogs"></i>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Trier</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="item-panel">
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingReserved">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseReserved" aria-expanded="true" aria-controls="collapseReserved">
+                                                Réservé
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseReserved" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingReserved">
+                                        <div class="panel-body">
+                                            <ul class="itemlist">
+                                                {% for key in kiCkila.myItem|keys %}
+                                                    {% set item = kiCkila.Item(key) %}
+                                                    <li>
+                                                            <a data-target="ajax" href="{{url('assets/kiCkila/view_item:')}}{{key}}">{{item.name}}</a> <i>détenu(e) par <b>{{kiCkila.UserName(item.holder)}}</b></i>
+                                                            <span class="sub">Depuis le {{item.hold_date | date}}</span>
+                                                            <hr>
+                                                    </li>
+                                                {% else %}
+                                                    <p>Vous n'avez pas d'objet</p>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="item-panel">
-                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="headingReserved">
-                                            <h4 class="panel-title">
-                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseReserved" aria-expanded="true" aria-controls="collapseReserved">
-                                                    Réservé
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id="collapseReserved" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingReserved">
-                                            <div class="panel-body">
-                                                <ul class="itemlist">
-                                                    {% for key in kiCkila.myItem|keys %}
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingEmpty">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseEmpty" aria-expanded="true" aria-controls="collapseEmpty">
+                                                Disponible
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseEmpty" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEmpty">
+                                        <div class="panel-body">
+                                            <ul class="itemlist">
+                                                {% for key in kiCkila.myItem|keys %}
                                                     {% set item = kiCkila.Item(key) %}
                                                     <li>
-                                                        <a data-target="ajax" data-name="{{item.name}}" href="{{url('assets/kiCkila/view_item:')}}{{key}}">{{item.name}}</a> <i>détenu(e) par <b>{{kiCkila.UserName(item.holder)}}</b></i>
-                                                        <span class="sub">Depuis le {{item.hold_date | date}}</span>
-                                                        <hr>
+                                                            <a href="#">{{ item.name }}</a>
+                                                            <span class="sub">Depuis le </span>
                                                     </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
+                                                {% endfor %}
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="headingEmpty">
-                                            <h4 class="panel-title">
-                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseEmpty" aria-expanded="true" aria-controls="collapseEmpty">
-                                                    Disponible
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id="collapseEmpty" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEmpty">
-                                            <div class="panel-body">
-                                                <ul class="itemlist">
-                                                    {% for key in kiCkila.myItem|keys %}
-                                                    {% set item = kiCkila.Item(key) %}
-                                                    <li>
-                                                        <a href="#">{{ item.name }}</a>
-                                                        <span class="sub">Depuis le </span>
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
+                            </div>
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingUnavailable">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseUnavailable" aria-expanded="true" aria-controls="collapseEmpty">
+                                                Indisponible
+                                            </a>
+                                        </h4>
                                     </div>
-                                </div>
-                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" role="tab" id="headingUnavailable">
-                                            <h4 class="panel-title">
-                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseUnavailable" aria-expanded="true" aria-controls="collapseEmpty">
-                                                    Indisponible
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id="collapseUnavailable" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingUnavailable">
-                                            <div class="panel-body">
-                                                <ul class="itemlist">
-                                                    {% for key, item in kiCkila.myItem %}
+                                    <div id="collapseUnavailable" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingUnavailable">
+                                        <div class="panel-body">
+                                            <ul class="itemlist">
+                                                {% for key, item in kiCkila.myItem %}
                                                     {% set item = kiCkila.Item(key) %}
                                                     <li>
-                                                        <a href="#">{{ item.name }}</a>
+                                                            <a href="#">{{ item.name }}</a>
 
                                                     </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
+                                                {% endfor %}
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-9 content">
-                        {{content}}
+                </aside>
+                <div id="main-content">
+                    {{content}}
+                </div>
+                <div class="sidebar right">
+                    <div class="item text-center">
+                        <div class="btn-group" id="menuItem">
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    Mes Emprunts
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Ajouter un objet</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Separated link</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown" id="option">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-cogs"></i>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{url('assets/kiCkila/view_item:')}}{{key}}" data-toggle="modal" data-target="#">En savoir plus</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Separated link</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -168,6 +190,6 @@
         <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"></script>
         <!-- Admin SCRIPTS  -->
-        <script src="{{assets_url}}js/admin.js"></script>
+        <script src="{{assets_url}}js/kiCkila.js"></script>
     </body>
 </html>

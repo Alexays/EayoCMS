@@ -134,13 +134,7 @@ class Eayo
     protected function initApp()
     {
         //SESSION
-        if (ini_set('session.use_only_cookies', 1) === '0') {
-            throw new \Exception('Could not initiate a safe session (ini_set)', 145);
-        }
-        session_name('eayo_Session');
-        session_set_cookie_params(0, '/', $_SERVER['SERVER_NAME'], isset($_SERVER['HTTPS']), true);
         session_start();
-        session_regenerate_id(true);
         //ROUTER
         foreach(glob(APP_DIR.'*', GLOB_ONLYDIR) as $app_dir) {
             $app = str_replace(APP_DIR, '', $app_dir);

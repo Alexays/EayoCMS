@@ -2,7 +2,7 @@
 /*global jQuery, Waves, alert*/
 jQuery(function ($) {
     'use strict';
-    const TabLoaded = Array();
+    const TabLoaded = {};
     var eayo = window.eayo || {};
     $(document).ready(function () {
         eayo.ajax_nav();
@@ -23,12 +23,7 @@ jQuery(function ($) {
             document.write(unescape("%3Cscript src='lib/core/admin/assets/js/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
         }
         $('[data-toggle=offcanvas]').click(function () {
-            if ($('.sidebar-offcanvas').css('background-color') == 'rgb(255, 255, 255)') {
-                $('.list-group-item').attr('tabindex', '-1');
-            } else {
-                $('.list-group-item').attr('tabindex', '');
-            }
-            $('.row-offcanvas').toggleClass('active');
+            $('.sidebar').toggleClass('active');
         });
         $('[data-toggle="tooltip"]').tooltip();
     };
@@ -38,17 +33,32 @@ jQuery(function ($) {
         $('[data-target="ajax"]').click(function (e) {
             e.preventDefault();
             var url = $(this).attr('href');
-            var nameTab = $(this).attr('data-name');
+            var nameTab = $(this).text();
+            var nameTabURI = nameTab.replace(/ /g, '_').toLowerCase();
             $.get(url, function (data) {
-                if ($.inArray(url, TabLoaded) === -1) {
-                    $.merge(TabLoaded, Array(url));
-                    $('<li><a href="#tab'+nameTab+'" data-toggle="tab">'+nameTab+'</a></li>').appendTo('#tab-container');
-                    $('<div class="tab-pane" id="tab'+nameTab+'">'+data+'</div>').appendTo('.tab-content');
+                if (typeof TabLoaded[nameTabURI] === 'undefined' && TabLoaded[nameTabURI] !== url) {
+                    TabLoaded[nameTabURI] = url;
+                    $('<li><a href="#tab'+nameTabURI+'" data-toggle="tab">'+nameTab+' <button class="close" id="close_tab" type="button">×</button></a></li>').appendTo('#tab-container');
+                    $('<div class="tab-pane" id="tab'+nameTabURI+'">'+data+'</div>').appendTo('.tab-content');
                     $('#tab-container a:last').tab('show');
                 } else {
-                    $('[href="#tab'+nameTab+'"]').parent('li').fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+                    $('[href="#tab'+nameTabURI+'"]').parent('li').fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
                 }
             });
+        });
+        $('ul#tab-container').on('click', '#close_tab', function () {
+            var url = $(this).parent('a').attr('href');
+            if (url !== $('ul#tab-container li a').first().attr('href')) {
+                if (typeof TabLoaded[url.replace(/^#tab/, '')] === 'undefined') {
+                    $(this).remove();
+                } else {
+                    $(url).remove();
+                    $(this).parent('a').fadeOut(100).remove();
+                    delete TabLoaded[url.replace(/^#tab/, '')];
+                }
+            } else {
+                $(this).remove();
+            }
         });
     };
 
