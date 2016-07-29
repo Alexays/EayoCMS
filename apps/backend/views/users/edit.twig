@@ -1,3 +1,6 @@
+{% extends "@backend/default.html.twig" %}
+
+{% block content %}
 {% set e_user = edit.User(params) %}
 <form method="post" id="edit_user"> 
     <div class="row">
@@ -44,3 +47,4 @@
         <button type="reset" class="btn btn-danger">Annuler</button>
     </div>
 </form>
+{% endblock %}

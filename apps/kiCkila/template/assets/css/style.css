@@ -42,6 +42,7 @@ body {
 #main-content > .nav-tabs {
     -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.3);
     box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    margin: 0 -25px;
 }
 
 #main-content > .nav-tabs > li .close {
@@ -140,12 +141,8 @@ button[data-toggle="offcanvas"] {
         right: -300px;;
     }
 
-    .sidebar.left.active ~ #main-content {
-        margin-left: 0;
-    }
-
-    .sidebar.right.active ~ #main-content {
-        margin-right: 0;
+    .sidebar.active ~ #main-content {
+        margin: 0;
     }
 }
 
@@ -168,6 +165,7 @@ button[data-toggle="offcanvas"] {
 
     #main-content {
         margin-left: 0;
+        margin-right: 0;
     }
 }
 

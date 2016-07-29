@@ -21,7 +21,6 @@ class Router
         $params = '';
         $content_file;
         $template_file;
-        $is_assets = false;
 
         $query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : null;
         
@@ -31,12 +30,6 @@ class Router
         }
         
         $queryPart = explode('/', rtrim($query, '\/'));
-
-        if ($queryPart[0] === 'assets') {
-            unset($queryPart[0]);
-            $queryPart = array_values($queryPart);
-            $is_assets = true;
-        }
 
         $queryLength = count($queryPart);
         $index = empty($queryPart[0]) ? null : $queryPart[0];
@@ -67,7 +60,7 @@ class Router
         $content_path = rtrim($view_path, '\/').DS.$query;
         $is_template = false;
 
-        if ($is_assets && !empty($q = glob(rtrim($template_path, '\/').DS.'parts'.DS.ltrim($query, '\/').'.{md,html,htm,twig,php}', GLOB_BRACE))) {
+        if (!empty($q = glob(rtrim($template_path, '\/').DS.'parts'.DS.ltrim($query, '\/').'.{md,html,htm,twig,php}', GLOB_BRACE))) {
             $content_file = $q[0];
             $is_template = true;
         } elseif (!empty($q = glob($content_path.'.{md,html,htm,twig,php}', GLOB_BRACE)) || is_dir($content_path) && !empty($q = glob($content_path.DS.'index.{md,html,htm,twig,php}', GLOB_BRACE))) {
@@ -84,6 +77,6 @@ class Router
             }
         }
 
-        return [$content_file, $template_name, $index, $template_path, $view_path, $main, $is_template, $is_assets, $params];
+        return [$content_file, $template_name, $index, $template_path, $view_path, $main, $is_template, $params];
     }
 }

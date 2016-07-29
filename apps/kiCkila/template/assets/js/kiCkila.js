@@ -25,6 +25,14 @@ jQuery(function ($) {
         $('[data-toggle=offcanvas]').click(function () {
             $('.sidebar').toggleClass('active');
         });
+        $('[data-toggle=left-sidebar]').click(function () {
+            $('.sidebar.left').toggleClass('active');
+            $('.sidebar.right').removeClass('active');
+        });
+        $('[data-toggle=right-sidebar]').click(function () {
+            $('.sidebar.left').removeClass('active');
+            $('.sidebar.right').toggleClass('active');
+        });
         $('[data-toggle="tooltip"]').tooltip();
     };
 
@@ -53,7 +61,7 @@ jQuery(function ($) {
                     $(this).remove();
                 } else {
                     $(url).remove();
-                    $(this).parent('a').fadeOut(100).remove();
+                    $(this).parent('a').parent('li').remove();
                     delete TabLoaded[url.replace(/^#tab/, '')];
                 }
             } else {

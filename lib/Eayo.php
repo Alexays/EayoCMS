@@ -236,13 +236,14 @@ class Eayo
      */
     public function Process($router)
     {
-        list($content_file, $namespace, $index, $template_path, $view_path, $main_query, $is_template, $is_assets, $params) = $router;
+        list($content_file, $namespace, $index, $template_path, $view_path, $main_query, $is_template, $params) = $router;
         $this->twig_vars = array_merge($this->twig_vars, array(
             'params' => $params,
             'theme_url' => $this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path),
             'assets_url' => $this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path).'assets/'
         ));
         $fileExt = pathinfo($content_file)['extension'];
+        $is_assets = false;
         switch ($fileExt) {
             case "php":
             case "twig":
@@ -255,8 +256,8 @@ class Eayo
                 if ($fileExt === 'php') {
                     $content_file = include $content_file;
                 } else {
+                    $is_assets = true;
                     $content_file = $is_template ? $namespace.'/'.ltrim(str_replace($template_path, '', $content_file), '\/') : $namespace.'_views/'.ltrim(str_replace($view_path, '', $content_file), '\/');
-                    $content_file = $this->twig->render('@'.$content_file, $this->twig_vars);
                 }
                 break;
             case "html":
@@ -271,11 +272,11 @@ class Eayo
         }
         try {
             if (empty($_POST)) {
-                $this->twig_vars['content'] = $content_file;
+                $this->twig_vars['load_time'] = number_format(microtime(true) - PERF_START, 3);
                 if ($is_assets) {
-                    $output = $this->twig_vars['content'];
+                    $output = $this->twig->render('@'.$content_file, $this->twig_vars);
                 } else {
-                    $this->twig_vars['load_time'] = number_format(microtime(true) - PERF_START, 3);
+                    $this->twig_vars['content'] = $content_file;
                     $output = $this->twig->render('@'.$namespace.'/'.'default.html.twig', $this->twig_vars);
                 }
                 return $output;
