@@ -61,7 +61,9 @@ jQuery(function ($) {
                     $(this).remove();
                 } else {
                     $(url).remove();
-                    $(this).parent('a').parent('li').remove();
+                    var li = $(this).parent('a').parent('li');
+                    li.prev().children('a').tab('show');
+                    li.remove();
                     delete TabLoaded[url.replace(/^#tab/, '')];
                 }
             } else {

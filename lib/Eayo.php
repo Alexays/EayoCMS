@@ -200,6 +200,7 @@ class Eayo
         $loader = new \Twig_Loader_Filesystem(APP_DIR);
         //For apps & plugins
         $templates = $this::$templates;
+        $loader->addPath($templates['apps'][$templates['default']], 'default');
         unset($templates['default']);
         foreach($templates as $origin => $namespaces) {
             foreach($namespaces as $namespace => $template) {

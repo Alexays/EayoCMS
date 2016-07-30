@@ -28,7 +28,7 @@ body {
 
 .wrapper > .container-fluid#main-content {
     height: 100%;
-    padding: 0 25px 25px;
+    padding: 64px 25px 25px;
     width: auto;
 }
 
