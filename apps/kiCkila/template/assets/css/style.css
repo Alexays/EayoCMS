@@ -50,6 +50,10 @@ body {
     font-size: 18px;
 }
 
+#main-content > .tab-content {
+    padding: 15px;
+}
+
 .no-padding {
     padding: 0!important;
 }

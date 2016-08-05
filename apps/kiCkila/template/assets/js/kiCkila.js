@@ -2,7 +2,7 @@
 /*global jQuery, Waves, alert*/
 jQuery(function ($) {
     'use strict';
-    const TabLoaded = {};
+    var TabLoaded = {};
     var eayo = window.eayo || {};
     $(document).ready(function () {
         eayo.ajax_nav();
