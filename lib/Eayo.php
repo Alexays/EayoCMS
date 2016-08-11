@@ -241,7 +241,8 @@ class Eayo
         $this->twig_vars = array_merge($this->twig_vars, array(
             'params' => $params,
             'theme_url' => $this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path),
-            'assets_url' => $this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path).'assets/'
+            'assets_url' => $this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path).'assets/',
+            'app_url' =>$this->tools->rooturl.$namespace.'/'
         ));
         $fileExt = pathinfo($content_file)['extension'];
         $is_assets = false;

@@ -48,10 +48,19 @@ body {
 #main-content > .nav-tabs > li .close {
     margin: -2px 0 0 10px;
     font-size: 18px;
+    display: none;
 }
 
 #main-content > .tab-content {
     padding: 15px;
+}
+
+.panel-heading {
+    cursor: pointer;
+}
+
+.panel-heading a {
+    text-decoration: none;
 }
 
 .no-padding {
@@ -171,6 +180,14 @@ button[data-toggle="offcanvas"] {
         margin-left: 0;
         margin-right: 0;
     }
+}
+
+/*    --------------------------------------------------
+:: Page
+-------------------------------------------------- */
+
+.page-title {
+    text-transform: uppercase;
 }
 
 

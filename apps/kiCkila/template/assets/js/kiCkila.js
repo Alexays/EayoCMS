@@ -46,13 +46,19 @@ jQuery(function ($) {
             $.get(url, function (data) {
                 if (typeof TabLoaded[nameTabURI] === 'undefined' && TabLoaded[nameTabURI] !== url) {
                     TabLoaded[nameTabURI] = url;
-                    $('<li><a href="#tab'+nameTabURI+'" data-toggle="tab">'+nameTab+' <button class="close" id="close_tab" type="button">×</button></a></li>').appendTo('#tab-container');
+                    $('<li><a href="#tab'+nameTabURI+'" data-toggle="tab">'+nameTab+' <span href="#" class="close" id="close_tab">×</span></a></li>').appendTo('#tab-container');
                     $('<div class="tab-pane" id="tab'+nameTabURI+'">'+data+'</div>').appendTo('.tab-content');
                     $('#tab-container a:last').tab('show');
                 } else {
                     $('[href="#tab'+nameTabURI+'"]').parent('li').fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
                 }
             });
+        });
+        $('ul#tab-container').on('mouseover', 'li', function () {
+            $(this).children('a').children('span#close_tab').fadeIn('100');
+        });
+        $('ul#tab-container').on('mouseleave', 'li', function() {
+            $(this).children('a').children('span#close_tab').fadeOut('100');
         });
         $('ul#tab-container').on('click', '#close_tab', function () {
             var url = $(this).parent('a').attr('href');
@@ -74,13 +80,12 @@ jQuery(function ($) {
 
     /* Send form ajax */
     eayo.form_ajax = function () {
-        $('#edit_user').on('submit', function(e) {
+        $('.tab-content').on('submit', 'form', function(e) {
             e.preventDefault();
-            var $this = $(this);
             $.ajax({
-                url: $this.attr('action'),
-                type: $this.attr('method'),
-                data: $this.serialize(),
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: $(this).serialize(),
                 success: function(html) {
                     alert(html); // J'affiche cette réponse
                 }

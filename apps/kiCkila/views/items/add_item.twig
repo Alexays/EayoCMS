@@ -1,35 +1,30 @@
-<form method="post" id="add_item"> 
+<h4 class="page-title">Ajouter un objet</h4>
+<hr>
+<form method="post" id="add_item" action="{{app_url}}items/add_item">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="username">Nom de l'objet:</label>
+                <label for="username">Nom</label>
                 <input type="text" class="form-control" name="name" required />
             </div>
         </div>
         <div class="col-md-6">
-            <img class="img-circle" src="{{url(e_user.avatar)}}" width="60" height="60"/>
+            <div class="form-group">
+                <label for="username">Tags</label>
+                <input type="text" class="form-control" name="tags" />
+            </div>
         </div>
     </div>
     <div class="form-group">
-        <label for="firstname">Description de l'objet:</label>
-        <textarea type="text" class="form-control" name="firstname"></textarea>
+        <label for="firstname">Description</label>
+        <textarea type="text" class="form-control" name="desc"></textarea>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="firstname">Mot de passe:</label>
-                <input type="password" class="form-control" name="passwd" value="password" required />
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="lastname">Confirmer le mot de passe:</label>
-                <input type="password" class="form-control" name="passwd-2" value="password" required />
-            </div>
-        </div>
+    <div class="form-group">
+        <label for="firstname">Disponibilité</label>
+        <textarea type="text" class="form-control" name="date"></textarea>
     </div>
     <div class="form-group pull-right">
+        <input type="reset" class="btn btn-danger" />
         <input type="submit" name="add_item" class="btn btn-primary" />
-        <button type="reset" class="btn btn-danger">Annuler</button>
     </div>
 </form>

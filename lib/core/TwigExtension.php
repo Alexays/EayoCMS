@@ -61,6 +61,9 @@ class TwigExtension extends \Twig_Extension {
             case 'UPLOAD':
                 return $this->tools->rooturl.str_replace(ROOT_DIR, '', UPLOAD_DIR).ltrim($url, '\/');
                 break;
+            default:
+                return $this->tools->rooturl.ltrim($url, '\/');
+                break;
         }
     }
 }

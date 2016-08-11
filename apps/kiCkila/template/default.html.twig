@@ -88,9 +88,9 @@
                         <div class="item-panel">
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="headingReserved">
+                                    <div class="panel-heading" role="tab" id="headingReserved" data-toggle="collapse" data-target="#collapseReserved">
                                         <h4 class="panel-title">
-                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseReserved" aria-expanded="true" aria-controls="collapseReserved">
+                                            <a role="button" href="#collapseReserved" aria-expanded="true" aria-controls="collapseReserved">
                                                 Réservé
                                             </a>
                                         </h4>
@@ -115,9 +115,9 @@
                             </div>
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="headingEmpty">
+                                    <div class="panel-heading" role="tab" id="headingEmpty" data-toggle="collapse" data-target="#collapseEmpty">
                                         <h4 class="panel-title">
-                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseEmpty" aria-expanded="true" aria-controls="collapseEmpty">
+                                            <a role="button" href="#collapseEmpty" aria-expanded="true" aria-controls="collapseEmpty">
                                                 Disponible
                                             </a>
                                         </h4>
@@ -128,9 +128,12 @@
                                                 {% for key in kiCkila.myItem|keys %}
                                                     {% set item = kiCkila.Item(key) %}
                                                     <li>
-                                                            <a href="#">{{ item.name }}</a>
-                                                            <span class="sub">Depuis le </span>
+                                                            <a data-target="ajax" href="{{url('kiCkila/items/view_item:')}}{{key}}">{{item.name}}</a> <i>détenu(e) par <b>{{kiCkila.UserName(item.holder)}}</b></i>
+                                                            <span class="sub">Depuis le {{item.hold_date | date}}</span>
+                                                            <hr>
                                                     </li>
+                                                {% else %}
+                                                    <p>Vous n'avez pas d'objet</p>
                                                 {% endfor %}
                                             </ul>
                                         </div>
@@ -139,9 +142,9 @@
                             </div>
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="headingUnavailable">
+                                    <div class="panel-heading" role="tab" id="headingUnavailable" data-toggle="collapse" data-target="#collapseUnavailable">
                                         <h4 class="panel-title">
-                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseUnavailable" aria-expanded="true" aria-controls="collapseEmpty">
+                                            <a role="button" href="#collapseUnavailable" aria-expanded="true" aria-controls="collapseEmpty">
                                                 Indisponible
                                             </a>
                                         </h4>
@@ -149,12 +152,15 @@
                                     <div id="collapseUnavailable" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingUnavailable">
                                         <div class="panel-body">
                                             <ul class="itemlist">
-                                                {% for key, item in kiCkila.myItem %}
+                                                {% for key in kiCkila.myItem|keys %}
                                                     {% set item = kiCkila.Item(key) %}
                                                     <li>
-                                                            <a href="#">{{ item.name }}</a>
-
+                                                            <a data-target="ajax" href="{{url('kiCkila/items/view_item:')}}{{key}}">{{item.name}}</a> <i>détenu(e) par <b>{{kiCkila.UserName(item.holder)}}</b></i>
+                                                            <span class="sub">Depuis le {{item.hold_date | date}}</span>
+                                                            <hr>
                                                     </li>
+                                                {% else %}
+                                                    <p>Vous n'avez pas d'objet</p>
                                                 {% endfor %}
                                             </ul>
                                         </div>
