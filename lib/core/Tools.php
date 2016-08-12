@@ -78,6 +78,7 @@ class Tools
     private static function GetUri()
     {
         $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+
         return rawurldecode($uri);
     }
 
@@ -99,6 +100,7 @@ class Tools
     public function GetRootPath()
     {
         $root_path = str_replace(' ', '%20', rtrim(substr($_SERVER['PHP_SELF'], 0, strpos($_SERVER['PHP_SELF'], 'index.php')), '/'));
+
         return strpos($this->uri, '/~') !== false && strpos($_SERVER['PHP_SELF'], '/~') === false ?  substr($this->uri, 0, strpos($this->uri, '/', 1)) . $root_path : $root_path;
     }
 

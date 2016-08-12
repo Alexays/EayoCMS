@@ -13,6 +13,7 @@
 /* Verify PHP version */
 version_compare(PHP_VERSION, "5.5.0", "<") and exit("PHP 5.5.0+ required.");
 
+ini_set('display_errors', '1');
 defined('EAYO_ACCESS') || define('EAYO_ACCESS', true);
 defined('PERF_START') || define('PERF_START', microtime(true));
 defined('DS') || define('DS', DIRECTORY_SEPARATOR);

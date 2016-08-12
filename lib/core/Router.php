@@ -22,14 +22,14 @@ class Router
         $content_file;
         $template_file;
 
-        $query = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : null;
+        $query = str_replace($core->tools->rootpath, '', $core->tools->uri);
         
         if (($pos = strpos($query, ':')) !== FALSE) { 
             $params = substr($query, $pos+1);
             $query = strtok($query, ':');
         }
         
-        $queryPart = explode('/', rtrim($query, '\/'));
+        $queryPart = explode('/', trim($query, '\/'));
 
         $queryLength = count($queryPart);
         $index = empty($queryPart[0]) ? null : $queryPart[0];

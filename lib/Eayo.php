@@ -115,7 +115,9 @@ class Eayo
                 } elseif (is_file(ROOT_DIR.$fileName)) {
                     //Register Apps/Plugins
                     include ROOT_DIR.$fileName;
-                }
+                }/* else {
+                    throw new \Exception("Cannot find '".$fileName."'.", 15878);
+                }*/
             }
         );
         //Register Plugins
