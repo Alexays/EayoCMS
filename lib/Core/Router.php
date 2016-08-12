@@ -23,12 +23,12 @@ class Router
         $template_file;
 
         $query = str_replace($core->tools->rootpath, '', $core->tools->uri);
-        
-        if (($pos = strpos($query, ':')) !== FALSE) { 
+
+        if (($pos = strpos($query, ':')) !== FALSE) {
             $params = substr($query, $pos+1);
             $query = strtok($query, ':');
         }
-        
+
         $queryPart = explode('/', trim($query, '\/'));
 
         $queryLength = count($queryPart);
