@@ -106,8 +106,11 @@ class __TwigTemplate_58e919d01a20260ccd9ef86144895a11ab24419eb0c7b32f6d9efd7cbfe
         } else {
             // line 61
             echo "                        <form class=\"navbar-form\">
-                            <button type=\"button\" class=\"btn btn-default pull-right\">Connexion</button>
-                            <button type=\"button\" class=\"btn btn-warning pull-right\" style=\"margin: 0 10px;\">S'enregistrer</button>
+                            <a href=\"";
+            // line 62
+            echo $this->env->getExtension('eayo')->getUrl("login");
+            echo "\" class=\"btn btn-default pull-right\">Connexion</a>
+                            <a href=\"#\" class=\"btn btn-warning pull-right\" style=\"margin: 0 10px;\">S'enregistrer</a>
                         </form>
                         ";
         }
@@ -390,7 +393,8 @@ class __TwigTemplate_58e919d01a20260ccd9ef86144895a11ab24419eb0c7b32f6d9efd7cbfe
         echo $this->env->getExtension('eayo')->getUrl("js/kiCkila.js", "ASSETS");
         echo "\"></script>
     </body>
-</html>";
+</html>
+";
     }
 
     // line 183
@@ -415,7 +419,7 @@ class __TwigTemplate_58e919d01a20260ccd9ef86144895a11ab24419eb0c7b32f6d9efd7cbfe
 
     public function getDebugInfo()
     {
-        return array (  400 => 184,  397 => 183,  390 => 227,  380 => 219,  365 => 208,  343 => 188,  341 => 187,  338 => 186,  336 => 183,  329 => 182,  318 => 173,  311 => 171,  302 => 167,  293 => 166,  290 => 165,  285 => 164,  277 => 161,  261 => 147,  254 => 145,  240 => 141,  237 => 140,  232 => 139,  224 => 136,  208 => 122,  201 => 120,  192 => 116,  183 => 115,  180 => 114,  175 => 113,  167 => 110,  142 => 88,  132 => 80,  130 => 79,  115 => 66,  108 => 61,  100 => 58,  96 => 57,  87 => 50,  85 => 49,  80 => 46,  65 => 33,  63 => 32,  47 => 19,  43 => 18,  36 => 14,  22 => 2,  20 => 1,);
+        return array (  404 => 184,  401 => 183,  393 => 227,  383 => 219,  368 => 208,  346 => 188,  344 => 187,  341 => 186,  339 => 183,  332 => 182,  321 => 173,  314 => 171,  305 => 167,  296 => 166,  293 => 165,  288 => 164,  280 => 161,  264 => 147,  257 => 145,  243 => 141,  240 => 140,  235 => 139,  227 => 136,  211 => 122,  204 => 120,  195 => 116,  186 => 115,  183 => 114,  178 => 113,  170 => 110,  145 => 88,  135 => 80,  133 => 79,  118 => 66,  111 => 62,  108 => 61,  100 => 58,  96 => 57,  87 => 50,  85 => 49,  80 => 46,  65 => 33,  63 => 32,  47 => 19,  43 => 18,  36 => 14,  22 => 2,  20 => 1,);
     }
 }
 /* {% set myItems = kiCkila.myItem %}*/
@@ -479,8 +483,8 @@ class __TwigTemplate_58e919d01a20260ccd9ef86144895a11ab24419eb0c7b32f6d9efd7cbfe
 /*                         </a>*/
 /*                         {% else %}*/
 /*                         <form class="navbar-form">*/
-/*                             <button type="button" class="btn btn-default pull-right">Connexion</button>*/
-/*                             <button type="button" class="btn btn-warning pull-right" style="margin: 0 10px;">S'enregistrer</button>*/
+/*                             <a href="{{url('login')}}" class="btn btn-default pull-right">Connexion</a>*/
+/*                             <a href="#" class="btn btn-warning pull-right" style="margin: 0 10px;">S'enregistrer</a>*/
 /*                         </form>*/
 /*                         {% endif %}*/
 /*                         <center>*/
@@ -647,3 +651,4 @@ class __TwigTemplate_58e919d01a20260ccd9ef86144895a11ab24419eb0c7b32f6d9efd7cbfe
 /*         <script src="{{url('js/kiCkila.js', 'ASSETS')}}"></script>*/
 /*     </body>*/
 /* </html>*/
+/* */

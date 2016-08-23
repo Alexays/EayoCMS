@@ -45,7 +45,7 @@ class __TwigTemplate_a6175b93c7ec69b4a4f2c8b5a5934f10d88ae28654338033326d43bf6be
                     <label>
                         <input type=\"checkbox\">Se souvenir de moi</label>
                 </div>
-                <input type=\"submit\" name=\"login\" class=\"btn btn btn-primary pull-right\" value=\"Connexion\" />
+                <input type=\"submit\" name=\"login\" class=\"btn btn-primary pull-right\" value=\"Connexion\" />
             </form>
         </div>
     </div>
@@ -87,9 +87,10 @@ class __TwigTemplate_a6175b93c7ec69b4a4f2c8b5a5934f10d88ae28654338033326d43bf6be
 /*                     <label>*/
 /*                         <input type="checkbox">Se souvenir de moi</label>*/
 /*                 </div>*/
-/*                 <input type="submit" name="login" class="btn btn btn-primary pull-right" value="Connexion" />*/
+/*                 <input type="submit" name="login" class="btn btn-primary pull-right" value="Connexion" />*/
 /*             </form>*/
 /*         </div>*/
 /*     </div>*/
 /* </div>*/
 /* {% endblock %}*/
+/* */

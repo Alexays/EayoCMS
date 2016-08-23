@@ -22,7 +22,7 @@ class Eayo
     protected static $instance = null;
 
     /** Version de Eayo */
-    const VERSION = '0.0.2';
+    const VERSION = '0.0.3';
 
     /** Common environment type constants for consistency and convenience */
     const PRODUCTION  = 1;
@@ -99,6 +99,11 @@ class Eayo
         $this->tools = Core\Tools::init();
     }
 
+    /**
+     * Run Eayo process
+     * @author Alexis Rouillard
+     * @return string Content
+     */
     public function run()
     {
         /* Init Plugins */
