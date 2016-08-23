@@ -19,12 +19,24 @@ use Symfony\Component\Yaml\Exception\ParseException;
 
 class Controller
 {
+    protected static $needLogin = false;
+
     protected $config = null;
     protected $tools = null;
 
     public function __construct() {
         $this->config = \Core\Config::init();
         $this->tools = \Core\Tools::init();
+
+        static::$needLogin ? $this->checkLogin() : '';
+
+    }
+
+    /* Check Login Status */
+    public function checkLogin() {
+        if (!isset($_SESSION['login_str'])) {
+            header('location: '.$this->tools->rooturl.'login/');
+        }
     }
 
 }

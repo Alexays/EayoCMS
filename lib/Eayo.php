@@ -14,13 +14,12 @@ defined('EAYO_ACCESS') || exit('No direct script access.');
 
 use \Symfony\Component\Yaml\Yaml;
 use \Symfony\Component\Yaml\Exception\ParseException;
-use \Jralph\Twig\Markdown\Contracts\MarkdownInterface as Markdown;
 
 class Eayo
 {
 
     /** @var core An instance of the Eayo class */
-    protected static $_instance = null;
+    protected static $instance = null;
 
     /** Version de Eayo */
     const VERSION = '0.0.2';
@@ -38,14 +37,19 @@ class Eayo
         Eayo::DEVELOPMENT => 'development',
     );
 
-    /** @var string Contenu de la page */
-    public static $content;
+    protected $router = [];
 
-    public static $router = [];
+    protected $requestUrl;
+
+    protected $requestTemplate;
+
+    protected $requestFile;
 
     public static $apps = [];
 
     public static $templates = [];
+
+    public $CurApp = '';
 
     public $twig;
 
@@ -63,14 +67,18 @@ class Eayo
     /**
      * Construct function
      * @private
+     * @author Alexis Rouillard
      */
     protected function __construct()
     {
-        /* Define App */
+        // Turn on output buffering
+        //substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') ? ob_start("ob_gzhandler") : ob_start();
+
+        // Define App definitions
         defined('LIB_DIR') || define('LIB_DIR', ROOT_DIR . 'lib' . DS);
-        defined('APP_DIR') || define('APP_DIR', ROOT_DIR . 'apps' . DS);
+        defined('APPS_DIR') || define('APPS_DIR', ROOT_DIR . 'apps' . DS);
         defined('CONF_DIR') || define('CONF_DIR', ROOT_DIR . 'config' . DS);
-        defined('CONTENT_DIR') || define('CONTENT_DIR', APP_DIR . 'views' . DS);
+        defined('CONTENT_DIR') || define('CONTENT_DIR', APPS_DIR . 'views' . DS);
         defined('DATA_DIR') || define('DATA_DIR', ROOT_DIR . 'data' . DS);
         defined('UPLOAD_DIR') || define('UPLOAD_DIR', DATA_DIR . 'uploads' . DS);
         defined('PLUGINS_DIR') || define('PLUGINS_DIR', ROOT_DIR . 'plugins' . DS);
@@ -89,15 +97,27 @@ class Eayo
 
         /* Init Tools API*/
         $this->tools = Core\Tools::init();
+    }
 
-        /* Init Plugins API*/
-        $this->initPlugins();
+    public function run()
+    {
+        /* Init Plugins */
+        $this->loadPlugins();
 
         /* Init App */
         $this->initApp();
 
         /* Init Twig */
         $this->InitTwig();
+
+        /* Init Page */
+        $this->page = Core\Page::init();
+
+        $this->Analyse();
+
+        $this->Discover();
+
+        return $this->Process();
     }
 
     /**
@@ -137,19 +157,21 @@ class Eayo
     {
         //SESSION
         session_start();
+        //FRENCH
+        setlocale(LC_ALL, 'fr_FR');
         //ROUTER
-        foreach(glob(APP_DIR.'*', GLOB_ONLYDIR) as $app_dir) {
-            $app = str_replace(APP_DIR, '', $app_dir);
-            $app_conf_file = $app_dir.DS.'config.yml';
+        foreach(glob(APPS_DIR.'*', GLOB_ONLYDIR) as $APPS_DIR) {
+            $app = str_replace(APPS_DIR, '', $APPS_DIR);
+            $app_conf_file = $APPS_DIR.DS.'config.yml';
             if (file_exists($app_conf_file)) {
                 $app_conf = Yaml::parse(file_get_contents($app_conf_file));
             } else {
                 $app_conf = ['name' => $app];
             }
             $this::$apps = array_merge($this::$apps, [$app => isset($app_conf) ? $app_conf : null]);
-            $this::$router = array_merge($this::$router, [isset($app_conf['route']) ? $app_conf['route'] : $app => $app]);
+            $this->router = array_merge($this->router, [isset($app_conf['route']) ? $app_conf['route'] : $app => $app]);
         }
-        $this::$router = array_merge($this::$router, ['login' => 'default']);
+        $this->router = array_merge($this->router, ['login' => 'default']);
 
         //FIND TEMPLATE PATH
         $theme;
@@ -163,12 +185,12 @@ class Eayo
                 if (isset($val['default']) && $val['default'] === true) {
                     $default_template = array_merge($default_template, [$key]);
                 }
-                $template_tmp = array_merge_recursive($template_tmp, ['apps' => [$key => APP_DIR.$key.DS.$val['template']]]);
+                $template_tmp = array_merge_recursive($template_tmp, ['apps' => [$key => APPS_DIR.$key.DS.$val['template']]]);
             } else {
                 if (isset($val['default']) && $val['default'] === true) {
                     $default_template = array_merge($default_template, [$key]);
                 }
-                $template_tmp = array_merge_recursive($template_tmp, ['apps' => [$key => APP_DIR.$key.DS.$default_template_path]]);
+                $template_tmp = array_merge_recursive($template_tmp, ['apps' => [$key => APPS_DIR.$key.DS.$default_template_path]]);
             }
 
         }
@@ -183,9 +205,10 @@ class Eayo
     }
 
     /**
-     * Init Plugins function
+     * Load Plugins
+     * @author Alexis Rouillard
      */
-    protected function initPlugins()
+    protected function loadPlugins()
     {
         $loadPlugin = \Core\Plugin::init();
         $plugins = $this->config->get('plugins');
@@ -195,11 +218,12 @@ class Eayo
     }
 
     /**
-     * Prepare Twig Environment
+     * Initialize Twig Environment
+     * @author Alexis Rouillard
      */
     protected function initTwig()
     {
-        $loader = new \Twig_Loader_Filesystem(APP_DIR);
+        $loader = new \Twig_Loader_Filesystem(APPS_DIR);
         //For apps & plugins
         $templates = $this::$templates;
         $loader->addPath($templates['apps'][$templates['default']], 'default');
@@ -208,7 +232,7 @@ class Eayo
             foreach($namespaces as $namespace => $template) {
                 $loader->addPath($template, $namespace);
                 if($origin === 'apps') {
-                    $loader->addPath(APP_DIR.$namespace.DS.'views'.DS, $namespace.'_views');
+                    $loader->addPath(APPS_DIR.$namespace.DS.'views'.DS, $namespace.'_views');
                 } elseif($origin === 'plugins') {
                     $loader->addPath(PLUGINS_DIR.$namespace.DS.'views'.DS, $namespace.'_views');
                 } else {
@@ -221,8 +245,8 @@ class Eayo
         $twigConf['cache'] = $twigConf['cache'] === true ? CACHE_DIR : false;
 
         $this->twig = new \Twig_Environment($loader, $twigConf);
-        //$this->twig->addExtension(new \Twig_Extension_Debug());
-        $this->twig->addExtension(new Core\TwigExtension($this->tools));
+        $this->twig->addExtension(new \Twig_Extension_Optimizer());
+        $this->twig->addExtension(new \Twig_Extension_Debug());
         $conf = $this->config->getAll();
         unset($conf['twig']);
         $this->twig_vars = array_merge($this->twig_vars, array(
@@ -233,74 +257,128 @@ class Eayo
     }
 
     /**
-     * Process request
-     * @param  array $router Router return
-     * @return string return the content
+     * Discover the requested Url
+     * @author Alexis Rouillard
      */
-    public function Process($router)
+    public function Analyse()
     {
-        list($content_file, $namespace, $index, $template_path, $view_path, $main_query, $is_template, $params) = $router;
-        $this->twig_vars = array_merge($this->twig_vars, array(
-            'params' => $params,
-            'theme_url' => $this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path),
-            'assets_url' => $this->tools->rooturl.str_replace(ROOT_DIR, '', $template_path).'assets/',
-            'app_url' =>$this->tools->rooturl.$namespace.'/'
-        ));
-        $fileExt = pathinfo($content_file)['extension'];
-        $is_assets = false;
-        switch ($fileExt) {
-            case "php":
-            case "twig":
-                $classRoot = str_replace('/', '\\', str_replace(ROOT_DIR, '', dirname($view_path)));
-                $classRoot = '\\'.$classRoot.'\\Controller\\';
-                $controller = $classRoot.$index.'Ctrl';
-                $maincontroller = $classRoot.$main_query.'Ctrl';
-                $this->twig_vars[$index] = $controller = class_exists($controller) ? new $controller() : null;
-                $this->twig_vars[$main_query] = $maincontroller = class_exists($maincontroller) ? new $maincontroller(): null;
-                if ($fileExt === 'php') {
-                    $content_file = include $content_file;
-                } else {
-                    $is_assets = true;
-                    $content_file = $is_template ? $namespace.'/'.ltrim(str_replace($template_path, '', $content_file), '\/') : $namespace.'_views/'.ltrim(str_replace($view_path, '', $content_file), '\/');
-                }
-                break;
-            case "html":
-                $content_file = file_get_contents($content_file);
-                break;
-            case "md":
-                $markdown = new \Jralph\Twig\Markdown\Parsedown\ParsedownExtraMarkdown;
-                $content_file = $markdown->parse(file_get_contents($content_file));
-                break;
-            default:
-                throw new \Exception('Une erreur inconnue est survenue', 0);
+        $content_file;
+        $template_file;
+
+        $uri = str_replace($this->tools->rootpath, '', $this->tools->uri);
+
+        if (($pos = strpos($uri, ':')) !== FALSE) {
+            $params = substr($uri, $pos+1);
+            $query = strtok($uri, ':');
+        } else {
+            $query = $uri;
+            $params = '';
         }
-        try {
-            if (empty($_POST)) {
-                $this->twig_vars['load_time'] = number_format(microtime(true) - PERF_START, 3);
-                if ($is_assets) {
-                    $output = $this->twig->render('@'.$content_file, $this->twig_vars);
-                } else {
-                    $this->twig_vars['content'] = $content_file;
-                    $output = $this->twig->render('@'.$namespace.'/'.'default.html.twig', $this->twig_vars);
-                }
-                return $output;
+
+        $queryPart = explode('/', trim($query, '/'));
+
+        $queryLength = count($queryPart);
+        $index = empty($queryPart[0]) ? null : $queryPart[0];
+        $main = $queryPart[count($queryPart) - 1];
+        $main = $main === $index ? 'index' : $main;
+        $query = implode($queryPart, DS);
+
+        if (isset($this->router) && ($router = array_change_key_case($this->router)) && array_key_exists(strtolower($index), $router)) {
+            $this->requestTemplate = $router[strtolower($index)];
+            $this->CurApp = array_search($this->requestTemplate, $this->router);
+            if ($this->requestTemplate === 'default') {
+                $query = empty($_query = $query) ? 'index' : $_query;
+            } else {
+                $query = empty($_query = str_replace($index, '', $query)) ? 'index' : $_query;
             }
-        } catch (\Twig_Error_Loader $e) {
-            throw new \RuntimeException($e->getRawMessage(), 4054, $e);
+        } else {
+            $this->requestTemplate = 'default';
+        }
+
+        $this->requestUrl = [$query, $main, $index, $params];
+    }
+
+    /**
+     * Discover the requested file
+     * @author Alexis Rouillard
+     */
+    public function Discover()
+    {
+        list($template_origin, $template_path, $template_name) = $this->tools->findTemplate($this->requestTemplate);
+        $this->CurApp = empty($this->CurAPP) ? $template_name : $this->CurApp;
+        if ($template_origin === 'apps') {
+            defined('APP_DIR') || define('APP_DIR', APPS_DIR.$this->CurApp . DS);
+        } elseif ($template_origin === 'plugins') {
+            defined('APP_DIR') || define('APP_DIR', PLUGINS_DIR.$this->CurApp . DS);
+        } else {
+            throw new \Exception('Orgine du template inconnue.', 894);
+        }
+
+        $view_path = APP_DIR.'views';
+        $content_path = $view_path.DS.$this->requestUrl[0];
+        $is_views = false;
+
+        if (isset($this->router) && array_key_exists($this->requestUrl[2], $this->router) && !empty($q = glob($template_path.$this->requestUrl[0].'.{md,html,htm,twig,php}', GLOB_BRACE))) {
+            $content_file = $q[0];
+        } elseif (!empty($q = glob($content_path.'.{md,html,htm,twig,php}', GLOB_BRACE)) || is_dir($content_path) && !empty($q = glob($content_path.DS.'index.{md,html,htm,twig,php}', GLOB_BRACE))) {
+            $is_views = $view_path;
+            $content_file = $q[0];
+        } else {
+            $template_path_404 = array_values($this->tools->findTemplate('default'))[1];
+            if(!empty($q = glob($template_path.'404.{md,html,htm,php}', GLOB_BRACE))) {
+                $content_file = $q[0];
+            } elseif (!empty($q = glob($template_path_404.'404.{md,html,htm,php}', GLOB_BRACE))) {
+                $content_file = $q[0];
+            } else {
+                throw new \Exception('Impossible de trouver le fichier 404 not found');
+            }
+        }
+
+        $this->requestFile = [$content_file, $template_path, $is_views, $this->requestUrl[1], $this->requestUrl[3]];
+    }
+
+    /**
+     * Process the requested file
+     * @author Alexis Rouillard
+     * @return string Content
+     */
+    public function Process()
+    {
+        list($content_file, $template_path, $is_views, $main, $params) = $this->requestFile;
+        $fileExt = pathinfo($content_file)['extension'];
+        $classRoot = str_replace('/', '\\', $this->tools->Sanitize('/'.str_replace(ROOT_DIR, '', APP_DIR).'/Controller/', true));
+        if (strtolower($this->requestUrl[2]) !== strtolower($this->CurApp)) {
+            $indexController = $classRoot.$this->requestUrl[2].'Ctrl';
+            $this->twig_vars[$this->requestUrl[2]] = $indexController = class_exists($indexController) ? new $indexController() : null;
+        }
+        $appController = $classRoot.$this->CurApp.'Ctrl';
+        $pageController = $classRoot.$main.'Ctrl';
+        $this->twig_vars[$this->CurApp] = $appController = class_exists($appController) ? new $appController() : null;
+        $this->twig_vars[$main] = $pageController = class_exists($pageController) ? new $pageController() : null;
+        $this->twig_vars['params'] = $this->requestUrl[3];
+        $page = ['page' => $content_file,
+                 'template' => $this->requestTemplate,
+                 'template_path' => $template_path,
+                 'ext' => $fileExt,
+                 'is_views' => $is_views
+                ];
+        if (empty($_POST)) {
+            $this->twig->addExtension(new Core\TwigExtension($this, $page));
+            return $this->page->Process($this, $page);
         }
     }
 
     /**
-     * Return instance of Eayo class as singleton
-     *
-     * @return $_instance
+     * Initalize Eayo App
+     * @author Alexis Rouillard
+     * @return object EayoClass
      */
-    public static function start()
+    public static function init()
     {
-        if (is_null(static::$_instance)) {
-            self::$_instance = new Eayo();
+        if (is_null(self::$instance)) {
+            self::$instance = new Eayo();
         }
-        return static::$_instance;
+        return self::$instance;
     }
 
 }

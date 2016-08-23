@@ -6,7 +6,9 @@ jQuery(function ($) {
     var eayo = window.eayo || {};
     $(document).ready(function () {
         eayo.ajax_nav();
+        eayo.item_grid();
         eayo.form_ajax();
+        eayo.date_picker();
     });
     $(window).load(function () {
         eayo.init();
@@ -19,7 +21,7 @@ jQuery(function ($) {
     eayo.init = function () {
         // Check if jQuery was initialized and if not (CDN was down for example), then
         // load jQuery from a local source.
-        if(typeof jQuery === 'undefined'){
+        if (typeof jQuery === 'undefined') {
             document.write(unescape("%3Cscript src='lib/core/admin/assets/js/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
         }
         $('[data-toggle=offcanvas]').click(function () {
@@ -46,18 +48,18 @@ jQuery(function ($) {
             $.get(url, function (data) {
                 if (typeof TabLoaded[nameTabURI] === 'undefined' && TabLoaded[nameTabURI] !== url) {
                     TabLoaded[nameTabURI] = url;
-                    $('<li><a href="#tab'+nameTabURI+'" data-toggle="tab">'+nameTab+' <span href="#" class="close" id="close_tab">×</span></a></li>').appendTo('#tab-container');
-                    $('<div class="tab-pane" id="tab'+nameTabURI+'">'+data+'</div>').appendTo('.tab-content');
+                    $('<li><a href="#tab' + nameTabURI + '" data-toggle="tab">' + nameTab + ' <span href="#" class="close" id="close_tab">×</span></a></li>').appendTo('#tab-container');
+                    $('<div class="tab-pane" id="tab' + nameTabURI + '">' + data + '</div>').appendTo('.tab-content');
                     $('#tab-container a:last').tab('show');
                 } else {
-                    $('[href="#tab'+nameTabURI+'"]').parent('li').fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+                    $('[href="#tab' + nameTabURI + '"]').parent('li').fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
                 }
             });
         });
         $('ul#tab-container').on('mouseover', 'li', function () {
             $(this).children('a').children('span#close_tab').fadeIn('100');
         });
-        $('ul#tab-container').on('mouseleave', 'li', function() {
+        $('ul#tab-container').on('mouseleave', 'li', function () {
             $(this).children('a').children('span#close_tab').fadeOut('100');
         });
         $('ul#tab-container').on('click', '#close_tab', function () {
@@ -78,18 +80,72 @@ jQuery(function ($) {
         });
     };
 
-    /* Send form ajax */
+    /**
+     * Send form ajax
+     * @author Alexis Rouillard
+     * @returns {boolean}
+     */
     eayo.form_ajax = function () {
-        $('.tab-content').on('submit', 'form', function(e) {
+        $('.tab-content').on('submit', 'form', function (e) {
             e.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: $(this).serialize(),
-                success: function(html) {
-                    alert(html); // J'affiche cette réponse
+                data: new FormData($(this)[0]),
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                success: function (response) {
+                    alert(response);
                 }
             });
+
+            return false;
         });
     };
+
+    eayo.date_picker = function () {
+        var dateFormat = "mm/dd/yy";
+        $('.tab-content').on('mouseenter mouseleave', 'input', function (e) {
+            var from = $("#from")
+                .datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    numberOfMonths: 1
+                })
+                .on("change", function () {
+                    to.datepicker("option", "minDate", getDate(this));
+                }),
+                to = $("#to").datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    numberOfMonths: 1
+                })
+                .on("change", function () {
+                    from.datepicker("option", "maxDate", getDate(this));
+                });
+        });
+    };
+
+    eayo.item_grid = function () {
+        $('.grid').masonry({
+            // set itemSelector so .grid-sizer is not used in layout
+            itemSelector: '.grid-item',
+            // use element for option
+            columnWidth: '.grid-sizer',
+            percentPosition: true
+        });
+    };
+
+    function getDate(element) {
+        var date;
+        try {
+            date = $.datepicker.parseDate(dateFormat, element.value);
+        } catch (error) {
+            date = null;
+        }
+
+        return date;
+    }
 });

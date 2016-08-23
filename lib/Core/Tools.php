@@ -75,11 +75,11 @@ class Tools
      *
      * @return string uri
      */
-    private static function GetUri()
+    private function GetUri()
     {
         $uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 
-        return rawurldecode($uri);
+        return $this->Sanitize(rawurldecode($uri));
     }
 
     /**
@@ -173,7 +173,6 @@ class Tools
      */
     public function findTemplate($namespace)
     {
-        $template;
         $templates = \Eayo::$templates;
         if ($namespace === 'default') {
             if (isset($templates['default'])) {
@@ -185,10 +184,10 @@ class Tools
         unset($templates['default']);
         foreach($templates as $key => $val) {
             if (isset($templates[$key][$namespace])) {
-                $template = [$key, $namespace, rtrim($templates[$key][$namespace], '\/').DS];
+                $template = [$key, $templates[$key][$namespace].DS, $namespace];
             }
         }
-        $template[2] = $this->Sanitize($template[2], true);
+        $template[1] = $this->Sanitize($template[1], true);
 
         return $template;
     }
@@ -204,6 +203,8 @@ class Tools
         if ($is_path) {
             //Convert any slash to os directory separator
             $_url = str_replace(['\\', '/'], DS, $_url);
+            //replace unwanted slash
+            $_url = preg_replace('~'.DS.DS.'+~', DS, $_url);
         } else {
             //replace unwanted slash
             $_url = str_replace('\\', '/', $_url);
@@ -212,12 +213,6 @@ class Tools
         }
 
         return $_url;
-    }
-
-    public static function AddRoute($url, $class)
-    {
-        $array = [$url => $class];
-        \Apps\App::$router = array_merge($array, \Apps\App::$router);
     }
 
     public function getContent($file)

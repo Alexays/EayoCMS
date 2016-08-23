@@ -1,11 +1,18 @@
-{% extends "@kiCkila/default.html.twig" %}
-
-{% block content %}
+{% extends "@kiCkila/default.html.twig" %} {% set items = kiCkila.ItemsList.available %} {% block content %}
 <ul id="tab-container" class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Accueil</a></li>
 </ul>
 
 <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="home">...</div>
+    <div role="tabpanel" class="tab-pane active" id="home">
+        <div class="grid">
+            <div class="grid-sizer"></div>
+            {% for key, item in items if item.mode != 'unavailable' %}
+            <div class="grid-item">{{item.desc}}</div>
+            {% else %}
+            <p>Aucun objets n'est disponible ou bientôt disponible</p>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock %}

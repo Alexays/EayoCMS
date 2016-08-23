@@ -13,9 +13,10 @@ class TwigExtension extends \Twig_Extension {
      */
     protected $tools;
 
-    public function __construct(Tools $tools)
+    public function __construct(\Eayo $core, $page)
     {
-        $this->tools = $tools;
+        $this->core = $core;
+        $this->page = $page;
         //$this->markdown = new \Jralph\Twig\Markdown\Parsedown\ParsedownExtraMarkdown;
     }
 
@@ -37,7 +38,8 @@ class TwigExtension extends \Twig_Extension {
     public function getFilters()
     {
         return [
-            'url' => new \Twig_Filter_Method($this, 'getUrl')
+            'url' => new \Twig_Filter_Method($this, 'getUrl'),
+            'frDate' => new \Twig_Filter_Method($this, 'getDate')
         ];
     }
 
@@ -56,14 +58,27 @@ class TwigExtension extends \Twig_Extension {
     public function getUrl($url, $type='URL') {
         switch($type) {
             case 'URL':
-                return $this->tools->rooturl.ltrim($url, '\/');
+                $url = $this->core->tools->rooturl.ltrim($url, '/');
+                break;
+            case 'APP':
+                $url = $this->core->tools->rooturl.ltrim($this->core->CurApp).'/'.ltrim($url, '/');
+                break;
+            case 'ASSETS':
+                $url = $this->core->tools->rooturl.str_replace(ROOT_DIR, '', $this->page['template_path']).'/assets/'.ltrim($url, '/');
                 break;
             case 'UPLOAD':
-                return $this->tools->rooturl.str_replace(ROOT_DIR, '', UPLOAD_DIR).ltrim($url, '\/');
+                $url = $this->core->tools->rooturl.str_replace(ROOT_DIR, '', UPLOAD_DIR).ltrim($url, '/');
                 break;
             default:
-                return $this->tools->rooturl.ltrim($url, '\/');
+                $url = $this->core->tools->rooturl.ltrim($url, '/');
                 break;
         }
+
+        return $this->core->tools->Sanitize($url);
+    }
+
+    public function getDate(\Datetime $datetime) {
+        $formatter = new \IntlDateFormatter('fr_FR', \IntlDateFormatter::LONG, \IntlDateFormatter::LONG);
+        return $formatter->format($datetime);
     }
 }

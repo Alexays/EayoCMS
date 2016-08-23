@@ -1,4 +1,4 @@
 desc: Frontend
-default: true
 theme: default
+default: true
 template: themes/{{theme}}/
