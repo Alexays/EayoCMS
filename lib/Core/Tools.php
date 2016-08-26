@@ -228,6 +228,22 @@ class Tools
         }
     }
 
+    public function recursive_array_search($needle, $haystack, $currentKey = []) {
+        foreach($haystack as $key=>$value) {
+            if (is_array($value)) {
+                $nextKey = $this->recursive_array_search($needle,$value, array_merge($currentKey, array($key)));
+                if ($nextKey) {
+                    return $nextKey;
+                }
+            }
+            else if($value==$needle) {
+                return array_merge($currentKey, array($key));
+            }
+        }
+
+        return false;
+    }
+
     /** @return Return instance of Eayo class as singleton */
     public static function init()
     {

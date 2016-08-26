@@ -56,12 +56,15 @@ class TwigExtension extends \Twig_Extension {
     }
 
     public function getUrl($url, $type='URL') {
-        switch($type) {
+        switch(strtoupper($type)) {
             case 'URL':
                 $url = $this->core->tools->rooturl.ltrim($url, '/');
                 break;
             case 'APP':
                 $url = $this->core->tools->rooturl.ltrim($this->core->CurApp).'/'.ltrim($url, '/');
+                break;
+            case 'APP_ASSETS':
+                $url = $this->core->tools->rooturl.str_replace(ROOT_DIR, '', APP_DIR).'/'.ltrim($url, '/');
                 break;
             case 'ASSETS':
                 $url = $this->core->tools->rooturl.str_replace(ROOT_DIR, '', $this->page['template_path']).'/assets/'.ltrim($url, '/');

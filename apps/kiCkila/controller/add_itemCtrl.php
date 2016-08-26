@@ -58,14 +58,14 @@ class add_itemCtrl extends Controller
                 'creation_date' => time(),
                 'hold_date' => time(),
                 'available_date' => [$_POST['from'], $_POST['to']],
-                'available' => $available_from >= 0 && $available_to <= 0 ? true : false,
+                'available' => true, // put array available from | to
             ];
 
 
 
             if (is_array($_FILES)) {
                 $image_ext = array("jpeg","jpg","png");
-                $item['image'] = [];
+                $item['images'] = [];
                 foreach($_FILES["file"]["tmp_name"] as $key => $tmp_name) {
                     $file_name = $_FILES["file"]["name"][$key];
                     $file_tmp = $_FILES["file"]["tmp_name"][$key];

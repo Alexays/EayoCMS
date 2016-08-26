@@ -1,7 +1,7 @@
 <?php
 
 /* @kiCkila/default.html.twig */
-class __TwigTemplate_58e919d01a20260ccd9ef86144895a11ab24419eb0c7b32f6d9efd7cbfece55a extends Twig_Template
+class __TwigTemplate_bf161d63b167c46bf9bba13140f84889f584093ec74ebf86927adeae1d0efec3 extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {

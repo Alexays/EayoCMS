@@ -1,4 +1,4 @@
-{% extends "@kiCkila/default.html.twig" %} {% set items = kiCkila.ItemsList.available %} {% block content %}
+{% extends "@kiCkila/default.html.twig" %} {% set items = kiCkila.ItemsList %} {% block content %}
 <ul id="tab-container" class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Accueil</a></li>
 </ul>
@@ -8,7 +8,29 @@
         <div class="grid">
             <div class="grid-sizer"></div>
             {% for key, item in items if item.mode != 'unavailable' %}
-            <div class="grid-item">{{item.desc}}</div>
+            {% set owner = kiCkila.UserInfo(item.owner) %}
+            <div class="grid-item">
+                <div class="card hovercard">
+                    <a data-target="ajax" data-name="{{item.name}}" href="{{url('kiCkila/items/view_item:')}}{{key}}"><div class="cardheader" style="background: url('{{url('data/imgs/', 'APP_ASSETS')}}{{item.images|first}}');background-size: cover;">
+
+                        </div></a>
+                    <div class="avatar">
+                        <img alt="Avatar de {{owner.fullname}}" src="{{url(owner.avatar)}}">
+                    </div>
+                    <div class="info">
+                        <div class="title">
+                            <a data-target="ajax" href="{{url('kiCkila/items/view_item:')}}{{key}}">{{item.name}}</a><br>
+                        </div>
+                        <blockquote class="desc">
+                            <p>{{item.desc}}</p>
+                            <footer>{{owner.fullname}}</footer>
+                        </blockquote>
+                    </div>
+                    <div class="bottom">
+                        <small>TAG HERE</small>
+                    </div>
+                </div>
+            </div>
             {% else %}
             <p>Aucun objets n'est disponible ou bientôt disponible</p>
             {% endfor %}

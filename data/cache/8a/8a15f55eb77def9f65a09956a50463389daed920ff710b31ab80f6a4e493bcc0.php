@@ -1,7 +1,7 @@
 <?php
 
 /* @kiCkila_views/index.twig */
-class __TwigTemplate_e8a2f6feec0081c69f8e8f00f48adabd16b986f1a14ba5b11c011b1bfacbd516 extends Twig_Template
+class __TwigTemplate_de52bf53208eedf71bc99e6fbb025ea22231801161b45c9a285c90b611a19ceb extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {
@@ -49,18 +49,13 @@ class __TwigTemplate_e8a2f6feec0081c69f8e8f00f48adabd16b986f1a14ba5b11c011b1bfac
                 // line 12
                 echo "            <div class=\"grid-item\">
                 <div class=\"card hovercard\">
-                    <a data-target=\"ajax\" data-name=\"";
+                    <div class=\"cardheader\" style=\"background: url('";
                 // line 14
-                echo $this->getAttribute($context["item"], "name", array());
-                echo "\" href=\"";
-                echo $this->env->getExtension('eayo')->getUrl("kiCkila/items/view_item:");
-                echo $context["key"];
-                echo "\"><div class=\"cardheader\" style=\"background: url('";
                 echo $this->env->getExtension('eayo')->getUrl("data/imgs/", "APP_ASSETS");
                 echo twig_first($this->env, $this->getAttribute($context["item"], "images", array()));
                 echo "');background-size: cover;\">
 
-                        </div></a>
+                    </div>
                     <div class=\"avatar\">
                         <img alt=\"Avatar de ";
                 // line 18
@@ -126,7 +121,7 @@ class __TwigTemplate_e8a2f6feec0081c69f8e8f00f48adabd16b986f1a14ba5b11c011b1bfac
 
     public function getDebugInfo()
     {
-        return array (  111 => 37,  104 => 35,  89 => 26,  85 => 25,  76 => 22,  67 => 18,  54 => 14,  50 => 12,  47 => 11,  41 => 10,  31 => 2,  11 => 1,);
+        return array (  106 => 37,  99 => 35,  84 => 26,  80 => 25,  71 => 22,  62 => 18,  54 => 14,  50 => 12,  47 => 11,  41 => 10,  31 => 2,  11 => 1,);
     }
 }
 /* {% extends "@kiCkila/default.html.twig" %} {% set items = kiCkila.ItemsList %} {% block content %}*/
@@ -142,9 +137,9 @@ class __TwigTemplate_e8a2f6feec0081c69f8e8f00f48adabd16b986f1a14ba5b11c011b1bfac
 /*             {% set owner = kiCkila.UserInfo(item.owner) %}*/
 /*             <div class="grid-item">*/
 /*                 <div class="card hovercard">*/
-/*                     <a data-target="ajax" data-name="{{item.name}}" href="{{url('kiCkila/items/view_item:')}}{{key}}"><div class="cardheader" style="background: url('{{url('data/imgs/', 'APP_ASSETS')}}{{item.images|first}}');background-size: cover;">*/
+/*                     <div class="cardheader" style="background: url('{{url('data/imgs/', 'APP_ASSETS')}}{{item.images|first}}');background-size: cover;">*/
 /* */
-/*                         </div></a>*/
+/*                     </div>*/
 /*                     <div class="avatar">*/
 /*                         <img alt="Avatar de {{owner.fullname}}" src="{{url(owner.avatar)}}">*/
 /*                     </div>*/

@@ -1,0 +1,39 @@
+{% extends "@default/default.html.twig" %} {% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h3>Inscription</h3>
+            <a href="{{url('login')}}">Déjà inscrit, clique ici pour te connecter !</a>
+            <form name="register" method="post" action="">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="inputFirstname">Prénom</label>
+                        <input type="text" class="form-control" name="firstname" id="inputFirstname" />
+                    </div>
+                       <div class="form-group col-md-6">
+                        <label for="inputLastname">Nom</label>
+                        <input type="text" class="form-control" name="lastname" id="inputLastname" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputUsername">Indentifiant</label>
+                    <input type="text" class="form-control" name="username" id="inputUsername" />
+                </div>
+                <div class="form-group">
+                    <label for="inputUsername">E-mail</label>
+                    <input type="text" class="form-control" name="email" id="inputEmail" />
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword">Mot de passe</label>
+                    <input type="password" class="form-control" name="password" id="inputPassword" />
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword">Confirmez le mot de passe</label>
+                    <input type="password" class="form-control" name="password" id="inputPassword2" />
+                </div>
+                <input type="submit" name="register" class="btn btn-warning pull-right" value="Inscription" />
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

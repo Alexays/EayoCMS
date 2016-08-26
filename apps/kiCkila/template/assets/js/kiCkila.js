@@ -3,9 +3,10 @@
 jQuery(function ($) {
     'use strict';
     var TabLoaded = {};
+    var isMobileWindow = null;
     var eayo = window.eayo || {};
     $(document).ready(function () {
-        eayo.ajax_nav();
+        eayo.nav();
         eayo.item_grid();
         eayo.form_ajax();
         eayo.date_picker();
@@ -14,7 +15,7 @@ jQuery(function ($) {
         eayo.init();
     });
     $(window).resize(function () {
-        //
+        eayo.mobile_friendly();
     });
 
     /* Init Client system */
@@ -36,14 +37,35 @@ jQuery(function ($) {
             $('.sidebar.right').toggleClass('active');
         });
         $('[data-toggle="tooltip"]').tooltip();
+
+        //Set isMobileWindows
+        if ($( window ).width() < 768) {
+            isMobileWindow = true;
+        } else {
+            isMobileWindow = false;
+        }
     };
 
     /* Retrieve content to Modal (Boostrap) */
-    eayo.ajax_nav = function () {
+    eayo.nav = function () {
+        //CLOSE SIDEBAR IF ON MOBILE
+        $('a').click(function (e) {
+            if ($('.sidebar').hasClass('active')) {
+                $('.sidebar').removeClass('active');
+            }
+        });
+
+        //AJAX NAV
         $('[data-target="ajax"]').click(function (e) {
             e.preventDefault();
             var url = $(this).attr('href');
-            var nameTab = $(this).text();
+            if (typeof $(this).attr('data-name') != "undefined") {
+                var nameTab = $(this).attr('data-name');
+            } else if ($(this).text().length <= 30) {
+                var nameTab = $(this).text();
+            } else {
+                var nameTab = 'Unknow';
+            }
             var nameTabURI = nameTab.replace(/ /g, '_').toLowerCase();
             $.get(url, function (data) {
                 if (typeof TabLoaded[nameTabURI] === 'undefined' && TabLoaded[nameTabURI] !== url) {
@@ -137,6 +159,15 @@ jQuery(function ($) {
             percentPosition: true
         });
     };
+
+    eayo.mobile_friendly = function() {
+        var width = $( window ).width();
+        if (width < 768 && isMobileWindow === false) {
+            isMobileWindow = true;
+        } else if (isMobileWindow === true) {
+            isMobileWindow = false;
+        }
+    }
 
     function getDate(element) {
         var date;

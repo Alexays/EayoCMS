@@ -97,6 +97,8 @@ class Eayo
 
         /* Init Tools API*/
         $this->tools = Core\Tools::init();
+
+        $this->initSession();
     }
 
     /**
@@ -155,13 +157,69 @@ class Eayo
         }
     }
 
+    protected function initSession()
+    {
+        session_start();
+
+        if (isset($_COOKIE['eayo_login']) && !isset($_SESSION['login_token'])) {
+            list($lookup, $validator) = explode(':', $_COOKIE['eayo_login']);
+            $accounts = $this->config->getAllAccounts();
+            if (($user_id = $this->tools->recursive_array_search($lookup, $accounts)) && $user_id[1] === 'token') {
+                $user_id = $user_id[0];
+                if (isset($accounts[$user_id]['tok_val']) && $accounts[$user_id]['tok_val'] === hash_hmac('sha256', $validator, $this->tools->ip()) && ($user = $this->config->getAccount($user_id))) {
+                    //Now we can create Session
+                    $_SESSION['user_id'] = $user_id;
+                    $_SESSION['username'] = $user['username'] = preg_replace("/[^a-zA-Z0-9_\-]+/", '', $user['username']);
+                    $_SESSION['email'] = filter_var($user['email'], FILTER_SANITIZE_EMAIL);
+                    $_SESSION['firstname'] = preg_replace("/[^a-zA-Z\-]+/", '', ucfirst(strtolower($user['firstname'])));
+                    $_SESSION['lastname'] = preg_replace("/[^a-zA-Z\-]+/", '', ucfirst(strtolower($user['lastname'])));
+                    $_SESSION['avatar'] = filter_var($user['avatar'], FILTER_SANITIZE_URL);
+                    $_SESSION['login_token'] = base64_encode(time().':'.$this->tools->ip());
+                    $lookup = bin2hex(openssl_random_pseudo_bytes(9));
+                    $validator = base64_encode((openssl_random_pseudo_bytes(18)));
+                    $accounts[$user_id]['token'] = $lookup;
+                    $accounts[$user_id]['tok_val'] = hash_hmac('sha256', $validator, $this->tools->ip());
+                    setcookie(
+                        'eayo_login',
+                        $lookup . ':' . $validator,
+                        time() + 604800
+                    );
+                    file_put_contents(CONF_DIR.'accounts.yml', Yaml::dump($accounts, 4));
+                }
+            }
+        }
+
+        // Make sure we have a canary set
+        if (!isset($_SESSION['canary'])) {
+            session_regenerate_id(true);
+            $_SESSION['canary'] = [
+                'birth' => time(),
+                'IP' => $_SERVER['REMOTE_ADDR']
+            ];
+        }
+        if ($_SESSION['canary']['IP'] !== $_SERVER['REMOTE_ADDR']) {
+            session_regenerate_id(true);
+            // Delete everything:
+            foreach (array_keys($_SESSION) as $key) {
+                unset($_SESSION[$key]);
+            }
+            $_SESSION['canary'] = [
+                'birth' => time(),
+                'IP' => $_SERVER['REMOTE_ADDR']
+            ];
+        }
+        // Regenerate session ID every five minutes:
+        if ($_SESSION['canary']['birth'] < time() - 300) {
+            session_regenerate_id(true);
+            $_SESSION['canary']['birth'] = time();
+        }
+    }
+
     /**
      * Init App function
      */
     protected function initApp()
     {
-        //SESSION
-        session_start();
         //FRENCH
         setlocale(LC_ALL, 'fr_FR');
         //ROUTER
@@ -177,6 +235,7 @@ class Eayo
             $this->router = array_merge($this->router, [isset($app_conf['route']) ? $app_conf['route'] : $app => $app]);
         }
         $this->router = array_merge($this->router, ['login' => 'default']);
+        $this->router = array_merge($this->router, ['register' => 'default']);
 
         //FIND TEMPLATE PATH
         $theme;
@@ -257,7 +316,7 @@ class Eayo
         $this->twig_vars = array_merge($this->twig_vars, array(
             'version' => $this::VERSION,
             'config' => $conf,
-            'user' => isset($_SESSION) ? $_SESSION : null
+            'user' => isset($_SESSION['user_id']) ? $_SESSION : null
         ));
     }
 
@@ -323,7 +382,7 @@ class Eayo
         $content_path = $view_path.DS.$this->requestUrl[0];
         $is_views = false;
 
-        if (isset($this->router) && array_key_exists($this->requestUrl[2], $this->router) && !empty($q = glob($template_path.$this->requestUrl[0].'.{md,html,htm,twig,php}', GLOB_BRACE))) {
+        if (isset($this->router) && array_key_exists($this->requestUrl[2], $this->router) && !empty($q = glob($template_path.$this->requestUrl[0].'.{md,html,htm,twig,php}', GLOB_BRACE)) || is_dir($template_path.$this->requestUrl[0]) && !empty($q = glob($template_path.$this->requestUrl[0].DS.'index.{md,html,htm,twig,php}', GLOB_BRACE))) {
             $content_file = $q[0];
         } elseif (!empty($q = glob($content_path.'.{md,html,htm,twig,php}', GLOB_BRACE)) || is_dir($content_path) && !empty($q = glob($content_path.DS.'index.{md,html,htm,twig,php}', GLOB_BRACE))) {
             $is_views = $view_path;

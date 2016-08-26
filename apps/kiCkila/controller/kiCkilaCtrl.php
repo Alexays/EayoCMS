@@ -99,9 +99,11 @@ class kiCkilaCtrl extends Controller
         return $this->items;
     }
     
-    public function getUserName($user_id) {
+    public function getUserInfo($user_id) {
         $account = $this->config->getAccount($user_id);
-        return $account['firstname'].' '.$account['lastname'];
+        unset($account['pass_hash']);
+        $account['fullname'] = $account['firstname'] .' '. $account['lastname'];
+        return $account;
     }
 
 

@@ -29,39 +29,9 @@ class loginCtrl extends Controller
         }
     }
 
-    protected function login($emailid, $pass) {
-        //$SessionArray = ['username','email','firstname','surname','avatar'];
-        $message = '';
-        if (!isset($_SESSION['login_str'])) {
-            $wanted_user;
-            foreach ($this->config->getAllAccounts() as $key => $val){
-                if(strcasecmp($emailid, $val['username']) === 0 || strcasecmp($emailid, $val['email']) === 0) {
-                    $wanted_user = $key;
-                    if (password_verify($pass, $this->config->getAccount($wanted_user)['pass_hash'])) {
-                        $self_user = $this->config->getAccount($wanted_user);
-                        $_SESSION['user_id'] = preg_replace("/[^0-9]+/", "", $wanted_user);
-                        $_SESSION['username'] = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $self_user['username']);
-                        $_SESSION['email'] = $self_user['email']; //make regex
-                        $_SESSION['firstname'] = preg_replace("/[^a-zA-Z\-]+/", "", $self_user['firstname']);
-                        $_SESSION['lastname'] = preg_replace("/[^a-zA-Z\-]+/", "", $self_user['lastname']);
-                        $_SESSION['avatar'] = $self_user['avatar'];
-                        $_SESSION['login_str'] = hash('sha512', $self_user['pass_hash'].$_SERVER['HTTP_USER_AGENT']);
-                        $message = '';
-                        header("location: ".$this->tools->rooturl.'kiCkila/');
-                    } else {
-                        $message = "Mot de passe ou nom d'utilisateurs incorrect.";
-                    }
-                } else {
-                    $message = "Mot de passe ou nom d'utilisateurs incorrect.";
-                }
-            }
-            return $message;
-        } else {
-            return 'Vous ête déjà connecté.';
-        }
-    }
-
     protected function register() {
-        //echo password_hash($pass, PASSWORD_DEFAULT);
+        /**echo password_hash(base64_encode(
+        hash('sha256', $_POST['password'], true)
+            ), PASSWORD_DEFAULT);**/
     }
 }
