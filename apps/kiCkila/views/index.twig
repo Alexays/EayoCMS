@@ -26,9 +26,13 @@
                             <footer>{{owner.fullname}}</footer>
                         </blockquote>
                     </div>
+                    {% if item.tags is not empty %}
                     <div class="bottom">
-                        <small>TAG HERE</small>
+                       {% for tag in item.tags %}
+                       <small><span class="badge">{{tag}}</span></small>
+                       {% endfor %}
                     </div>
+                    {% endif %}
                 </div>
             </div>
             {% else %}

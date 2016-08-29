@@ -20,7 +20,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 
 class kiCkilaCtrl extends Controller
 {
-    public function getMyItem() {
+    public function getMyItem() { //USE GLOB
         $myItemsData = [];
         $myItems = [];
         $item = [];
@@ -57,7 +57,7 @@ class kiCkilaCtrl extends Controller
         }
     }
     
-    public function getItemsList() {
+    public function getItemsList() { //USE GLOB
         $itemList = [];
         $items = Yaml::parse(file_get_contents(APP_DIR.'data'.DS.'items.yml'));
         $myItems = !empty($this->getMyItem()) ? array_unique(array_reduce(array_map('array_keys',$this->getMyItem()),'array_merge',[])) : [];

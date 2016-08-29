@@ -1,0 +1,16 @@
+name: Télécommande
+desc: 'Une télécommande ordinaire'
+tags:
+    - TV
+    - 'Pour la télé'
+    - Flemmard
+owner: 4875
+holder: 4875
+creation_date: 1472234318
+hold_date: 1472234318
+available_date:
+    - 08/24/2016
+    - 09/16/2016
+available: true
+images:
+    - 594_img_1472234318.jpeg

@@ -37,6 +37,10 @@ class __TwigTemplate_c8362be7e2b5901caa1310f016bc596f27fa38749f64ffdc6b2659264e6
         <textarea type=\"text\" class=\"form-control\" name=\"desc\"></textarea>
     </div>
     <div class=\"form-group\">
+        <label for=\"desc\">Tags (séparés par un espace ou entre guillemet)</label>
+        <input type=\"text\" class=\"form-control\" name=\"tags\" required />
+    </div>
+    <div class=\"form-group\">
         <label for=\"date\">Disponibilité</label>
         <br>
         <label for=\"from\">De</label>
@@ -48,7 +52,8 @@ class __TwigTemplate_c8362be7e2b5901caa1310f016bc596f27fa38749f64ffdc6b2659264e6
         <input type=\"reset\" class=\"btn btn-danger\" value=\"Vider le formulaire\" />
         <input type=\"submit\" name=\"add_item\" class=\"btn btn-primary\" value=\"Ajouter\"/>
     </div>
-</form>";
+</form>
+";
     }
 
     public function getTemplateName()
@@ -84,6 +89,10 @@ class __TwigTemplate_c8362be7e2b5901caa1310f016bc596f27fa38749f64ffdc6b2659264e6
 /*         <textarea type="text" class="form-control" name="desc"></textarea>*/
 /*     </div>*/
 /*     <div class="form-group">*/
+/*         <label for="desc">Tags (séparés par un espace ou entre guillemet)</label>*/
+/*         <input type="text" class="form-control" name="tags" required />*/
+/*     </div>*/
+/*     <div class="form-group">*/
 /*         <label for="date">Disponibilité</label>*/
 /*         <br>*/
 /*         <label for="from">De</label>*/
@@ -96,3 +105,4 @@ class __TwigTemplate_c8362be7e2b5901caa1310f016bc596f27fa38749f64ffdc6b2659264e6
 /*         <input type="submit" name="add_item" class="btn btn-primary" value="Ajouter"/>*/
 /*     </div>*/
 /* </form>*/
+/* */

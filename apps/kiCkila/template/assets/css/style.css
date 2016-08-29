@@ -254,6 +254,7 @@ button[data-toggle="offcanvas"] {
 
 .grid-sizer,
 .grid-item {
+    padding: 15px;
     min-width: 200px;
     width: 20%;
 }
@@ -464,6 +465,10 @@ button[data-toggle="offcanvas"] {
     position: relative;
     height: 150px;
     z-index: 50;
+}
+
+.card.hovercard .cardheader:hover {
+    opacity: 0.8;
 }
 
 .card.hovercard .avatar {

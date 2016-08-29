@@ -222,6 +222,9 @@ class Eayo
     {
         //FRENCH
         setlocale(LC_ALL, 'fr_FR');
+        //SET MAX UPLOAD SIZE
+        ini_set('post_max_size', '64M');
+        ini_set('upload_max_filesize', '64M');
         //ROUTER
         foreach(glob(APPS_DIR.'*', GLOB_ONLYDIR) as $APPS_DIR) {
             $app = str_replace(APPS_DIR, '', $APPS_DIR);
@@ -324,7 +327,7 @@ class Eayo
      * Discover the requested Url
      * @author Alexis Rouillard
      */
-    public function Analyse()
+    protected function Analyse()
     {
         $content_file;
         $template_file;
@@ -366,7 +369,7 @@ class Eayo
      * Discover the requested file
      * @author Alexis Rouillard
      */
-    public function Discover()
+    protected function Discover()
     {
         list($template_origin, $template_path, $template_name) = $this->tools->findTemplate($this->requestTemplate);
         $this->CurApp = empty($this->CurAPP) ? $template_name : $this->CurApp;

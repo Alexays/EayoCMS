@@ -90,24 +90,45 @@ class __TwigTemplate_e8a2f6feec0081c69f8e8f00f48adabd16b986f1a14ba5b11c011b1bfac
                 echo "</footer>
                         </blockquote>
                     </div>
-                    <div class=\"bottom\">
-                        <small>TAG HERE</small>
-                    </div>
-                </div>
+                    ";
+                // line 29
+                if ( !twig_test_empty($this->getAttribute($context["item"], "tags", array()))) {
+                    // line 30
+                    echo "                    <div class=\"bottom\">
+                       ";
+                    // line 31
+                    $context['_parent'] = $context;
+                    $context['_seq'] = twig_ensure_traversable($this->getAttribute($context["item"], "tags", array()));
+                    foreach ($context['_seq'] as $context["_key"] => $context["tag"]) {
+                        // line 32
+                        echo "                       <small><span class=\"badge\">";
+                        echo $context["tag"];
+                        echo "</span></small>
+                       ";
+                    }
+                    $_parent = $context['_parent'];
+                    unset($context['_seq'], $context['_iterated'], $context['_key'], $context['tag'], $context['_parent'], $context['loop']);
+                    $context = array_intersect_key($context, $_parent) + $_parent;
+                    // line 34
+                    echo "                    </div>
+                    ";
+                }
+                // line 36
+                echo "                </div>
             </div>
             ";
                 $context['_iterated'] = true;
             }
         }
         if (!$context['_iterated']) {
-            // line 35
+            // line 39
             echo "            <p>Aucun objets n'est disponible ou bientôt disponible</p>
             ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['key'], $context['item'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 37
+        // line 41
         echo "        </div>
     </div>
 </div>
@@ -126,7 +147,7 @@ class __TwigTemplate_e8a2f6feec0081c69f8e8f00f48adabd16b986f1a14ba5b11c011b1bfac
 
     public function getDebugInfo()
     {
-        return array (  111 => 37,  104 => 35,  89 => 26,  85 => 25,  76 => 22,  67 => 18,  54 => 14,  50 => 12,  47 => 11,  41 => 10,  31 => 2,  11 => 1,);
+        return array (  132 => 41,  125 => 39,  117 => 36,  113 => 34,  104 => 32,  100 => 31,  97 => 30,  95 => 29,  89 => 26,  85 => 25,  76 => 22,  67 => 18,  54 => 14,  50 => 12,  47 => 11,  41 => 10,  31 => 2,  11 => 1,);
     }
 }
 /* {% extends "@kiCkila/default.html.twig" %} {% set items = kiCkila.ItemsList %} {% block content %}*/
@@ -157,9 +178,13 @@ class __TwigTemplate_e8a2f6feec0081c69f8e8f00f48adabd16b986f1a14ba5b11c011b1bfac
 /*                             <footer>{{owner.fullname}}</footer>*/
 /*                         </blockquote>*/
 /*                     </div>*/
+/*                     {% if item.tags is not empty %}*/
 /*                     <div class="bottom">*/
-/*                         <small>TAG HERE</small>*/
+/*                        {% for tag in item.tags %}*/
+/*                        <small><span class="badge">{{tag}}</span></small>*/
+/*                        {% endfor %}*/
 /*                     </div>*/
+/*                     {% endif %}*/
 /*                 </div>*/
 /*             </div>*/
 /*             {% else %}*/

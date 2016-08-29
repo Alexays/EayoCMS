@@ -53,6 +53,7 @@ class add_itemCtrl extends Controller
             $item = [
                 'name' => $_POST['name'],
                 'desc' => $_POST['desc'],
+                'tags' => array_map('ucfirst', str_getcsv($_POST['tags'], ' ')),
                 'owner' => intval($_SESSION['user_id']),
                 'holder' => intval($_SESSION['user_id']),
                 'creation_date' => time(),
@@ -63,13 +64,13 @@ class add_itemCtrl extends Controller
 
 
 
-            if (is_array($_FILES)) {
+            if (is_array($_FILES) && !empty($_FILES)) {
                 $image_ext = array("jpeg","jpg","png");
                 $item['images'] = [];
                 foreach($_FILES["file"]["tmp_name"] as $key => $tmp_name) {
                     $file_name = $_FILES["file"]["name"][$key];
                     $file_tmp = $_FILES["file"]["tmp_name"][$key];
-                    $ext = pathinfo($file_name,PATHINFO_EXTENSION);
+                    $ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
                     if(in_array($ext, $image_ext)) {
                         $image_dir = APP_DIR.'data'.DS.'imgs'.DS;
@@ -79,8 +80,6 @@ class add_itemCtrl extends Controller
                         echo 'Not an images';
                     }
                 }
-            } else {
-                echo 'No Files';
             }
 
             file_put_contents(APP_DIR.'data'.DS.$item_id.'.yml', Yaml::dump($item, 4));
