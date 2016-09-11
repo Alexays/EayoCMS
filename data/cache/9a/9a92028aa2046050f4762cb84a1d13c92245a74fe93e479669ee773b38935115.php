@@ -404,7 +404,7 @@ class __TwigTemplate_bf161d63b167c46bf9bba13140f84889f584093ec74ebf86927adeae1d0
         <!-- CORE SCRIPTS -->
         <script src=\"http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.js\"></script>
         <script src=\"http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js\"></script>
-        <script src=\"https://npmcdn.com/masonry-layout@4.1/dist/masonry.pkgd.min.js\"></script>
+        <script src=\"https://unpkg.com/masonry-layout@4.1/dist/masonry.pkgd.min.js\"></script>
         <script src=\"https://code.jquery.com/ui/1.12.0/jquery-ui.js\"></script>
         <!-- Admin SCRIPTS  -->
         <script src=\"";
@@ -666,7 +666,7 @@ class __TwigTemplate_bf161d63b167c46bf9bba13140f84889f584093ec74ebf86927adeae1d0
 /*         <!-- CORE SCRIPTS -->*/
 /*         <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.js"></script>*/
 /*         <script src="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"></script>*/
-/*         <script src="https://npmcdn.com/masonry-layout@4.1/dist/masonry.pkgd.min.js"></script>*/
+/*         <script src="https://unpkg.com/masonry-layout@4.1/dist/masonry.pkgd.min.js"></script>*/
 /*         <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>*/
 /*         <!-- Admin SCRIPTS  -->*/
 /*         <script src="{{url('js/kiCkila.js', 'ASSETS')}}"></script>*/
