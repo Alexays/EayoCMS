@@ -37,6 +37,7 @@ class Controller
      * @author Alexis Rouillard
      */
     protected function checkLogin() {
+echo "test";
         if (!isset($_SESSION['login_token'])) {
             header('location: '.$this->tools->rooturl.'login/');
             return false;

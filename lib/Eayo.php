@@ -136,13 +136,14 @@ class Eayo
         spl_autoload_register(
             function ($className) {
                 $fileName = str_replace("\\", DS, $className) . '.php';
+		$fileName = str_replace("Controller/", "controller/", $fileName);
                 if (is_file(LIB_DIR.$fileName)) {
                     //Register Core File
-                    include LIB_DIR.$fileName;
+                    require_once LIB_DIR.$fileName;
                 } elseif (is_file(ROOT_DIR.$fileName)) {
                     //Register Apps/Plugins
-                    include ROOT_DIR.$fileName;
-                }/* else {
+                    require_once ROOT_DIR.$fileName;
+                } /*else {
                     throw new \Exception("Cannot find '".$fileName."'.", 15878);
                 }*/
             }

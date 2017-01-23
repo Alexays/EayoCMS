@@ -41,7 +41,7 @@ class __TwigTemplate_e47e6640b412cc36364b1cb1e5eaa480d0015c3f8e3667d27b32b81219d
         echo "\" rel=\"stylesheet\" type=\"text/css\" />
         <link href=\"";
         // line 17
-        echo $this->env->getExtension('eayo')->getUrl("css/font-awesome.min.css");
+        echo $this->env->getExtension('eayo')->getUrl("css/font-awesome.min.css", "ASSETS");
         echo "\" rel=\"stylesheet\" type=\"text/css\" />
         <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -183,7 +183,7 @@ class __TwigTemplate_e47e6640b412cc36364b1cb1e5eaa480d0015c3f8e3667d27b32b81219d
 /*         <!-- CUSTOM STYLE  -->*/
 /*         <link href="http://fonts.googleapis.com/css?family=Lato|Montserrat" rel="stylesheet" type="text/css" />*/
 /*         <link href="{{url('css/style.css', 'ASSETS')}}" rel="stylesheet" type="text/css" />*/
-/*         <link href="{{url('css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />*/
+/*         <link href="{{url('css/font-awesome.min.css', 'ASSETS')}}" rel="stylesheet" type="text/css" />*/
 /*         <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->*/
 /*         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->*/
 /*         <!--[if lt IE 9]>*/
