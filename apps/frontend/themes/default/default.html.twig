@@ -23,15 +23,23 @@
         <![endif]-->
     </head>
     <body>
-        <div id="content">
+<div id="wrapper">
+    <div id="header">
+      <div class="title">
+        <img src="https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/11070975_1605684812999217_1259803236234635137_n.jpg?oh=30ae28afdebf2ab4b3a378939e931e8e&oe=5901DA96" />
+        <p>Alexis Rouillard <sup>Tek1</sup></p>
+      </div>
+        </div>
+    <div id="container">
             {% block content %}
                 {{content}}
             {% endblock %}
         </div>
-        <div id="footer">
+    <div id="footer">
             {% block footer %}
-            <center>&copy; Copyright 2016 Alexis Rouillard.</center>
+            <span>&copy; Copyright 2016 Alexis Rouillard.</span>
             {% endblock %}
         </div>
+  </div>
     </body>
 </html>

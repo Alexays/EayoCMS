@@ -55,38 +55,46 @@ class __TwigTemplate_4a7475f9b38c26caddcb866f51d99030306137e98d8b79f468053cca934
         <![endif]-->
     </head>
     <body>
-        <div id=\"content\">
+<div id=\"wrapper\">
+    <div id=\"header\">
+      <div class=\"title\">
+        <img src=\"https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/11070975_1605684812999217_1259803236234635137_n.jpg?oh=30ae28afdebf2ab4b3a378939e931e8e&oe=5901DA96\" />
+        <p>Alexis Rouillard <sup>Tek1</sup></p>
+      </div>
+        </div>
+    <div id=\"container\">
             ";
-        // line 27
+        // line 34
         $this->displayBlock('content', $context, $blocks);
-        // line 30
+        // line 37
         echo "        </div>
-        <div id=\"footer\">
+    <div id=\"footer\">
             ";
-        // line 32
+        // line 39
         $this->displayBlock('footer', $context, $blocks);
-        // line 35
+        // line 42
         echo "        </div>
+  </div>
     </body>
 </html>
 ";
     }
 
-    // line 27
+    // line 34
     public function block_content($context, array $blocks = array())
     {
-        // line 28
+        // line 35
         echo "                ";
         echo (isset($context["content"]) ? $context["content"] : null);
         echo "
             ";
     }
 
-    // line 32
+    // line 39
     public function block_footer($context, array $blocks = array())
     {
-        // line 33
-        echo "            <center>&copy; Copyright 2016 Alexis Rouillard.</center>
+        // line 40
+        echo "            <span>&copy; Copyright 2016 Alexis Rouillard.</span>
             ";
     }
 
@@ -102,7 +110,7 @@ class __TwigTemplate_4a7475f9b38c26caddcb866f51d99030306137e98d8b79f468053cca934
 
     public function getDebugInfo()
     {
-        return array (  89 => 33,  86 => 32,  79 => 28,  76 => 27,  69 => 35,  67 => 32,  63 => 30,  61 => 27,  48 => 17,  44 => 16,  38 => 13,  33 => 11,  21 => 1,);
+        return array (  97 => 40,  94 => 39,  87 => 35,  84 => 34,  76 => 42,  74 => 39,  70 => 37,  68 => 34,  48 => 17,  44 => 16,  38 => 13,  33 => 11,  21 => 1,);
     }
 }
 /* <!DOCTYPE html>*/
@@ -130,16 +138,24 @@ class __TwigTemplate_4a7475f9b38c26caddcb866f51d99030306137e98d8b79f468053cca934
 /*         <![endif]-->*/
 /*     </head>*/
 /*     <body>*/
-/*         <div id="content">*/
+/* <div id="wrapper">*/
+/*     <div id="header">*/
+/*       <div class="title">*/
+/*         <img src="https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/11070975_1605684812999217_1259803236234635137_n.jpg?oh=30ae28afdebf2ab4b3a378939e931e8e&oe=5901DA96" />*/
+/*         <p>Alexis Rouillard <sup>Tek1</sup></p>*/
+/*       </div>*/
+/*         </div>*/
+/*     <div id="container">*/
 /*             {% block content %}*/
 /*                 {{content}}*/
 /*             {% endblock %}*/
 /*         </div>*/
-/*         <div id="footer">*/
+/*     <div id="footer">*/
 /*             {% block footer %}*/
-/*             <center>&copy; Copyright 2016 Alexis Rouillard.</center>*/
+/*             <span>&copy; Copyright 2016 Alexis Rouillard.</span>*/
 /*             {% endblock %}*/
 /*         </div>*/
+/*   </div>*/
 /*     </body>*/
 /* </html>*/
 /* */

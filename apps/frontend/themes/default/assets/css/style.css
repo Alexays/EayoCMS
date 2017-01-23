@@ -4,8 +4,72 @@ body {
     font-weight: 300;
     color: #888;
     line-height: 30px;
-    text-align: center;
 }
+
+/** MAIN */
+#wrapper {
+    position: absolute;
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    }
+    #header {
+    position: relative;
+    width: 30%;
+    height: 100%;
+    float:left;
+        background-image: url(https://unsplash.it/800/1500/?random);
+    background-repeat: no-repeat;
+        box-shadow: 4px 0px 5px #888888;
+    }
+    #header .title {
+        color: #000;
+    margin: 0 auto;
+    width: 100%;
+    min-height: 190px;
+    height: 25%;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 30px 0;
+    }
+    #header .title img
+    {
+    height: 150px;
+    border-radius: 50%;
+        box-shadow: 3px 4px 5px #888888;
+    }
+    #header .title p
+    {
+    font-family: 'Exo 2', sans-serif;
+    font-size: larger;
+    }
+#container {
+     position: relative;
+    float: right;
+    height: calc(100% - 40px);
+    width: calc(70% - 40px);
+    padding: 20px;
+    }
+    #container h3
+    {
+    border-bottom: 1px solid #000;
+    width: 50%;
+    }
+    #footer {
+    position: relative;
+    width: 70%;
+    float: right;
+    height: 40px;
+    background: rgba(0, 0, 0, 1);
+    box-shadow: 4px 0px 5px #888888;
+    text-align: center;
+    color: #b5b5b5;
+    }
+    #footer span
+    {
+    line-height: 40px;
+    }
 
 strong { font-weight: 500; }
 
