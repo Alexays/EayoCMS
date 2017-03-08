@@ -84,7 +84,7 @@ class Controller
                         );
                     }
                     file_put_contents(CONF_DIR.'accounts.yml', Yaml::dump($accounts, 4));
-                    header("location: ".$this->tools->rooturl.'kiCkila/');
+                    header("location: ".$this->tools->rooturl);
                 } else {
                     return 'Nom d\'utilisateurs\\E-mail ou mot de passe incorrect.';
                 }

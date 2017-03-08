@@ -295,12 +295,17 @@ class Eayo
         //For apps & plugins
         $templates = $this::$templates;
         $loader->addPath($templates['apps'][$templates['default']], 'default');
+        $default = $templates['default'];
         unset($templates['default']);
         foreach($templates as $origin => $namespaces) {
             foreach($namespaces as $namespace => $template) {
                 $loader->addPath($template, $namespace);
                 if($origin === 'apps') {
-                    $loader->addPath(APPS_DIR.$namespace.DS.'views'.DS, $namespace.'_views');
+                    if ($namespace == $default) {
+                        $loader->addPath(APPS_DIR.$namespace.DS.'views'.DS, 'default_views');
+                    } else {
+                        $loader->addPath(APPS_DIR.$namespace.DS.'views'.DS, $namespace.'_views');
+                    }
                 } elseif($origin === 'plugins') {
                     $loader->addPath(PLUGINS_DIR.$namespace.DS.'views'.DS, $namespace.'_views');
                 } else {
@@ -424,12 +429,17 @@ class Eayo
         $this->twig_vars[$this->CurApp] = $appController = class_exists($appController) ? new $appController() : null;
         $this->twig_vars[$main] = $pageController = class_exists($pageController) ? new $pageController() : null;
         $this->twig_vars['params'] = $this->requestUrl[3];
+if ($this->requestUrl[2] == NULL)
+{
+        $this->twig_vars['title'] = ucfirst($this->CurApp);
+}
+else
+$this->twig_vars['title'] = ucfirst($this->CurApp).' - '.ucfirst($this->requestUrl[2]);
         $page = ['page' => $content_file,
                  'template' => $this->requestTemplate,
                  'template_path' => $template_path,
                  'ext' => $fileExt,
-                 'is_views' => $is_views
-                ];
+                 'is_views' => $is_views                ];
         if (empty($_POST)) {
             $this->twig->addExtension(new Core\TwigExtension($this, $page));
             return $this->page->Process($this, $page);

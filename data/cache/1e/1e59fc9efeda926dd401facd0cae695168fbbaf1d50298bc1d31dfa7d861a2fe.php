@@ -31,18 +31,18 @@ class __TwigTemplate_d49f9d160718642f1e2b557a99c6ed0c5f8fdc32396763dc45fceb28518
         <!-- CDN  -->
         <link href=\"";
         // line 13
-        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
-        echo "css/bootstrap.min.css\" rel=\"stylesheet\" type=\"text/css\" />
+        echo $this->env->getExtension('eayo')->getUrl("css/bootstrap.min.css", "ASSETS");
+        echo "\" rel=\"stylesheet\" type=\"text/css\" />
         <!-- CUSTOM STYLE  -->
         <link href=\"http://fonts.googleapis.com/css?family=Lato|Montserrat\" rel=\"stylesheet\" type=\"text/css\" />
         <link href=\"";
         // line 16
-        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
-        echo "css/style.css\" rel=\"stylesheet\" type=\"text/css\" />
+        echo $this->env->getExtension('eayo')->getUrl("css/style.css", "ASSETS");
+        echo "\" rel=\"stylesheet\" type=\"text/css\" />
         <link href=\"";
         // line 17
-        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
-        echo "css/font-awesome.min.css\" rel=\"stylesheet\" type=\"text/css\" />
+        echo $this->env->getExtension('eayo')->getUrl("css/font-awesome.min.css", "ASSETS");
+        echo "\" rel=\"stylesheet\" type=\"text/css\" />
         <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -135,8 +135,8 @@ class __TwigTemplate_d49f9d160718642f1e2b557a99c6ed0c5f8fdc32396763dc45fceb28518
         <!-- Admin SCRIPTS  -->
         <script src=\"";
         // line 87
-        echo (isset($context["assets_url"]) ? $context["assets_url"] : null);
-        echo "js/admin.js\"></script>
+        echo $this->env->getExtension('eayo')->getUrl("js/admin.js");
+        echo "\"></script>
     </body>
 </html>
 ";
@@ -179,11 +179,11 @@ class __TwigTemplate_d49f9d160718642f1e2b557a99c6ed0c5f8fdc32396763dc45fceb28518
 /* <![endif]-->*/
 /*         <title>Admin</title>*/
 /*         <!-- CDN  -->*/
-/*         <link href="{{assets_url}}css/bootstrap.min.css" rel="stylesheet" type="text/css" />*/
+/*         <link href="{{url('css/bootstrap.min.css', 'ASSETS')}}" rel="stylesheet" type="text/css" />*/
 /*         <!-- CUSTOM STYLE  -->*/
 /*         <link href="http://fonts.googleapis.com/css?family=Lato|Montserrat" rel="stylesheet" type="text/css" />*/
-/*         <link href="{{assets_url}}css/style.css" rel="stylesheet" type="text/css" />*/
-/*         <link href="{{assets_url}}css/font-awesome.min.css" rel="stylesheet" type="text/css" />*/
+/*         <link href="{{url('css/style.css', 'ASSETS')}}" rel="stylesheet" type="text/css" />*/
+/*         <link href="{{url('css/font-awesome.min.css', 'ASSETS')}}" rel="stylesheet" type="text/css" />*/
 /*         <!-- HTML5 Shiv and Respond.js for IE8 support of HTML5 elements and media queries -->*/
 /*         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->*/
 /*         <!--[if lt IE 9]>*/
@@ -253,7 +253,7 @@ class __TwigTemplate_d49f9d160718642f1e2b557a99c6ed0c5f8fdc32396763dc45fceb28518
 /*         <!-- BOOTSTRAP SCRIPTS  -->*/
 /*         <script src="http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"></script>*/
 /*         <!-- Admin SCRIPTS  -->*/
-/*         <script src="{{assets_url}}js/admin.js"></script>*/
+/*         <script src="{{url('js/admin.js')}}"></script>*/
 /*     </body>*/
 /* </html>*/
 /* */

@@ -32,6 +32,7 @@ class Tools
         $this->uri = $this->GetUri();
         $this->rootpath = $this->GetRootPath();
         $this->rooturl = $this->GetRootUrl();
+	$this->fullurl = $this->rooturl.$this->uri;
     }
 
     /**

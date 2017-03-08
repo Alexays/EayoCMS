@@ -1,4 +1,4 @@
-desc: Frontend
+desc: Accueil
 theme: default
 default: true
 template: themes/{{theme}}/
