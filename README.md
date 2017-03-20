@@ -1,4 +1,7 @@
-#EayoCMS
-##Todo
+# EayoCMS
 
-1. SASS Support
+##	Func
+	Twig
+	Markdown
+	Flat file
+	Plugins

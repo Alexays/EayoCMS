@@ -1,23 +1,28 @@
 {% extends "@frontend/default.html.twig" %}
+{% set title = 'Développeur | Alexis Rouillard' %}
 {% block content %}
-<div class="row">
-    <div class="col-md-3 col-sm-6">
-        <div class="widget panel panel-default">
-            <div class="panel-body">
-                UUUUUUUU
-            </div>
-            <div class="panel-footer bg-red"></div>
+    <div class="grid">
+        <div class="widget panel panel-default col-xs-5">
+            <a href="https://github.com/Leigende/EayoCMS">
+                <img src="http://code-websites.com/wp-content/uploads/2016/09/Content-Management-System-1030x736.jpg" />
+                <div class="panel-body">
+                    EayoCMS<br>Blazing fast CMS !
+                </div>
+            </a>
+        </div>
+        <div class="widget panel panel-default col-xs-5">
+            <a href="https://github.com/Leigende/Anna">
+                <img src="https://tctechcrunch2011.files.wordpress.com/2015/02/shutterstock_175625024.jpg?w=738" />
+                <div class="panel-body">
+                    Anna<br>Just a simple personnal assistant.
+                </div>
+            </a>
         </div>
     </div>
-    <div class="col-md-3 col-sm-6">
-        <div class="widget panel panel-default">
-            <div class="panel-body">
-                DDDDDDDDDDD
-            </div>
-            <div class="panel-footer bg-blue"></div>
-        </div>
-    </div>
-    <div class="col-md-3">.col-md-6</div>
-    <div class="col-md-3">.col-md-6</div>
-</div>
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.3/isotope.pkgd.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js"></script>
+    <script type="text/javascript" src="https://rawgit.com/louisremi/jquery-smartresize/master/jquery.debouncedresize.js"></script>
 {% endblock %}
