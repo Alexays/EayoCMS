@@ -72,6 +72,9 @@ body {
     background-color: rgba(0, 0, 0, 0.45);
     width: 100%;
 }
+#header .title p span {
+    font-size: 60%;
+}
 #header .footer {
     position: absolute;
     bottom: 0;
