@@ -1,5 +1,5 @@
 {% extends "@frontend/default.html.twig" %}
-{% set title = 'Développeur | Alexis Rouillard' %}
+{% set title = 'Alexis Rouillard | Développeur' %}
 {% block content %}
     <div class="grid">
         <div class="widget panel panel-default col-xs-5">
@@ -19,12 +19,50 @@
             </a>
         </div>
         <div class="widget panel panel-default col-xs-5">
-            <a href="#">
+            <a href="#" data-toggle="modal" data-target="#modalWolf">
                 <img src="{{url('wolf3d.jpg', 'UPLOAD')}}" />
                 <div class="panel-body">
-                    Projets d'etudes
+                    Projets d'etudes: Wolf3d
                 </div>
             </a>
+        </div>
+        <div class="widget panel panel-default col-xs-5">
+            <a href="#" data-toggle="modal" data-target="#modalRaytracer">
+                <img src="{{url('raytracer.jpg', 'UPLOAD')}}" />
+                <div class="panel-body">
+                    Projets d'etudes: Raytracer
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="modal fade" id="modalWolf" tabindex="-1" role="dialog" aria-labelledby="modalWolfLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Projets d'etudes: Wolf3d</h4>
+                </div>
+                <img src="{{url('wolf3d.jpg', 'UPLOAD')}}" />
+                <div class="modal-body">
+                    <hr/>
+                    Wolf3d est un moteur de raycasting simulant de la 3D.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalRaytracer" tabindex="-1" role="dialog" aria-labelledby="modalRaytracerLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Projets d'etudes: Raytracer</h4>
+                </div>
+                <img src="{{url('raytracer.jpg', 'UPLOAD')}}" />
+                <div class="modal-body">
+                    <hr/>
+                    Le Raytracer est un moteur de projection de lancer de rayons réaliste.
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

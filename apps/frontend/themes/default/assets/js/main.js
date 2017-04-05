@@ -2,7 +2,8 @@
 /*global jQuery, Waves, alert*/
 jQuery(function($) {
     'use strict';
-    var isMobileWindow = null;
+    var images = [];
+    var photos = [];
     var eayo = window.eayo || {};
     $(document).ready(function() {
         eayo.item_grid();
@@ -15,12 +16,6 @@ jQuery(function($) {
     });
     /* Init Client system */
     eayo.init = function() {
-        //Set isMobileWindows
-        if ($(window).width() < 768) {
-            isMobileWindow = true;
-        } else {
-            isMobileWindow = false;
-        }
     };
     eayo.item_grid = function() {
         var isotopeImagesReveal = function() {
@@ -37,9 +32,9 @@ jQuery(function($) {
                 columnNum = 1,
                 columnWidth = 0;
             if (w > 1200) {
-                columnNum = 5;
+                columnNum = 3;
             } else if (w > 900) {
-                columnNum = 4;
+                columnNum = 3;
             } else if (w > 600) {
                 columnNum = 3;
             } else if (w > 300) {
@@ -53,7 +48,7 @@ jQuery(function($) {
             $('.grid').find('.widget').each(function() {
                 var $item = $(this),
                     width = columnWidth,
-                    height = columnWidth * 0.5;
+                    height = columnWidth;
                 $item.css({
                     width: width
                 });
