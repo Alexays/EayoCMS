@@ -1,10 +1,15 @@
 {% extends "@frontend/default.html.twig" %}
 {% set title = 'Alexis Rouillard | Développeur' %}
+{% set head_title = 'Projets' %}
 {% block content %}
-    <div class="grid">
-        <div class="widget panel panel-default col-xs-5">
+    <div id="spinner" class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+    <div id="grid">
+        {#<div class="widget panel panel-default col-xs-5">
             <a href="https://github.com/Leigende/EayoCMS">
-                <img src="{{url('CMS.jpg', 'UPLOAD')}}" />
+                <img data-src="{{url('CMS.jpg', 'UPLOAD')}}" class="lazyload blur-up" />
                 <div class="panel-body">
                     EayoCMS<br>Blazing fast CMS !
                 </div>
@@ -12,7 +17,7 @@
         </div>
         <div class="widget panel panel-default col-xs-5">
             <a href="https://github.com/Leigende/Anna">
-                <img src="{{url('AI.jpg', 'UPLOAD')}}" />
+                <img alt="" data-src="{{url('AI.jpg', 'UPLOAD')}}" class="lazyload blur-up" />
                 <div class="panel-body">
                     Anna<br>Just a simple personnal assistant.
                 </div>
@@ -20,7 +25,7 @@
         </div>
         <div class="widget panel panel-default col-xs-5">
             <a href="#" data-toggle="modal" data-target="#modalWolf">
-                <img src="{{url('wolf3d.jpg', 'UPLOAD')}}" />
+                <img alt="" data-src="{{url('wolf3d.jpg', 'UPLOAD')}}" class="lazyload blur-up" />
                 <div class="panel-body">
                     Projets d'etudes: Wolf3d
                 </div>
@@ -28,47 +33,23 @@
         </div>
         <div class="widget panel panel-default col-xs-5">
             <a href="#" data-toggle="modal" data-target="#modalRaytracer">
-                <img src="{{url('raytracer.jpg', 'UPLOAD')}}" />
+                <img alt="" data-src="{{url('raytracer.jpg', 'UPLOAD')}}" class="lazyload blur-up" />
                 <div class="panel-body">
                     Projets d'etudes: Raytracer
                 </div>
             </a>
         </div>
-    </div>
-    <div class="modal fade" id="modalWolf" tabindex="-1" role="dialog" aria-labelledby="modalWolfLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Projets d'etudes: Wolf3d</h4>
+        <div class="widget panel panel-default col-xs-5">
+            <a href="https://github.com/Leigende/wireframe">
+                <img alt="" data-src="{{url('wireframe.jpg', 'UPLOAD')}}" class="lazyload blur-up" />
+                <div class="panel-body">
+                    Projets d'etudes: Wiframe
                 </div>
-                <img src="{{url('wolf3d.jpg', 'UPLOAD')}}" />
-                <div class="modal-body">
-                    <hr/>
-                    Wolf3d est un moteur de raycasting simulant de la 3D.
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="modalRaytracer" tabindex="-1" role="dialog" aria-labelledby="modalRaytracerLabel">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Projets d'etudes: Raytracer</h4>
-                </div>
-                <img src="{{url('raytracer.jpg', 'UPLOAD')}}" />
-                <div class="modal-body">
-                    <hr/>
-                    Le Raytracer est un moteur de projection de lancer de rayons réaliste.
-                </div>
-            </div>
-        </div>
+            </a>
+        </div>#}
     </div>
 {% endblock %}
 {% block script %}
     {{ parent() }}
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.3/isotope.pkgd.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js"></script>
-    <script type="text/javascript" src="https://rawgit.com/louisremi/jquery-smartresize/master/jquery.debouncedresize.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.0.0-rc2/lazysizes.min.js" async=""></script>
 {% endblock %}
