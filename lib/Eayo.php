@@ -161,7 +161,7 @@ class Eayo
     protected function initSession()
     {
         session_start();
-
+        $_SESSION['init'] = true;
         if (isset($_COOKIE['eayo_login']) && !isset($_SESSION['login_token'])) {
             list($lookup, $validator) = explode(':', $_COOKIE['eayo_login']);
             $accounts = $this->config->getAllAccounts();
@@ -341,12 +341,22 @@ class Eayo
         $uri = str_replace($this->tools->rootpath, '', $this->tools->uri);
 
         if (($pos = strpos($uri, ':')) !== FALSE) {
-            $params = substr($uri, $pos+1);
+            $tmp_params = substr($uri, $pos+1);
             $query = strtok($uri, ':');
         } else {
             $query = $uri;
-            $params = '';
+            $tmp_params = '';
         }
+        $params = [];
+        $tmp_params = explode('&', $tmp_params);
+        if (!empty($tmp_params)) {
+            foreach ($tmp_params as $values) {
+                $tmp = explode('=', $values);
+                if (!empty($tmp[1]))
+                    $params = array_merge($params, array($tmp[0] => $tmp[1]));
+            }
+        }
+        $this->tools->params = $params;
 
         $queryPart = explode('/', trim($query, '/'));
 
@@ -429,12 +439,10 @@ class Eayo
         $this->twig_vars[$this->CurApp] = $appController = class_exists($appController) ? new $appController() : null;
         $this->twig_vars[$main] = $pageController = class_exists($pageController) ? new $pageController() : null;
         $this->twig_vars['params'] = $this->requestUrl[3];
-if ($this->requestUrl[2] == NULL)
-{
-        $this->twig_vars['title'] = ucfirst($this->CurApp);
-}
-else
-$this->twig_vars['title'] = ucfirst($this->CurApp).' - '.ucfirst($this->requestUrl[2]);
+        if ($this->requestUrl[2] == NULL)
+            $this->twig_vars['title'] = ucfirst($this->CurApp);
+        else
+            $this->twig_vars['title'] = ucfirst($this->CurApp).' - '.ucfirst($this->requestUrl[2]);
         $page = ['page' => $content_file,
                  'template' => $this->requestTemplate,
                  'template_path' => $template_path,

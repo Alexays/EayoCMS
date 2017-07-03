@@ -24,21 +24,21 @@ class Controller
     protected $config = null;
     protected $tools = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->config = \Core\Config::init();
         $this->tools = \Core\Tools::init();
-
         static::$needLogin ? $this->checkLogin() : '';
-
     }
 
     /**
      * Check if users is logged
      * @author Alexis Rouillard
      */
-    protected function checkLogin() {
+    protected function checkLogin()
+    {
         if (!isset($_SESSION['login_token'])) {
-            header('location: '.$this->tools->rooturl.'login/');
+            header('location: '.$this->tools->rooturl.'login/?url=' . $this->tools->fullurl);
             return false;
         }
         return true;
@@ -51,7 +51,8 @@ class Controller
      * @param  string $pass    Password
      * @return string   Login message.
      */
-    protected function login($emailid, $pass) {
+    protected function login($emailid, $pass)
+    {
         // Check if is already logged
         if (!isset($_SESSION['login_token'])) {
             //Get all accounts id
@@ -84,7 +85,11 @@ class Controller
                         );
                     }
                     file_put_contents(CONF_DIR.'accounts.yml', Yaml::dump($accounts, 4));
-                    header("location: ".$this->tools->rooturl);
+                    if (!empty($this->tools->params["url"])) {
+                        header("location: ".$this->tools->params["url"]);
+                    } else {
+                        header("location: ".$this->tools->rooturl);
+                    }
                 } else {
                     return 'Nom d\'utilisateurs\\E-mail ou mot de passe incorrect.';
                 }
@@ -95,5 +100,4 @@ class Controller
             return 'Vous ête déjà connecté.';
         }
     }
-
 }

@@ -24,6 +24,8 @@ class Tools
 
     public $template;
 
+    public $params;
+
     public function __construct()
     {
         $this->scheme = $this->GetScheme();
@@ -32,7 +34,7 @@ class Tools
         $this->uri = $this->GetUri();
         $this->rootpath = $this->GetRootPath();
         $this->rooturl = $this->GetRootUrl();
-	$this->fullurl = $this->rooturl.$this->uri;
+        $this->fullurl = $this->rooturl.$this->uri;
     }
 
     /**
@@ -150,20 +152,21 @@ class Tools
     {
         $_instance = self::init();
 
-        if (getenv('HTTP_CLIENT_IP'))
+        if (getenv('HTTP_CLIENT_IP')) {
             $ipaddress = getenv('HTTP_CLIENT_IP');
-        else if(getenv('HTTP_X_FORWARDED_FOR'))
+        } elseif (getenv('HTTP_X_FORWARDED_FOR')) {
             $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-        else if(getenv('HTTP_X_FORWARDED'))
+        } elseif (getenv('HTTP_X_FORWARDED')) {
             $ipaddress = getenv('HTTP_X_FORWARDED');
-        else if(getenv('HTTP_FORWARDED_FOR'))
+        } elseif (getenv('HTTP_FORWARDED_FOR')) {
             $ipaddress = getenv('HTTP_FORWARDED_FOR');
-        else if(getenv('HTTP_FORWARDED'))
+        } elseif (getenv('HTTP_FORWARDED')) {
             $ipaddress = getenv('HTTP_FORWARDED');
-        else if(getenv('REMOTE_ADDR'))
+        } elseif (getenv('REMOTE_ADDR')) {
             $ipaddress = getenv('REMOTE_ADDR');
-        else
+        } else {
             $ipaddress = 'UNKNOWN';
+        }
         return $ipaddress;
     }
 
@@ -183,7 +186,7 @@ class Tools
             }
         }
         unset($templates['default']);
-        foreach($templates as $key => $val) {
+        foreach ($templates as $key => $val) {
             if (isset($templates[$key][$namespace])) {
                 $template = [$key, $templates[$key][$namespace].DS, $namespace];
             }
@@ -218,26 +221,26 @@ class Tools
 
     public function getContent($file)
     {
-        if(pathinfo($file, PATHINFO_EXTENSION) === ltrim(CONTENT_EXT, '.')) {
+        if (pathinfo($file, PATHINFO_EXTENSION) === ltrim(CONTENT_EXT, '.')) {
             return ['md' => $file];
-        } elseif(pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+        } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
             return ['php' => $file];
-        } elseif(pathinfo($file, PATHINFO_EXTENSION) === 'twig') {
+        } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'twig') {
             return ['twig' => str_replace(ROOT_DIR, '', $file)];
-        } elseif(pathinfo($file, PATHINFO_EXTENSION) === 'html') {
+        } elseif (pathinfo($file, PATHINFO_EXTENSION) === 'html') {
             return ['html' => $file];
         }
     }
 
-    public function recursive_array_search($needle, $haystack, $currentKey = []) {
-        foreach($haystack as $key=>$value) {
+    public function recursive_array_search($needle, $haystack, $currentKey = [])
+    {
+        foreach ($haystack as $key => $value) {
             if (is_array($value)) {
-                $nextKey = $this->recursive_array_search($needle,$value, array_merge($currentKey, array($key)));
+                $nextKey = $this->recursive_array_search($needle, $value, array_merge($currentKey, array($key)));
                 if ($nextKey) {
                     return $nextKey;
                 }
-            }
-            else if($value==$needle) {
+            } elseif ($value==$needle) {
                 return array_merge($currentKey, array($key));
             }
         }

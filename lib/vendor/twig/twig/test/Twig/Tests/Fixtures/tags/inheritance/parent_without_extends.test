@@ -1,8 +1,0 @@
---TEST--
-"parent" tag
---TEMPLATE--
-{% block content %}
-    {{ parent() }}
-{% endblock %}
---EXCEPTION--
-Twig_Error_Syntax: Calling "parent" on a theme_url that does not extend nor "use" another theme_url is forbidden in "index.twig" at line 3.

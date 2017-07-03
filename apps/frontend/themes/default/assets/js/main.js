@@ -24,11 +24,6 @@ jQuery(function ($) {
     /* Init Client system */
     eayo.init = function () {
         let up = 0;
-        //Get scrollbar width
-        document.getElementById("wrapper").style.overflowY = "scroll";
-        const tmp_scroll = document.getElementById('grid').clientWidth;
-        document.getElementById("wrapper").style.overflowY = null;
-        width_scrollbar = document.getElementById('grid').clientWidth - tmp_scroll;
         //Add Images
         let imageElements = [];
         for (let i = 0; i < images.length; i++) {
@@ -37,7 +32,7 @@ jQuery(function ($) {
             //lazy-load img.
             imageElements[i].onload = function () {
                 photos.push({ src: this.src, ar: this.width / this.height });
-                if (++up === images.length) {
+                if (++up === images.length && document.getElementById("spinner")) {
                     document.getElementById("spinner").setAttribute("style", "display:none !important");
                     eayo.item_grid();
                 }
@@ -47,24 +42,30 @@ jQuery(function ($) {
     };
 
     /* Grid */
-    eayo.item_grid = function () {
+    eayo.item_grid = function (haveScrollbar = false) {
+        $('#grid').slimScroll({
+            height: 'auto',
+            color: '#fff',
+            railVisible: true,
+            alwaysVisible: true
+        });
+        $('#grid').css("height", "+=50px");
+        $('.slimScrollDiv').css("height", "+=50px");
         let grid = document.getElementById('grid');
-        grid.style.width = "101%";
+        if (!grid)
+            return;
         grid.innerHTML = "";
-        const ideal_height = parseInt(grid.clientHeight / photos.length);
+        const ideal_height = parseInt(document.getElementById('container').offsetHeight / 3);
         const summed_width = photos.reduce((sum, p) => sum += p.ar * ideal_height, 0);
-        let viewport_width = grid.clientWidth;
-        if (document.getElementById('container').clientHeight < last_height)
-            viewport_width -= width_scrollbar;
-        const rows = Math.ceil(summed_width / viewport_width);
-        const weights = photos.map((p) => parseFloat(p.ar * 100));
+        let viewport_width = grid.offsetWidth;
+        const rows = Math.round(summed_width / viewport_width);
+        const weights = photos.map((p) => parseInt(p.ar * 100));
         const partition = part(weights, rows);
         const x = photos.slice(0);
         let index = 0;
-        let row_buffer = [];
         for (let i = 0; i < partition.length; i++) {
             let summed_ratios;
-            row_buffer = [];
+            let row_buffer = [];
             for (let j = 0; j < partition[i].length; j++)
                 row_buffer.push(photos[index++])
             summed_ratios = row_buffer.reduce((sum, p) => sum += p.ar, 0);
@@ -78,7 +79,5 @@ jQuery(function ($) {
                 grid.appendChild(elem)
             };
         }
-        last_height = document.getElementById('container').scrollHeight;
-        grid.style.width = "103%";
     };
 });

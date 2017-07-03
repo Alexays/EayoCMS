@@ -7,49 +7,11 @@
         <div class="double-bounce2"></div>
     </div>
     <div id="grid">
-        {#<div class="widget panel panel-default col-xs-5">
-            <a href="https://github.com/Leigende/EayoCMS">
-                <img data-src="{{url('CMS.jpg', 'UPLOAD')}}" class="lazyload blur-up" />
-                <div class="panel-body">
-                    EayoCMS<br>Blazing fast CMS !
-                </div>
-            </a>
-        </div>
-        <div class="widget panel panel-default col-xs-5">
-            <a href="https://github.com/Leigende/Anna">
-                <img alt="" data-src="{{url('AI.jpg', 'UPLOAD')}}" class="lazyload blur-up" />
-                <div class="panel-body">
-                    Anna<br>Just a simple personnal assistant.
-                </div>
-            </a>
-        </div>
-        <div class="widget panel panel-default col-xs-5">
-            <a href="#" data-toggle="modal" data-target="#modalWolf">
-                <img alt="" data-src="{{url('wolf3d.jpg', 'UPLOAD')}}" class="lazyload blur-up" />
-                <div class="panel-body">
-                    Projets d'etudes: Wolf3d
-                </div>
-            </a>
-        </div>
-        <div class="widget panel panel-default col-xs-5">
-            <a href="#" data-toggle="modal" data-target="#modalRaytracer">
-                <img alt="" data-src="{{url('raytracer.jpg', 'UPLOAD')}}" class="lazyload blur-up" />
-                <div class="panel-body">
-                    Projets d'etudes: Raytracer
-                </div>
-            </a>
-        </div>
-        <div class="widget panel panel-default col-xs-5">
-            <a href="https://github.com/Leigende/wireframe">
-                <img alt="" data-src="{{url('wireframe.jpg', 'UPLOAD')}}" class="lazyload blur-up" />
-                <div class="panel-body">
-                    Projets d'etudes: Wiframe
-                </div>
-            </a>
-        </div>#}
     </div>
 {% endblock %}
 {% block script %}
     {{ parent() }}
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.0.0-rc2/lazysizes.min.js" async=""></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="{{url('js/main.js?ver=14.9', 'ASSETS')}}"></script>
+    <script type="text/javascript" src="{{url('js/linear-partition.js', 'ASSETS')}}"></script>
 {% endblock %}

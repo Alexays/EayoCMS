@@ -27,6 +27,10 @@ body {
     min-height: 100%;
 }
 
+.slimScrollDiv {
+    margin: -25px;
+}
+
 .photo{
 	float: left;
 	position: relative;
@@ -112,15 +116,14 @@ body {
     line-height: 40px;
     font-size: 13px;
     color: #fff;
-    background-color: rgba(0, 0, 0, 0.25)
+    background-color: rgba(0, 0, 0, 0.35)
 }
 @media screen and (min-width:725px) {
     #container {
         position: relative;
         height: calc(100% - 90px);
         width: 100%;
-        overflow-y: auto;
-        overflow-x: hidden;
+        padding: 25px;
     }
     #side_content {
         margin-left: 25%;
@@ -132,8 +135,7 @@ body {
         position: relative;
         height: calc(100% - 240px);
         width: 100%;
-        overflow-y: auto;
-        overflow-x: hidden;
+        padding: 25px;
     }
     #header .footer {
         display: none;
