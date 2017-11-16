@@ -22,17 +22,18 @@ class Page
 {
     protected static $_instance = null;
 
-    public function Process(\Eayo $core, $page) {
+    public function Process(\Eayo $core, $page)
+    {
         try {
             $core->twig_vars['load_time'] = number_format(microtime(true) - PERF_START, 3);
 
             if ($page['ext'] === 'html' || $page['ext'] === 'htm') {
                 $content = file_get_contents($page['page']);
-            } else if($page['ext'] === 'md') {
+            } elseif ($page['ext'] === 'md') {
                 $content = $core->page->parseMarkdown(file_get_contents($page['page']));
-            } else if($page['ext'] === 'php') {
+            } elseif ($page['ext'] === 'php') {
                 $content = include($page['page']);
-            } else if($page['ext'] === 'twig') {
+            } elseif ($page['ext'] === 'twig') {
                 $page['page'] = $content = !$page['is_views'] ? $page['template'].'/'.ltrim(str_replace($page['template_path'], '', $page['page']), DS) : $page['template'].'_views/'.ltrim(str_replace($page['is_views'], '', $page['page']), DS);
             }
 
@@ -47,7 +48,8 @@ class Page
         }
     }
 
-    public function parseMarkdown($raw) {
+    public function parseMarkdown($raw)
+    {
         $markdown = new \Jralph\Twig\Markdown\Parsedown\ParsedownExtraMarkdown;
 
         return $markdown->parse($raw);
