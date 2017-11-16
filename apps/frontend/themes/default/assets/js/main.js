@@ -4,15 +4,34 @@ window.Tether = {};
 jQuery(function ($) {
     'use strict';
     const images = [
-        "http://arouillard.fr/data/uploads/wolf3d.jpg",
-        "http://arouillard.fr/data/uploads/raytracer.jpg",
-        "http://arouillard.fr/data/uploads/wireframe.jpg",
-        "http://arouillard.fr/data/uploads/AI.jpg",
-        "http://arouillard.fr/data/uploads/CMS.jpg"
+        {
+            src: "http://arouillard.fr/data/uploads/wolf3d.jpg",
+            title: "Wolf3D",
+            desc: "Ray casting is the use of ray–surface intersection tests to solve a variety of problems in computer graphics and computational geometry."
+        },
+        {
+            src: "http://arouillard.fr/data/uploads/raytracer.jpg",
+            title: "Raytracer",
+            desc: "Ray tracing is a technique for generating an image by tracing the path of light through pixels in an image plane and simulating the effects of its encounters with virtual objects."
+        },
+        {
+            src: "http://arouillard.fr/data/uploads/wireframe.jpg",
+            title: "Wireframe",
+            desc: "This project consists of displaying the relief of a terrain, in an on-screen graphic window, by using a parallel projection."
+        },
+        {
+            src: "http://arouillard.fr/data/uploads/AI.jpg",
+            title: "Anna",
+            desc: "A new personal assistant for everyone."
+        },
+        {
+            src: "http://arouillard.fr/data/uploads/CMS.jpg",
+            title: "EayoCMS",
+            desc: "A blazing fast flat file CMS."
+        }
     ];
     let photos = [];
     let last_height = 0;
-    let width_scrollbar = 0;
     let eayo = window.eayo || {};
     $(document).ready(() => {
         eayo.init();
@@ -31,26 +50,19 @@ jQuery(function ($) {
             imageElements[i].setAttribute("class", "image" + i);
             //lazy-load img.
             imageElements[i].onload = function () {
-                photos.push({ src: this.src, ar: this.width / this.height });
+                photos.push({ src: this.src, ar: this.width / this.height, title: images[i].title, desc: images[i].desc });
                 if (++up === images.length && document.getElementById("spinner")) {
                     document.getElementById("spinner").setAttribute("style", "display:none !important");
                     eayo.item_grid();
                 }
             }
-            imageElements[i].src = images[i];
+            imageElements[i].src = images[i].src;
         }
     };
 
     /* Grid */
-    eayo.item_grid = function (haveScrollbar = false) {
-        $('#grid').slimScroll({
-            height: 'auto',
-            color: '#fff',
-            railVisible: true,
-            alwaysVisible: true
-        });
+    eayo.item_grid = function () {
         $('#grid').css("height", "+=50px");
-        $('.slimScrollDiv').css("height", "+=50px");
         let grid = document.getElementById('grid');
         if (!grid)
             return;
@@ -72,11 +84,15 @@ jQuery(function ($) {
             for (let k = 0; k < row_buffer.length; k++) {
                 const photo = row_buffer[k]
                 let elem = document.createElement("div");
-                elem.style.backgroundImage = "url('" + x.shift().src + "')";
-                elem.style.width = parseInt(viewport_width / summed_ratios * photo.ar) + "px";
-                elem.style.height = parseInt(viewport_width / summed_ratios) + "px";
+                let img = document.createElement("img");
+                const obj = x.shift();
+                img.src = obj.src;
+                img.style.width = parseInt(viewport_width / summed_ratios * photo.ar) + "px";
+                img.style.height = parseInt(viewport_width / summed_ratios) + "px";
                 elem.setAttribute("class", "photo");
-                grid.appendChild(elem)
+                elem.appendChild(img);
+                elem.innerHTML += '<div id="desc">' + obj.title + '<p>' + obj.desc + '</p></div>';
+                grid.appendChild(elem);
             };
         }
     };

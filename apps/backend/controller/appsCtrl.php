@@ -18,7 +18,8 @@ use Core\Controller;
 
 class appsCtrl extends Controller
 {
-    public function getAppsList() {
+    public function getAppsList()
+    {
         return \Eayo::$apps;
     }
 }

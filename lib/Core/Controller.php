@@ -38,7 +38,7 @@ class Controller
     protected function checkLogin()
     {
         if (!isset($_SESSION['login_token'])) {
-            header('location: '.$this->tools->rooturl.'login/?url=' . $this->tools->fullurl);
+            header('location: '.$this->tools->rooturl.'login/:url=' . $this->tools->fullurl);
             return false;
         }
         return true;
