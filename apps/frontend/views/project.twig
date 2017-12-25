@@ -1,0 +1,25 @@
+{% extends "@frontend/default.html.twig" %}
+{% set title = 'Alexis Rouillard | Developer' %}
+{% set head_title = 'PROJECT' %}
+{% block styles %}
+  <link href="{{url('css/project.css?v=1.0', 'ASSETS')}}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block content %}
+  <div class="card-columns">
+    <div class="card">
+      <img class="card-img-top img-fluid" src="{{url('wolf3d.jpg', 'UPLOAD')}}"/>
+    </div>
+    <div class="card">
+      <img class="card-img-top img-fluid" src="{{url('raytracer.jpg', 'UPLOAD')}}"/>
+    </div>
+    <div class="card">
+      <img class="card-img-top img-fluid" src="{{url('wireframe.jpg', 'UPLOAD')}}">
+    </div>
+    <div class="card">
+      <img class="card-img img-fluid" src="{{url('CMS.jpg', 'UPLOAD')}}"/>
+    </div>
+    <div class="card">
+      <img class="card-img img-fluid" src="{{url('AI.jpg', 'UPLOAD')}}"/>
+    </div>
+  </div>
+{% endblock %}
