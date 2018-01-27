@@ -108,12 +108,12 @@ body {
        object-fit: cover;
 }
 
-.divImg {
+.div-img {
     margin: auto;
     padding-bottom: 20px;
 }
 
-.textAbout {
+.text-about {
     color: #fff;
     font-size: 28px;
 }
